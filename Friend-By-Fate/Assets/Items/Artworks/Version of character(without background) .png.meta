@@ -162,6 +162,45 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: VisionOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -684,7 +723,30 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Version of character(without background) _0: -1449880008228299599
+      Version of character(without background) _1: -7657997794291990134
+      Version of character(without background) _10: -6521324222570755980
+      Version of character(without background) _11: 7340997476550490199
+      Version of character(without background) _12: -2438473790798859353
+      Version of character(without background) _13: -5435863436730906825
+      Version of character(without background) _14: -2164778942230351476
+      Version of character(without background) _15: -4188991076347111617
+      Version of character(without background) _16: 6979578126832188154
+      Version of character(without background) _17: 1715167627378785176
+      Version of character(without background) _18: 41813347370961043
+      Version of character(without background) _19: -157715769392692636
+      Version of character(without background) _2: -2703578240434482680
+      Version of character(without background) _20: 1063942037169836927
+      Version of character(without background) _21: 3447428158713858012
+      Version of character(without background) _22: -5283071635502888179
+      Version of character(without background) _3: -3178132512210801128
+      Version of character(without background) _4: -7161160025976879533
+      Version of character(without background) _5: -3179306970750827004
+      Version of character(without background) _6: 5902557360399367424
+      Version of character(without background) _7: 8844928976361378630
+      Version of character(without background) _8: 9120243995573550804
+      Version of character(without background) _9: 3624900915149082641
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
