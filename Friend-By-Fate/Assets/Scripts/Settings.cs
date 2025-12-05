@@ -15,7 +15,7 @@ public class Settings : MonoBehaviour
 
     public AudioSource BackGroundAudio;
     public static event Action onVolumeChanged;
-    
+
     void Start()
     {
         IsGodModeEnabled = PlayerPrefs.GetInt("IsGodModeEnabled", 0) == 1;
