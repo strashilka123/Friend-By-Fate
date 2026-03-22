@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 47167b24240e3f544a1040d17f5c3c91
+guid: a623547d6defe614f8b9bb26e23a0ca4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5627190999759116228
-    second: tea_time_0
+      213: 2823852115942609177
+    second: Menu_background 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,37 +109,11 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: VisionOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tea_time_0
+      name: Menu_background 1_0
       rect:
         serializedVersion: 2
         x: 0
@@ -147,15 +121,15 @@ TextureImporter:
         width: 3840
         height: 2160
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4c7daef666cc71e40800000000000000
-      internalID: 5627190999759116228
+      spriteID: 9119efcb986503720800000000000000
+      internalID: 2823852115942609177
       vertices: []
       indices: 
       edges: []
@@ -164,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 0f24f40e73383554792d52b331f8c137
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -174,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      tea_time_0: 5627190999759116228
+      Menu_background 1_0: 2823852115942609177
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
