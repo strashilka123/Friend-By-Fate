@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PuzzleManag : MonoBehaviour
 {
@@ -18,7 +19,9 @@ public class PuzzleManag : MonoBehaviour
     [HideInInspector] public Vector2 boardBottomLeft;
 
     private List<JigsawPiece> allPieces = new List<JigsawPiece>();
-    private const float PIXELS_PER_UNIT = 100f; 
+    private const float PIXELS_PER_UNIT = 100f;
+
+    [SerializeField] private string parkSceneName = "ParkScene";
 
     void Start()
     {
@@ -129,6 +132,14 @@ public class PuzzleManag : MonoBehaviour
         }
 
         Debug.Log("ПОБЕДА! Картинка собрана.");
+        CompleteMiniGame();
         // Сюда можно добавить логику перехода на следующую сцену
+
+    }
+
+    public void CompleteMiniGame()
+    {
+        Debug.Log("Мини-игра завершена, возвращаемся в парк");
+        SceneManager.LoadScene(parkSceneName);
     }
 }
