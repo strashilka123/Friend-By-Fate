@@ -15,7 +15,7 @@ public class Settings : MonoBehaviour
 
     public AudioSource BackGroundAudio;
     public static event Action onVolumeChanged;
-    
+
     void Start()
     {
         IsGodModeEnabled = PlayerPrefs.GetInt("IsGodModeEnabled", 0) == 1;
@@ -26,7 +26,7 @@ public class Settings : MonoBehaviour
     }
     private void UpdateButtonText()
     {
-        buttonText.text = IsGodModeEnabled ? "Âêë" : "Âûêë";
+        buttonText.text = IsGodModeEnabled ? "Ð’ÐºÐ»" : "Ð’Ñ‹ÐºÐ»";
     }
     public void OnGodButtonClick()
     {
