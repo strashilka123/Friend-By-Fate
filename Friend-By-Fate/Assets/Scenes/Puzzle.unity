@@ -157,6 +157,8 @@ Camera:
   serializedVersion: 2
   m_ClearFlags: 2
   m_BackGroundColor: {r: 0.12467139, g: 0.5849056, b: 0, a: 0}
+  m_ClearFlags: 4
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -314,7 +316,6 @@ MonoBehaviour:
   pieceWidthUnits: 0
   pieceHeightUnits: 0
   boardBottomLeft: {x: 0, y: 0}
-  parkSceneName: ParkScene
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
