@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/ParkScene.unity
     guid: 83f4a662467028d43afe876bf77ecb2e
   - enabled: 1
-    path: Assets/Scenes/puzzle.unity
+    path: Assets/Scenes/Puzzle.unity
     guid: 8aea8b3c4e2e9d348b5ccf36833064b7
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
