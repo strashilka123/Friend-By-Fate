@@ -1,70 +1,69 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System;
 
 public class Settings : MonoBehaviour
 {
-    public bool IsGodModeEnabled = false;
-    float currentVolume = 0;
-
-    public Text buttonText;
-
+    [Header("Настройки звука")]
     public Slider volumeSlider;
-
+    public Text volumePercentageText; 
     public AudioSource BackGroundAudio;
-    public static event Action onVolumeChanged;
+
+    private float volumeBeforeOpening;
 
     void Start()
     {
-        IsGodModeEnabled = PlayerPrefs.GetInt("IsGodModeEnabled", 0) == 1;
-        float savedVolume = PlayerPrefs.GetFloat("VolumeLevel", 1);
-        volumeSlider.value = savedVolume;
-        BackGroundAudio.volume = savedVolume;
-        UpdateButtonText();
-    }
-    private void UpdateButtonText()
-    {
-        buttonText.text = IsGodModeEnabled ? "Вкл" : "Выкл";
-    }
-    public void OnGodButtonClick()
-    {
-        IsGodModeEnabled = !IsGodModeEnabled;
-        UpdateButtonText();
-    }
+        float savedVolume = PlayerPrefs.GetFloat("VolumeLevel", 0.4f);
 
-    public void ChangeVolume()
-    {
-        BackGroundAudio.volume = volumeSlider.value;
-    }
+        if (BackGroundAudio != null) BackGroundAudio.volume = savedVolume;
+        if (volumeSlider != null) volumeSlider.value = savedVolume;
 
-    public void OnResetButtonClicked()
-    {
-        PlayerPrefs.DeleteAll();
-    }
-
-    public void OnBackButtonClicked()
-    {
-        BackGroundAudio.volume = currentVolume;
-        gameObject.SetActive(false);
-    }
-
-    public void OnSaveButtonClicked()
-    {
-        PlayerPrefs.SetInt("IsGodModeEnabled", IsGodModeEnabled ? 1 : 0);
-
-        PlayerPrefs.SetFloat("VolumeLevel", BackGroundAudio.volume);
-        onVolumeChanged?.Invoke();
-        PlayerPrefs.Save();
-
-        gameObject.SetActive(false);
-
+        UpdateVolumeText(savedVolume);
+        volumeBeforeOpening = savedVolume;
     }
 
     private void OnEnable()
     {
-        currentVolume = PlayerPrefs.GetFloat("VolumeLevel");
-        volumeSlider.value = currentVolume;
+        if (BackGroundAudio != null)
+        {
+            volumeBeforeOpening = BackGroundAudio.volume;
+            if (volumeSlider != null) volumeSlider.value = volumeBeforeOpening;
+            UpdateVolumeText(volumeBeforeOpening);
+        }
+    }
+
+    public void ChangeVolume()
+    {
+        if (BackGroundAudio != null && volumeSlider != null)
+        {
+            BackGroundAudio.volume = volumeSlider.value;
+            UpdateVolumeText(volumeSlider.value);
+        }
+    }
+
+    private void UpdateVolumeText(float vol)
+    {
+        if (volumePercentageText != null)
+        {
+            volumePercentageText.text = Mathf.RoundToInt(vol * 100) + "%";
+        }
+    }
+
+    public void OnSaveButtonClicked()
+    {
+        if (volumeSlider != null)
+        {
+            PlayerPrefs.SetFloat("VolumeLevel", volumeSlider.value);
+            PlayerPrefs.Save();
+        }
+        gameObject.SetActive(false);
+    }
+
+    public void OnBackButtonClicked()
+    {
+        if (BackGroundAudio != null)
+        {
+            BackGroundAudio.volume = volumeBeforeOpening;
+        }
+        gameObject.SetActive(false);
     }
 }

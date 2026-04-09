@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: c1dab656f0aef38468f2dd8618426ca5
+guid: 5a63f8798d5a8cf4cb9d7138a94a09e5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4701471942659884018
-    second: VoiceGeneration_0
+      213: -3284521062176174467
+    second: duuck_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: VoiceGeneration_0
+      name: duuck_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1280
-        height: 462
+        width: 697
+        height: 697
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2f345b782dbfe3140800000000000000
-      internalID: 4701471942659884018
+      spriteID: d7e43bffe790b62d0800000000000000
+      internalID: -3284521062176174467
       vertices: []
       indices: 
       edges: []
@@ -147,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      VoiceGeneration_0: 4701471942659884018
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

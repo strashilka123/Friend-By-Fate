@@ -5,35 +5,38 @@ EditorUserSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 4
   m_ConfigSettings:
-    RecentlyUsedSceneGuid-0:
-      value: 0605515f500c5b0808580d7b42775c13124f4c737478233475711f63bbb0353e
+    GraphicsSettingsInspector_UserSettings:
+      value: 18134705175a055722080a3115371d4a0d55006876786860616b0471b8b07a68ffab74f9ee2a3a30300cea1a11320d0beb1a0c25f7060f494b4cc80018eb09361fc211cb1f862d19c51d19dcc413d6ade0d8ddfcddf9f4d9d29195fcfde6ebeae6f0a9c9afa6f8c5b89ff7a1aacececac4eba4d7c9d28bda
       flags: 0
-    RecentlyUsedSceneGuid-1:
+    RecentlyUsedSceneGuid-0:
       value: 5457515606055f0d555b552612255e441515407f7e7071637f7b4e35e0b53639
       flags: 0
-    RecentlyUsedSceneGuid-2:
+    RecentlyUsedSceneGuid-1:
       value: 540202050107585d0e56097212205e4445161b29742e2231297f1f62e3b6666e
       flags: 0
-    RecentlyUsedSceneGuid-3:
+    RecentlyUsedSceneGuid-2:
       value: 0050515755000a0d59565f76137a5c4442154b29792b74647e284563e6b06d39
       flags: 0
-    RecentlyUsedSceneGuid-4:
+    RecentlyUsedSceneGuid-3:
       value: 055752070702595f5c0d597643725d44134f4e7f7b7b27347a701c37e6e6306f
       flags: 0
-    RecentlyUsedSceneGuid-5:
+    RecentlyUsedSceneGuid-4:
       value: 575551005d05500259560d7142275e44474e1d29747120367a2d1860bab8646d
       flags: 0
-    RecentlyUsedSceneGuid-6:
-      value: 5b5051075d575a58590b5e2749270c444e154d292f2e7566757a4e63b4b4366f
+    RecentlyUsedSceneGuid-5:
+      value: 0003045357515f5f5e0c0f7416220f44174e4a7d74797264287f4830e0e56339
       flags: 0
-    RecentlyUsedSceneGuid-7:
+    RecentlyUsedSceneGuid-6:
       value: 56545507545758080b0a5d7641775b4945161b782a7a70677a2c4d63b0e1373b
       flags: 0
+    RecentlyUsedSceneGuid-7:
+      value: 5b02525204035f0959585b72427b5b4445161e2f747f70322b7e4a36e1e2663d
+      flags: 0
     RecentlyUsedSceneGuid-8:
-      value: 5b520d0503545b0d0c0c0a2715770748154f4d2c7d7d7e627a7d4a35b4e1646a
+      value: 5b5051075d575a58590b5e2749270c444e154d292f2e7566757a4e63b4b4366f
       flags: 0
     RecentlyUsedSceneGuid-9:
-      value: 5b02525204035f0959585b72427b5b4445161e2f747f70322b7e4a36e1e2663d
+      value: 5b520d0503545b0d0c0c0a2715770748154f4d2c7d7d7e627a7d4a35b4e1646a
       flags: 0
     lightmappingBakingProfile:
       value: 51
