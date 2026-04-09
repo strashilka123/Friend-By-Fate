@@ -21,7 +21,8 @@ public class PuzzleManag : MonoBehaviour
     private List<JigsawPiece> allPieces = new List<JigsawPiece>();
     private const float PIXELS_PER_UNIT = 100f;
 
-    [SerializeField] private string parkSceneName = "ParkScene";
+    // [SerializeField] private string parkSceneName = "ParkScene";
+    [SerializeField] private GameObject devPanel;
 
     void Start()
     {
@@ -32,14 +33,12 @@ public class PuzzleManag : MonoBehaviour
 
     private void CalculateGridSizes()
     {
-        // Переводим пиксели картинки в метры Unity для идеального совпадения размеров
         pieceWidthUnits = (sourceImage.width / (float)gridWidth) / PIXELS_PER_UNIT;
         pieceHeightUnits = (sourceImage.height / (float)gridHeight) / PIXELS_PER_UNIT;
 
         float boardWidth = pieceWidthUnits * gridWidth;
         float boardHeight = pieceHeightUnits * gridHeight;
 
-        // Находим левый нижний угол сетки для удобного отсчета ячеек
         boardBottomLeft = new Vector2(-boardWidth / 2f + pieceWidthUnits / 2f, -boardHeight / 2f + pieceHeightUnits / 2f);
     }
 
@@ -139,7 +138,14 @@ public class PuzzleManag : MonoBehaviour
 
     public void CompleteMiniGame()
     {
-        Debug.Log("Мини-игра завершена, возвращаемся в парк");
-        SceneManager.LoadScene(parkSceneName);
+        Debug.Log("Мини-игра завершена!");
+
+        if (devPanel != null)
+        {
+            devPanel.SetActive(true);
+            allPieces.Clear();
+            // SceneManager.LoadScene(parkSceneName); 
+        }
+
     }
 }
