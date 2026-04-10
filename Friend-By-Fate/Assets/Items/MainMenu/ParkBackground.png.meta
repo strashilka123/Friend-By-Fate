@@ -3,8 +3,8 @@ guid: 3e338c190e56e3e4780dfbedb8a1baba
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8155060723853472232
-    second: park_background 1_0
+      213: 2054028873189158381
+    second: park_background_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: park_background 1_0
+      name: park_background_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 1536
-        height: 1024
+        height: 864
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 81e49f0aa7763de80800000000000000
-      internalID: -8155060723853472232
+      spriteID: dede5d0a060618c10800000000000000
+      internalID: 2054028873189158381
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      park_background 1_0: -8155060723853472232
+      park_background_0: 2054028873189158381
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

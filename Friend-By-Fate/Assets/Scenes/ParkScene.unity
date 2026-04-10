@@ -1636,11 +1636,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8170153791668043268, guid: 0d230cc8be529a542a08cb878ab14b18, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 400
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 8170153791668043268, guid: 0d230cc8be529a542a08cb878ab14b18, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 400
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 8170153791668043268, guid: 0d230cc8be529a542a08cb878ab14b18, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1672,7 +1672,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8170153791668043268, guid: 0d230cc8be529a542a08cb878ab14b18, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 206
       objectReference: {fileID: 0}
     - target: {fileID: 8170153791668043268, guid: 0d230cc8be529a542a08cb878ab14b18, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1821,10 +1821,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 972325353}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -348.60004, y: -28.3}
-  m_SizeDelta: {x: 254.42, y: 29.47}
+  m_AnchorMin: {x: 0.87700003, y: 0.44666666}
+  m_AnchorMax: {x: 0.89366674, y: 0.5}
+  m_AnchoredPosition: {x: -225, y: 2}
+  m_SizeDelta: {x: 247.35, y: -24.270004}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1726876827
 MonoBehaviour:
@@ -1848,7 +1848,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 20
+    m_FontSize: 25
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 2
@@ -2069,7 +2069,7 @@ MonoBehaviour:
   - Player3.2
   _dialogueWindow: {fileID: 1771279022}
   _backgroundImage: {fileID: 1262341659}
-  _newBackground: {fileID: -8155060723853472232, guid: 3e338c190e56e3e4780dfbedb8a1baba, type: 3}
+  _newBackground: {fileID: 2054028873189158381, guid: 3e338c190e56e3e4780dfbedb8a1baba, type: 3}
   _playerController: {fileID: 1130336268}
   _joystick: {fileID: 834857736}
   _playerObject: {fileID: 1130336267}
@@ -2613,7 +2613,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -2849,7 +2849,7 @@ SceneRoots:
   - {fileID: 2010005854}
   - {fileID: 972325353}
   - {fileID: 1130336273}
-  - {fileID: 952924550}
   - {fileID: 1258618854}
   - {fileID: 36218304}
+  - {fileID: 952924550}
   - {fileID: 2050849164}
