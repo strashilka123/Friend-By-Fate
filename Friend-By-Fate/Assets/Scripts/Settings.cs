@@ -26,7 +26,10 @@ public class Settings : MonoBehaviour
         if (BackGroundAudio != null)
         {
             volumeBeforeOpening = BackGroundAudio.volume;
-            if (volumeSlider != null) volumeSlider.value = volumeBeforeOpening;
+            if (volumeSlider != null)
+            {
+                volumeSlider.value = volumeBeforeOpening;
+            }
             UpdateVolumeText(volumeBeforeOpening);
         }
     }
