@@ -3,13 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
+
+// Класс для хранения данных о карте
+[System.Serializable]
+public class Card
+{
+    public string suit;
+    public string value;
+    public int points;
+    public string textureName;
+}
 
 public class CardGameManager : MonoBehaviour
 {
     [Header("UI Elements")]
     public TMP_Text playerScoreText;
     public TMP_Text dealerScoreText;
-    public TMP_Text resultText;
+    public TMP_Text roundResultText;
+    public TMP_Text playerWinsText;
+    public TMP_Text dealerWinsText;
 
     [Header("Card Settings")]
     public GameObject cardPrefab;
@@ -19,12 +32,29 @@ public class CardGameManager : MonoBehaviour
     [Header("Buttons")]
     public Button hitButton;
     public Button standButton;
-    public Button restartButton;
+
+    [Header("End Game Panels")]
+    public GameObject winPanel;
+    public GameObject losePanel;
+    public Button nextLevelButton;
+    public Button backButton;
+
+    [Header("Transition")]
+    public string nextSceneName = "SketchBook";
+    public string previousSceneName = "";
 
     // Игровые данные
     private List<Card> deck = new List<Card>();
     private List<Card> playerCards = new List<Card>();
     private List<Card> dealerCards = new List<Card>();
+
+    // Счёт побед
+    private int playerWinCount = 0;
+    private int dealerWinCount = 0;
+    private const int WIN_LIMIT = 5;
+
+    // Флаг, что дилер уже взял вторую карту (для правил, где дилер берет вторую карту только после игрока)
+    private bool dealerHasSecondCard = false;
 
     // Масти для генерации названий
     private string[] suits = { "hearts", "diamonds", "clubs", "spades" };
@@ -33,16 +63,23 @@ public class CardGameManager : MonoBehaviour
 
     void Start()
     {
-        // Назначаем действия на кнопки
         if (hitButton != null) hitButton.onClick.AddListener(Hit);
         if (standButton != null) standButton.onClick.AddListener(Stand);
-        if (restartButton != null) restartButton.onClick.AddListener(StartNewGame);
+
+        if (nextLevelButton != null) nextLevelButton.onClick.AddListener(GoToNextLevel);
+        if (backButton != null) backButton.onClick.AddListener(GoBack);
+
+        if (winPanel != null) winPanel.SetActive(false);
+        if (losePanel != null) losePanel.SetActive(false);
 
         StartNewGame();
     }
 
     void StartNewGame()
     {
+        // Сбрасываем флаг второй карты дилера
+        dealerHasSecondCard = false;
+
         // Очищаем руки
         playerCards.Clear();
         dealerCards.Clear();
@@ -55,26 +92,26 @@ public class CardGameManager : MonoBehaviour
         CreateDeck();
         ShuffleDeck();
 
-        // Раздаём начальные карты (по 2 карты игроку и дилеру)
+        // Раздаём начальные карты (по 1 карте игроку и дилеру)
         DealCard(playerCards, playerHand);
-        DealCard(playerCards, playerHand);
-        DealCard(dealerCards, dealerHand);
         DealCard(dealerCards, dealerHand);
 
         // Обновляем UI
         UpdateUI();
 
-        // Сбрасываем текст результата
-        if (resultText != null) resultText.text = "";
+        // Сбрасываем текст результата раунда
+        if (roundResultText != null) roundResultText.text = "";
 
         // Активируем кнопки
         if (hitButton != null) hitButton.interactable = true;
         if (standButton != null) standButton.interactable = true;
 
-        // Проверяем, не выиграл ли игрок сразу (21 очко)
+        // Проверяем, не выиграл ли игрок сразу (21 очко с одной карты — это туз, но 21 бывает только с двумя картами, 
+        // поэтому проверка остаётся на случай, если в будущем будут добавляться карты)
         if (CalculateScore(playerCards) == 21)
         {
-            EndGame("Блэкджек! Вы выиграли!");
+            // Если у игрока 21 с одной карты (невозможно), но оставим для логики
+            StartCoroutine(EndRoundWithDelay("player"));
         }
     }
 
@@ -82,7 +119,6 @@ public class CardGameManager : MonoBehaviour
     {
         deck.Clear();
 
-        // Создаём 52 карты (4 масти × 13 значений)
         foreach (string suit in suits)
         {
             for (int i = 0; i < values.Length; i++)
@@ -91,10 +127,7 @@ public class CardGameManager : MonoBehaviour
                 card.suit = suit;
                 card.value = values[i];
                 card.points = points[i];
-
-                // Формируем имя текстуры: card_hearts_2, card_spades_A и т.д.
                 card.textureName = $"card_{suit}_{card.value}";
-
                 deck.Add(card);
             }
         }
@@ -102,7 +135,6 @@ public class CardGameManager : MonoBehaviour
 
     void ShuffleDeck()
     {
-        // Перемешивание колоды
         for (int i = 0; i < deck.Count; i++)
         {
             Card temp = deck[i];
@@ -116,7 +148,6 @@ public class CardGameManager : MonoBehaviour
     {
         if (deck.Count == 0)
         {
-            // Если колода пуста, пересоздаём
             CreateDeck();
             ShuffleDeck();
         }
@@ -125,14 +156,11 @@ public class CardGameManager : MonoBehaviour
         deck.RemoveAt(0);
         hand.Add(card);
 
-        // Создаём визуальную карту
         GameObject newCard = Instantiate(cardPrefab, handTransform);
 
-        // Настраиваем изображение карты
         Image cardImage = newCard.GetComponent<Image>();
         if (cardImage != null)
         {
-            // Загружаем текстуру из папки Textures
             Sprite cardSprite = LoadCardTexture(card.textureName);
             if (cardSprite != null)
             {
@@ -140,17 +168,15 @@ public class CardGameManager : MonoBehaviour
             }
             else
             {
-                // Если текстура не найдена, показываем текст
                 Debug.LogWarning($"Текстура не найдена: {card.textureName}");
                 ShowCardText(newCard, card);
             }
         }
 
-        // Отключаем текст, если используем изображения (или оставляем как запасной вариант)
         TMP_Text cardText = newCard.GetComponentInChildren<TMP_Text>();
         if (cardText != null && cardImage != null && cardImage.sprite != null)
         {
-            cardText.enabled = false; // Скрываем текст, если есть спрайт
+            cardText.enabled = false;
         }
         else if (cardText != null)
         {
@@ -160,14 +186,10 @@ public class CardGameManager : MonoBehaviour
 
     Sprite LoadCardTexture(string textureName)
     {
-        // Пробуем загрузить текстуру из папки Textures
         Sprite sprite = Resources.Load<Sprite>($"Textures/{textureName}");
-
-        // Если не нашли в Resources, ищем в Assets через AssetDatabase (только в редакторе)
         if (sprite == null)
         {
 #if UNITY_EDITOR
-            // Ищем все спрайты в проекте
             Sprite[] allSprites = Resources.FindObjectsOfTypeAll<Sprite>();
             foreach (Sprite s in allSprites)
             {
@@ -178,7 +200,6 @@ public class CardGameManager : MonoBehaviour
             }
 #endif
         }
-
         return sprite;
     }
 
@@ -190,7 +211,6 @@ public class CardGameManager : MonoBehaviour
             string displayValue = cardData.value;
             cardText.text = displayValue;
 
-            // Цвет в зависимости от масти
             if (cardData.suit == "hearts" || cardData.suit == "diamonds")
             {
                 cardText.color = Color.red;
@@ -213,7 +233,6 @@ public class CardGameManager : MonoBehaviour
             score += card.points;
         }
 
-        // Если перебор и есть тузы, меняем их с 11 на 1
         while (score > 21 && aces > 0)
         {
             score -= 10;
@@ -226,10 +245,16 @@ public class CardGameManager : MonoBehaviour
     void UpdateUI()
     {
         if (playerScoreText != null)
-            playerScoreText.text = $"Очки игрока: {CalculateScore(playerCards)}";
+            playerScoreText.text = $"Ваши очки: {CalculateScore(playerCards)}";
 
         if (dealerScoreText != null)
-            dealerScoreText.text = $"Очки дилера: {CalculateScore(dealerCards)}";
+            dealerScoreText.text = $"Очки Саши: {CalculateScore(dealerCards)}";
+
+        if (playerWinsText != null)
+            playerWinsText.text = $"Вы: {playerWinCount}";
+
+        if (dealerWinsText != null)
+            dealerWinsText.text = $"Саша: {dealerWinCount}";
     }
 
     public void Hit()
@@ -241,7 +266,7 @@ public class CardGameManager : MonoBehaviour
         int playerScore = CalculateScore(playerCards);
         if (playerScore > 21)
         {
-            EndGame("Перебор! Вы проиграли");
+            StartCoroutine(EndRoundWithDelay("dealer"));
         }
         else if (playerScore == 21)
         {
@@ -251,7 +276,6 @@ public class CardGameManager : MonoBehaviour
 
     public void Stand()
     {
-        // Отключаем кнопки во время хода дилера
         if (hitButton != null) hitButton.interactable = false;
         if (standButton != null) standButton.interactable = false;
 
@@ -260,9 +284,17 @@ public class CardGameManager : MonoBehaviour
 
     IEnumerator DealerTurn()
     {
-        yield return new WaitForSeconds(1f);
+        // Даём дилеру вторую карту, если её ещё нет (по правилам блэкджека дилер открывает вторую карту после хода игрока)
+        if (!dealerHasSecondCard)
+        {
+            yield return new WaitForSeconds(0.8f);
+            DealCard(dealerCards, dealerHand);
+            dealerHasSecondCard = true;
+            UpdateUI();
+            yield return new WaitForSeconds(0.8f);
+        }
 
-        // Дилер берёт карты, пока у него меньше 17 очков
+        // Дилер добирает карты до 17
         while (CalculateScore(dealerCards) < 17)
         {
             DealCard(dealerCards, dealerHand);
@@ -270,49 +302,137 @@ public class CardGameManager : MonoBehaviour
             yield return new WaitForSeconds(0.8f);
         }
 
-        // Определяем победителя
         int playerFinal = CalculateScore(playerCards);
         int dealerFinal = CalculateScore(dealerCards);
 
         if (dealerFinal > 21)
         {
-            EndGame("Дилер перебрал! Вы выиграли!");
+            StartCoroutine(EndRoundWithDelay("player"));
         }
         else if (playerFinal > dealerFinal)
         {
-            EndGame("Вы выиграли!");
+            StartCoroutine(EndRoundWithDelay("player"));
         }
         else if (dealerFinal > playerFinal)
         {
-            EndGame("Дилер выиграл");
+            StartCoroutine(EndRoundWithDelay("dealer"));
         }
         else
         {
-            EndGame("Ничья");
+            StartCoroutine(EndRoundWithDelay("draw"));
         }
     }
 
-    void EndGame(string message)
+    IEnumerator EndRoundWithDelay(string winner)
     {
-        // Отключаем кнопки после окончания игры
+        // Отключаем кнопки во время подведения итогов
         if (hitButton != null) hitButton.interactable = false;
         if (standButton != null) standButton.interactable = false;
 
-        if (resultText != null)
+        // Показываем результат раунда
+        string roundMessage = "";
+        if (winner == "player")
         {
-            resultText.text = message;
+            roundMessage = "Вы выиграли раунд! +1 очко";
+            playerWinCount++;
+        }
+        else if (winner == "dealer")
+        {
+            roundMessage = "Саша выиграл раунд! +1 очко";
+            dealerWinCount++;
+        }
+        else
+        {
+            roundMessage = "Ничья! Очки не начисляются";
         }
 
-        Debug.Log(message);
-    }
-}
+        if (roundResultText != null) roundResultText.text = roundMessage;
+        UpdateUI();
 
-// Класс для хранения данных о карте
-[System.Serializable]
-public class Card
-{
-    public string suit;        // Масть: hearts, diamonds, clubs, spades
-    public string value;       // Значение: 2-10, J, Q, K, A
-    public int points;         // Очки: 2-10, 10, 10, 10, 11
-    public string textureName; // Имя текстуры: card_hearts_2 и т.д.
+        yield return new WaitForSeconds(2f);
+
+        // Проверяем, достиг ли кто-то 5 побед
+        if (playerWinCount >= WIN_LIMIT)
+        {
+            ShowWinGame();
+        }
+        else if (dealerWinCount >= WIN_LIMIT)
+        {
+            ShowLoseGame();
+        }
+        else
+        {
+            // Начинаем новый раунд
+            StartNewGame();
+        }
+    }
+
+    void ShowWinGame()
+    {
+        Debug.Log("ПОБЕДА В ИГРЕ! 5 побед!");
+
+        if (hitButton != null) hitButton.interactable = false;
+        if (standButton != null) standButton.interactable = false;
+
+        if (winPanel != null)
+        {
+            winPanel.SetActive(true);
+        }
+    }
+
+    void ShowLoseGame()
+    {
+        Debug.Log("ПОРАЖЕНИЕ В ИГРЕ! 5 побед у Саши");
+
+        if (hitButton != null) hitButton.interactable = false;
+        if (standButton != null) standButton.interactable = false;
+
+        if (losePanel != null)
+        {
+            losePanel.SetActive(true);
+        }
+    }
+
+    // Метод для кнопки "Далее" (после победы)
+    public void GoToNextLevel()
+    {
+        if (!string.IsNullOrEmpty(nextSceneName))
+        {
+            SceneManager.LoadScene(nextSceneName);
+        }
+        else
+        {
+            Debug.Log("Переход на следующую сцену (имя не указано)");
+        }
+    }
+
+    // Метод для кнопки "Назад" (после поражения)
+    public void GoBack()
+    {
+        if (!string.IsNullOrEmpty(previousSceneName))
+        {
+            SceneManager.LoadScene(previousSceneName);
+        }
+        else
+        {
+            Debug.Log("Возврат на предыдущую сцену (имя не указано)");
+        }
+    }
+
+    // ТЕСТОВЫЙ МЕТОД: нажмите P для автоматической победы в раунде (только для отладки)
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Debug.Log("=== ТЕСТ: Принудительная победа игрока ===");
+
+            // Отключаем кнопки
+            if (hitButton != null) hitButton.interactable = false;
+            if (standButton != null) standButton.interactable = false;
+
+            // Завершаем раунд с победой игрока
+            StartCoroutine(EndRoundWithDelay("player"));
+        }
+    }
+
 }
