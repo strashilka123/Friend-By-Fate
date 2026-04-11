@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,8 +12,11 @@ public class PuzzleManag : MonoBehaviour
     public GameObject piecePrefab;
 
     [Header("Настройки поля")]
-    public Rect scatterArea = new Rect(-10f, -4f, 5f, 8f); 
+    public Rect scatterArea = new Rect(-10f, -4f, 5f, 8f);
     public Color boardColor = new Color(0.2f, 0.2f, 0.2f, 0.5f);
+
+    [Header("Переходы")]
+    public string cardGameSceneName = "CardScene"; // имя сцены с картами
 
     [HideInInspector] public float pieceWidthUnits;
     [HideInInspector] public float pieceHeightUnits;
@@ -21,8 +25,7 @@ public class PuzzleManag : MonoBehaviour
     private List<JigsawPiece> allPieces = new List<JigsawPiece>();
     private const float PIXELS_PER_UNIT = 100f;
 
-    // [SerializeField] private string parkSceneName = "ParkScene";
-    [SerializeField] private GameObject devPanel;
+    [SerializeField] private GameObject devPanel; // панель победы
 
     void Start()
     {
@@ -46,13 +49,12 @@ public class PuzzleManag : MonoBehaviour
     {
         GameObject board = GameObject.CreatePrimitive(PrimitiveType.Quad);
         board.name = "Puzzle_Board_Background";
-        board.transform.position = new Vector3(0, 0, 0.5f); // Фон чуть позади деталей
+        board.transform.position = new Vector3(0, 0, 0.5f);
 
-        // Масштабируем доску точно под размер всех спрайтов
         board.transform.localScale = new Vector3(pieceWidthUnits * gridWidth, pieceHeightUnits * gridHeight, 1f);
 
         Material mat = board.GetComponent<Renderer>().material;
-        mat.shader = Shader.Find("Sprites/Default"); // Применяем шейдер для корректного отображения цвета
+        mat.shader = Shader.Find("Sprites/Default");
         mat.color = boardColor;
 
         Destroy(board.GetComponent<Collider>());
@@ -80,9 +82,8 @@ public class PuzzleManag : MonoBehaviour
                 JigsawPiece pieceScript = pieceObj.GetComponent<JigsawPiece>();
                 if (pieceScript == null) pieceScript = pieceObj.AddComponent<JigsawPiece>();
 
-                pieceScript.manager = this; // Передаем детали ссылку на менеджер
+                pieceScript.manager = this;
 
-                // Задаем правильную целевую позицию
                 Vector2 targetPos = new Vector2(boardBottomLeft.x + x * pieceWidthUnits, boardBottomLeft.y + y * pieceHeightUnits);
                 pieceScript.targetPosition = targetPos;
                 pieceScript.targetRotation = 0f;
@@ -107,45 +108,74 @@ public class PuzzleManag : MonoBehaviour
         piece.transform.position = new Vector3(randomX, randomY, -0.1f);
     }
 
-    // Метод возвращает координаты ближайшей ячейки на доске
     public Vector2 GetNearestGridPosition(Vector2 currentPos)
     {
         int x = Mathf.RoundToInt((currentPos.x - boardBottomLeft.x) / pieceWidthUnits);
         int y = Mathf.RoundToInt((currentPos.y - boardBottomLeft.y) / pieceHeightUnits);
 
-        // Не даем магнититься "в пустоту" за пределами поля
         x = Mathf.Clamp(x, 0, gridWidth - 1);
         y = Mathf.Clamp(y, 0, gridHeight - 1);
 
         return new Vector2(boardBottomLeft.x + x * pieceWidthUnits, boardBottomLeft.y + y * pieceHeightUnits);
     }
 
-    // Вызывается самими кусочками при любом их изменении
     public void CheckWinCondition()
     {
         if (allPieces.Count == 0) return;
 
         foreach (var piece in allPieces)
         {
-            if (!piece.IsInCorrectPlace()) return; // Если хоть одна не на месте - прерываем проверку
+            if (!piece.IsInCorrectPlace()) return;
         }
 
         Debug.Log("ПОБЕДА! Картинка собрана.");
         CompleteMiniGame();
-        // Сюда можно добавить логику перехода на следующую сцену
-
     }
 
     public void CompleteMiniGame()
     {
         Debug.Log("Мини-игра завершена!");
 
-        if (devPanel != null)
+        // Отключаем коллайдеры у всех кусочков пазла (чтобы нельзя было нажать)
+        foreach (var piece in allPieces)
         {
-            devPanel.SetActive(true);
-            allPieces.Clear();
-            // SceneManager.LoadScene(parkSceneName); 
+            if (piece != null)
+            {
+                Collider2D col = piece.GetComponent<Collider2D>();
+                if (col != null)
+                {
+                    col.enabled = false; // отключаем коллайдер
+                }
+            }
         }
 
+        if (devPanel != null)
+        {
+            devPanel.SetActive(true); // показываем панель победы
+            allPieces.Clear();
+        }
+    }
+
+    // Метод для загрузки сцены с картами (вызывается кнопкой)
+    public void LoadCardGameScene()
+    {
+        if (Application.CanStreamedLevelBeLoaded(cardGameSceneName))
+        {
+            SceneManager.LoadScene(cardGameSceneName);
+        }
+        else
+        {
+            Debug.LogError($"Сцена '{cardGameSceneName}' не найдена в Build Profiles! Добавьте её через Build Profiles.");
+        }
+    }
+
+    // ТЕСТОВЫЙ МЕТОД: нажмите P для принудительной победы (удалите после тестирования)
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Debug.Log("Принудительная победа (тест)");
+            CompleteMiniGame();
+        }
     }
 }

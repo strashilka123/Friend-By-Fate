@@ -14,27 +14,33 @@ public class DrawingCanvas : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     [Header("Настройки кисти")]
     public int brushSize = 8;
     public Color currentColor = Color.black;
-    public TMP_Text sizeText; // Перетащи сюда объект SizeLabel в инспекторе
+    public TMP_Text sizeText;
+
+    [Header("Панель в разработке")]
+    public GameObject developmentPanel;  // Перетащите сюда панель "В разработке"
+    public float panelDisplayTime = 2f; // Сколько секунд показывать панель
 
     private Texture2D _texture;
     private Vector2 _previousPosition;
     private bool _wasDrawing;
-    private bool _needsApply; // Флаг: нужно ли обновлять текстуру в этом кадре
+    private bool _needsApply;
 
     void Start()
     {
-        // Используем более производительный формат текстуры
         _texture = new Texture2D(textureWidth, textureHeight, TextureFormat.RGBA32, false);
-        _texture.filterMode = FilterMode.Bilinear; // Чтобы линии были чуть мягче
+        _texture.filterMode = FilterMode.Bilinear;
 
         ClearCanvas();
         canvasImage.texture = _texture;
 
         if (sizeText != null)
             sizeText.text = "Размер: " + brushSize.ToString();
+
+        // Скрываем панель при старте
+        if (developmentPanel != null)
+            developmentPanel.SetActive(false);
     }
 
-    // Оптимизация №1: Выносим Apply в Update
     void Update()
     {
         if (_needsApply)
@@ -93,16 +99,13 @@ public class DrawingCanvas : MonoBehaviour, IPointerDownHandler, IDragHandler, I
             }
 
             _previousPosition = new Vector2(texX, texY);
-            _needsApply = true; // Вместо Apply() просто ставим флаг
+            _needsApply = true;
         }
     }
 
     private void DrawLine(Vector2 start, Vector2 end)
     {
         float distance = Vector2.Distance(start, end);
-
-        // Оптимизация №2: Динамический шаг интерполяции
-        // Если кисть 40px, нам не нужно рисовать каждые 1px. Достаточно каждые 10px.
         float step = Mathf.Max(1f, brushSize / 4f);
 
         for (float i = 0; i <= distance; i += step)
@@ -114,7 +117,6 @@ public class DrawingCanvas : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
     private void DrawCircle(int x, int y)
     {
-        // Оптимизация №3: Работаем только в границах квадрата кисти
         int startX = Mathf.Max(x - brushSize, 0);
         int startY = Mathf.Max(y - brushSize, 0);
         int endX = Mathf.Min(x + brushSize, textureWidth);
@@ -126,7 +128,6 @@ public class DrawingCanvas : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         {
             for (int j = startY; j < endY; j++)
             {
-                // Оптимизация №4: SqrMagnitude быстрее, чем Distance (нет извлечения корня)
                 float sqrDist = (i - x) * (i - x) + (j - y) * (j - y);
                 if (sqrDist <= sqrRadius)
                 {
@@ -156,9 +157,31 @@ public class DrawingCanvas : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
     public void SaveImage()
     {
+        // Показываем панель "В разработке"
+        if (developmentPanel != null)
+        {
+            developmentPanel.SetActive(true);
+        }
+
+        // Сохраняем изображение
         byte[] bytes = _texture.EncodeToPNG();
         string path = Path.Combine(Application.persistentDataPath, "MyDrawing.png");
         File.WriteAllBytes(path, bytes);
         Debug.Log("Сохранено в: " + path);
+
+        // Скрываем панель через указанное время
+        if (developmentPanel != null)
+        {
+            StartCoroutine(HidePanelAfterDelay(panelDisplayTime));
+        }
+    }
+
+    private System.Collections.IEnumerator HidePanelAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (developmentPanel != null)
+        {
+            developmentPanel.SetActive(false);
+        }
     }
 }
