@@ -16,7 +16,6 @@ public class PuzzleManag : MonoBehaviour
     public Color boardColor = new Color(0.2f, 0.2f, 0.2f, 0.5f);
 
     [Header("Переходы")]
-    public string cardGameSceneName = "CardScene"; // имя сцены с картами
 
     [HideInInspector] public float pieceWidthUnits;
     [HideInInspector] public float pieceHeightUnits;
@@ -159,14 +158,7 @@ public class PuzzleManag : MonoBehaviour
     // Метод для загрузки сцены с картами (вызывается кнопкой)
     public void LoadCardGameScene()
     {
-        if (Application.CanStreamedLevelBeLoaded(cardGameSceneName))
-        {
-            SceneManager.LoadScene(cardGameSceneName);
-        }
-        else
-        {
-            Debug.LogError($"Сцена '{cardGameSceneName}' не найдена в Build Profiles! Добавьте её через Build Profiles.");
-        }
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     // ТЕСТОВЫЙ МЕТОД: нажмите P для принудительной победы (удалите после тестирования)

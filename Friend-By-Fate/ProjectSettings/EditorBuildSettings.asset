@@ -13,11 +13,14 @@ EditorBuildSettings:
     guid: 83f4a662467028d43afe876bf77ecb2e
   - enabled: 1
     path: Assets/Scenes/puzzle.unity
-    guid: 8aea8b3c4e2e9d348b5ccf36833064b7
+    guid: c235529863e37e243ab2f497b44752bf
   - enabled: 1
+    path: Assets/Scenes/First_Passage.unity
+    guid: 1486a2668091b2c4ca20fc5fa90543f4
+  - enabled: 0
     path: Assets/Scenes/CardScene.unity
     guid: 5cddd5a585497824486513006eb928bc
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SketchBook.unity
     guid: 4def809948a32da419ec89ff7de38805
   m_configObjects:
