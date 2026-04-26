@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/puzzle.unity
     guid: c235529863e37e243ab2f497b44752bf
   - enabled: 1
-    path: Assets/Scenes/First_Passage.unity
+    path: Assets/Scenes/FirstPassage.unity
     guid: 1486a2668091b2c4ca20fc5fa90543f4
   - enabled: 1
     path: Assets/Scenes/BarScene.unity

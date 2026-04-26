@@ -22,11 +22,11 @@ namespace Dialogue
             if (_disableTags.All(disableTag => story.Tag != disableTag))
                 return;
 
-            await Task.Delay(1000);
+            await Task.Delay(2500);
 
             _dialogueStory.gameObject.SetActive(false);
 
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 }

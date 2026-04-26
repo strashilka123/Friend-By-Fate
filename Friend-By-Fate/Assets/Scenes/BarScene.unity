@@ -209,8 +209,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1910540420}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1235042599
@@ -307,15 +306,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.49056602, g: 0.49056602, b: 0.49056602, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: -5042365319251324485, guid: 119a369cf70aef2409fe83327a650b73, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -365,7 +364,7 @@ RectTransform:
   m_Children:
   - {fileID: 1514252316}
   - {fileID: 1974020930628227046}
-  m_Father: {fileID: 1235042598}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1357,29 +1356,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stories:
   - <Tag>k__BackingField: Smth1
-    <Text>k__BackingField: "\u0411\u0430\u0440, \u0448\u0443\u043C, \u0441\u0432\u0435\u0442
-      \u043D\u0435\u043E\u043D\u0430.\\n\\n\u0421\u0430\u0448\u0430 \u044F\u0432\u043D\u043E
+    <Text>k__BackingField: "\u0411\u0430\u0440 \xAB\u041F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0439
+      \u0448\u0430\u043D\u0441\xBB. \\n\u0412\u0441\u044E\u0434\u0443 \u043D\u0435\u043E\u043D,
+      \u0437\u0430\u043F\u0430\u0445 \u0434\u0435\u0448\u0451\u0432\u043E\u0433\u043E
+      \u0430\u043B\u043A\u043E\u0433\u043E\u043B\u044F, \u0433\u0440\u043E\u043C\u043A\u0430\u044F
+      \u043C\u0443\u0437\u044B\u043A\u0430. \\n\\n\u0421\u0430\u0448\u0430 \u044F\u0432\u043D\u043E
       \u0447\u0443\u0432\u0441\u0442\u0432\u0443\u0435\u0442 \u0441\u0435\u0431\u044F
       \u043D\u0435\u043A\u043E\u043C\u0444\u043E\u0440\u0442\u043D\u043E."
+    <Answers>k__BackingField:
+    - <Text>k__BackingField: "\u0414\u0430\u043B\u0435\u0435"
+      <ReposeText>k__BackingField: NPC1.1
+    <VoiceClip>k__BackingField: {fileID: 0}
+  - <Tag>k__BackingField: NPC1.1
+    <Text>k__BackingField: "\u0410\u043B\u0435\u043A\u0441\u0430\u043D\u0434\u0440
+      \u0441\u0436\u0438\u043C\u0430\u0435\u0442 \u0441\u0442\u0430\u043A\u0430\u043D
+      \u0442\u0430\u043A, \u0447\u0442\u043E \u043F\u043E\u0431\u0435\u043B\u0435\u043B\u0438
+      \u043F\u0430\u043B\u044C\u0446\u044B."
     <Answers>k__BackingField:
     - <Text>k__BackingField: "\u0414\u0430\u043B\u0435\u0435"
       <ReposeText>k__BackingField: NPC1
     <VoiceClip>k__BackingField: {fileID: 0}
   - <Tag>k__BackingField: NPC1
     <Text>k__BackingField: "\u0410\u043B\u0435\u043A\u0441\u0430\u043D\u0434\u0440:
-      \u042F \u043D\u0435 \u043B\u044E\u0431\u043B\u044E \u0442\u0430\u043A\u0438\u0435
-      \u043C\u0435\u0441\u0442\u0430."
+      \u0417\u0440\u044F \u044F \u0441\u044E\u0434\u0430 \u043F\u0440\u0438\u0448\u0451\u043B.
+      \u0421\u043B\u0438\u0448\u043A\u043E\u043C\u2026 \u043C\u043D\u043E\u0433\u043E
+      \u0432\u0441\u0435\u0433\u043E. \u0418 \u043B\u044E\u0434\u0438 \u043A\u0430\u043A\u0438\u0435-\u0442\u043E
+      \u043D\u0435 \u043D\u0430\u0441\u0442\u043E\u044F\u0449\u0438\u0435."
     <Answers>k__BackingField:
     - <Text>k__BackingField: "\u0414\u0430\u043B\u0435\u0435"
       <ReposeText>k__BackingField: Player1
-    <VoiceClip>k__BackingField: {fileID: 0}
+    <VoiceClip>k__BackingField: {fileID: 8300000, guid: 10d9497fb3418ba4eb45a723b9f44311, type: 3}
   - <Tag>k__BackingField: Player1
-    <Text>k__BackingField: "\u0412\u044B: \u0418\u043D\u043E\u0433\u0434\u0430 \u0441\u0442\u043E\u0438\u0442
-      \u043F\u043E\u043F\u0440\u043E\u0431\u043E\u0432\u0430\u0442\u044C."
+    <Text>k__BackingField: "\u0412\u044B: \u041C\u043E\u0436\u0435\u0442, \u0438
+      \u0442\u0430\u043A. \u041D\u043E \u0438\u043D\u043E\u0433\u0434\u0430 \u0441\u0442\u043E\u0438\u0442
+      \u0432\u044B\u0431\u0438\u0440\u0430\u0442\u044C\u0441\u044F \u0438\u0437 \u0434\u043E\u043C\u0430."
+    <Answers>k__BackingField:
+    - <Text>k__BackingField: "\u0414\u0430\u043B\u0435\u0435"
+      <ReposeText>k__BackingField: NPC1.2
+    <VoiceClip>k__BackingField: {fileID: 0}
+  - <Tag>k__BackingField: NPC1.2
+    <Text>k__BackingField: "\u0410\u043B\u0435\u043A\u0441\u0430\u043D\u0434\u0440:
+      \u041D\u0435 \u0443\u0432\u0435\u0440\u0435\u043D, \u0447\u0442\u043E \u043E\u043D\u043E
+      \u0441\u0442\u043E\u0438\u0442 \u0442\u043E\u0433\u043E..."
     <Answers>k__BackingField:
     - <Text>k__BackingField: "\u0414\u0430\u043B\u0435\u0435"
       <ReposeText>k__BackingField: Smth2
-    <VoiceClip>k__BackingField: {fileID: 0}
+    <VoiceClip>k__BackingField: {fileID: 8300000, guid: e8ecd4e88fb73284da2da3ee1aa5075a, type: 3}
   - <Tag>k__BackingField: Smth2
     <Text>k__BackingField: "\u041A \u0432\u0430\u043C \u043D\u0430\u0447\u0438\u043D\u0430\u0435\u0442
       \u0446\u0435\u043F\u043B\u044F\u0442\u044C\u0441\u044F \u043D\u0435\u0434\u0440\u0443\u0436\u0435\u043B\u044E\u0431\u043D\u0430\u044F
@@ -1390,8 +1412,10 @@ MonoBehaviour:
     <VoiceClip>k__BackingField: {fileID: 0}
   - <Tag>k__BackingField: BadGuys1
     <Text>k__BackingField: "\u041F\u043B\u043E\u0445\u0438\u0435 \u043F\u0430\u0440\u043D\u0438:
-      \u0427\u0451 \u0442\u0430\u043A\u043E\u0439 \u0442\u0438\u0445\u0438\u0439?
-      \u0414\u0435\u0432\u0443\u0448\u043A\u0443 \u043F\u043E\u0442\u0435\u0440\u044F\u043B?"
+      \u042D\u0439, \u0442\u044B \u0447\u0435\u0433\u043E \u0442\u0430\u043A\u043E\u0439
+      \u043A\u0438\u0441\u043B\u044B\u0439? \u0414\u0435\u0432\u0443\u0448\u043A\u0443
+      \u043F\u043E\u0442\u0435\u0440\u044F\u043B \u0438\u043B\u0438 \u0436\u0438\u0437\u043D\u044C
+      \u043E\u0431\u0438\u0434\u0435\u043B\u0430?"
     <Answers>k__BackingField:
     - <Text>k__BackingField: "\u0414\u0430\u043B\u0435\u0435"
       <ReposeText>k__BackingField: Smth3
@@ -1400,7 +1424,9 @@ MonoBehaviour:
     <Text>k__BackingField: "\u0421\u0430\u0448\u0430 \u0437\u0430\u043C\u044B\u043A\u0430\u0435\u0442\u0441\u044F.
       \u0412\u044B \u0440\u0435\u0448\u0430\u0435\u0442\u0435 \u0432\u0441\u0442\u0443\u043F\u0438\u0442\u044C\u0441\u044F
       \u0437\u0430 \u043D\u0435\u0433\u043E."
-    <Answers>k__BackingField: []
+    <Answers>k__BackingField:
+    - <Text>k__BackingField: "\u0414\u0430\u043B\u0435\u0435"
+      <ReposeText>k__BackingField: Smth3
     <VoiceClip>k__BackingField: {fileID: 0}
 --- !u!114 &6222713642059005629
 MonoBehaviour:
@@ -1721,4 +1747,5 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1235042598}
+  - {fileID: 1910540420}
   - {fileID: 1982435286}

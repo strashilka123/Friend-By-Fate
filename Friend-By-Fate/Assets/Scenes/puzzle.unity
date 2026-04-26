@@ -617,21 +617,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35b5e56af954ca347bb715a15486ae62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sourceImage: {fileID: 2800000, guid: 218522f2483557146baf7434f119fca5, type: 3}
-  gridWidth: 4
+  sourceImage: {fileID: 2800000, guid: 4a5b95608cffa814492c93cae7ca027f, type: 3}
+  gridWidth: 3
   gridHeight: 3
   piecePrefab: {fileID: 70361914565374097, guid: 035f6f9adcedd9b419e3b00436c96a4e, type: 3}
   scatterArea:
     serializedVersion: 2
     x: -10
-    y: -5.6
-    width: 22
-    height: 12
+    y: -5.5
+    width: 20
+    height: 10
   boardColor: {r: 0.7735849, g: 0, b: 0, a: 0.5}
-  cardGameSceneName: CardScene
   pieceWidthUnits: 0
   pieceHeightUnits: 0
   boardBottomLeft: {x: 0, y: 0}
+  maxBoardUnits: 16
   devPanel: {fileID: 1696369181}
 --- !u!1 &1689764129
 GameObject:
@@ -900,7 +900,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0412\u044B \u0441\u043E\u0431\u0440\u0430\u043B\u0438 \u043F\u0430\u0437\u043B!"
+  m_text: "\u041B\u0438\u0441\u0442 \u0432\u043E\u0441\u0441\u0442\u0430\u043D\u043E\u0432\u043B\u0435\u043D!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

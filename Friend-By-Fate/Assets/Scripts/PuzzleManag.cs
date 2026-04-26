@@ -7,7 +7,7 @@ public class PuzzleManag : MonoBehaviour
 {
     [Header("Настройки пазла")]
     public Texture2D sourceImage;
-    public int gridWidth = 4;
+    public int gridWidth = 3;
     public int gridHeight = 3;
     public GameObject piecePrefab;
 
@@ -22,7 +22,12 @@ public class PuzzleManag : MonoBehaviour
     [HideInInspector] public Vector2 boardBottomLeft;
 
     private List<JigsawPiece> allPieces = new List<JigsawPiece>();
-    private const float PIXELS_PER_UNIT = 100f;
+    private float pixelsPerUnit;
+
+    [Header("Масштабирование")]
+    public float maxBoardUnits = 7f;
+    private float totalWidth;
+    private float totalHeight;
 
     [SerializeField] private GameObject devPanel; // панель победы
 
@@ -33,24 +38,47 @@ public class PuzzleManag : MonoBehaviour
         GeneratePuzzlePieces();
     }
 
+    //private void CalculateGridSizes()
+    //{
+    //    float maxSidePx = Mathf.Max(sourceImage.width, sourceImage.height);
+    //    pixelsPerUnit = maxSidePx / maxBoardUnits;
+
+    //    pieceWidthUnits = (sourceImage.width / (float)gridWidth) / pixelsPerUnit;
+    //    pieceHeightUnits = (sourceImage.height / (float)gridHeight) / pixelsPerUnit;
+
+    //    float boardWidth = pieceWidthUnits * gridWidth;
+    //    float boardHeight = pieceHeightUnits * gridHeight;
+
+    //    boardBottomLeft = new Vector2(-boardWidth / 2f + pieceWidthUnits / 2f, -boardHeight / 2f + pieceHeightUnits / 2f);
+    //}
     private void CalculateGridSizes()
     {
-        pieceWidthUnits = (sourceImage.width / (float)gridWidth) / PIXELS_PER_UNIT;
-        pieceHeightUnits = (sourceImage.height / (float)gridHeight) / PIXELS_PER_UNIT;
+        float maxSidePx = Mathf.Max(sourceImage.width, sourceImage.height);
+        pixelsPerUnit = maxSidePx / maxBoardUnits;
 
-        float boardWidth = pieceWidthUnits * gridWidth;
-        float boardHeight = pieceHeightUnits * gridHeight;
+        pieceWidthUnits = (sourceImage.width / (float)gridWidth) / pixelsPerUnit;
+        pieceHeightUnits = (sourceImage.height / (float)gridHeight) / pixelsPerUnit;
 
-        boardBottomLeft = new Vector2(-boardWidth / 2f + pieceWidthUnits / 2f, -boardHeight / 2f + pieceHeightUnits / 2f);
+        totalWidth = pieceWidthUnits * gridWidth;
+        totalHeight = pieceHeightUnits * gridHeight;
+
+        boardBottomLeft = new Vector2(
+            -totalWidth / 2f + pieceWidthUnits / 2f,
+            -totalHeight / 2f + pieceHeightUnits / 2f
+        );
     }
 
     private void CreatePuzzleBoard()
     {
+        GameObject oldBoard = GameObject.Find("Puzzle_Board_Background");
+        if (oldBoard != null) Destroy(oldBoard);
+
         GameObject board = GameObject.CreatePrimitive(PrimitiveType.Quad);
         board.name = "Puzzle_Board_Background";
+
         board.transform.position = new Vector3(0, 0, 0.5f);
 
-        board.transform.localScale = new Vector3(pieceWidthUnits * gridWidth, pieceHeightUnits * gridHeight, 1f);
+        board.transform.localScale = new Vector3(totalWidth, totalHeight, 1f);
 
         Material mat = board.GetComponent<Renderer>().material;
         mat.shader = Shader.Find("Sprites/Default");
@@ -69,7 +97,7 @@ public class PuzzleManag : MonoBehaviour
             for (int x = 0; x < gridWidth; x++)
             {
                 Rect rect = new Rect(x * unitWidthPx, y * unitHeightPx, unitWidthPx, unitHeightPx);
-                Sprite newSprite = Sprite.Create(sourceImage, rect, new Vector2(0.5f, 0.5f), PIXELS_PER_UNIT);
+                Sprite newSprite = Sprite.Create(sourceImage, rect, new Vector2(0.5f, 0.5f), pixelsPerUnit);
 
                 GameObject pieceObj = Instantiate(piecePrefab);
                 pieceObj.name = $"Piece_{x}_{y}";
@@ -118,6 +146,20 @@ public class PuzzleManag : MonoBehaviour
         return new Vector2(boardBottomLeft.x + x * pieceWidthUnits, boardBottomLeft.y + y * pieceHeightUnits);
     }
 
+    public bool IsPositionOccupied(Vector2 pos, JigsawPiece requester)
+    {
+        foreach (var piece in allPieces)
+        {
+            if (piece == requester) continue;
+
+            if (Vector2.Distance(piece.transform.position, pos) < 0.1f)
+            {
+                return true; 
+            }
+        }
+        return false; 
+    }
+
     public void CheckWinCondition()
     {
         if (allPieces.Count == 0) return;
@@ -155,13 +197,13 @@ public class PuzzleManag : MonoBehaviour
         }
     }
 
-    // Метод для загрузки сцены с картами (вызывается кнопкой)
+    // Метод для загрузки сцены с картами
     public void LoadCardGameScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
-    // ТЕСТОВЫЙ МЕТОД: нажмите P для принудительной победы (удалите после тестирования)
+    // ТЕСТОВЫЙ МЕТОД: нажмите P для принудительной победы 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.P))
