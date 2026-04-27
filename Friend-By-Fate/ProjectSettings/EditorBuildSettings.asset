@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BarScene.unity
     guid: 5a876fc4942503c478486e3f54ca485a
+  - enabled: 1
+    path: Assets/Scenes/QTEgame.unity
+    guid: 131d22cb143907e449d9c5f8a2c93983
   - enabled: 0
     path: Assets/Scenes/CardScene.unity
     guid: 5cddd5a585497824486513006eb928bc

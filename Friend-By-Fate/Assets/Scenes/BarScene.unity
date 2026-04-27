@@ -536,7 +536,7 @@ MonoBehaviour:
   m_text: New Text
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -679,7 +679,7 @@ MonoBehaviour:
   m_text: New Text
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1074,7 +1074,7 @@ MonoBehaviour:
   m_text: New Text
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1424,9 +1424,7 @@ MonoBehaviour:
     <Text>k__BackingField: "\u0421\u0430\u0448\u0430 \u0437\u0430\u043C\u044B\u043A\u0430\u0435\u0442\u0441\u044F.
       \u0412\u044B \u0440\u0435\u0448\u0430\u0435\u0442\u0435 \u0432\u0441\u0442\u0443\u043F\u0438\u0442\u044C\u0441\u044F
       \u0437\u0430 \u043D\u0435\u0433\u043E."
-    <Answers>k__BackingField:
-    - <Text>k__BackingField: "\u0414\u0430\u043B\u0435\u0435"
-      <ReposeText>k__BackingField: Smth3
+    <Answers>k__BackingField: []
     <VoiceClip>k__BackingField: {fileID: 0}
 --- !u!114 &6222713642059005629
 MonoBehaviour:
@@ -1451,7 +1449,7 @@ MonoBehaviour:
   m_text: New Text
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1670,6 +1668,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableTags:
   - Smth3
+  _qteSceneName: QTEgame
 --- !u!1 &8894286320253519147
 GameObject:
   m_ObjectHideFlags: 0
