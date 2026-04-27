@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class QTEManager : MonoBehaviour
 {
@@ -25,9 +26,15 @@ public class QTEManager : MonoBehaviour
     public GameObject gameOverPanel;
     public TextMeshProUGUI resultText;
 
+    // Кнопки управления
+    public Button restartButton;
+    public Button nextButton;
+
     [Header("Эффекты")]
-    public Image flashOverlay;
     public CameraShake cameraShakeScript;
+
+    [Header("Аудио")]
+    public AudioManager audioManager;
 
     [Header("Ускорение")]
     public float minSpawnInterval = 0.5f;
@@ -41,7 +48,12 @@ public class QTEManager : MonoBehaviour
     {
         if (canvasRect == null) { Debug.LogError("canvasRect не назначен!", this); return; }
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
-        if (flashOverlay != null) flashOverlay.color = Color.clear;
+
+        if (audioManager == null) audioManager = FindObjectOfType<AudioManager>();
+
+        // Скрываем кнопки до конца игры
+        if (restartButton != null) restartButton.gameObject.SetActive(false);
+        if (nextButton != null) nextButton.gameObject.SetActive(false);
 
         UpdateUI();
         spawnTimer = spawnInterval + Random.Range(-0.1f, 0.2f);
@@ -81,7 +93,6 @@ public class QTEManager : MonoBehaviour
 
         float xMax = (canvasRect.rect.width / 2) - 100f;
         float yMax = (canvasRect.rect.height / 2) - 100f;
-
         rect.anchoredPosition = new Vector2(Random.Range(-xMax, xMax), Random.Range(-yMax, yMax));
 
         QTEPrompt qte = qteObj.GetComponent<QTEPrompt>();
@@ -101,7 +112,7 @@ public class QTEManager : MonoBehaviour
     {
         if (gameOver) return;
         currentStance += stanceGain;
-        PlayFlash(Color.green);
+        if (audioManager != null) audioManager.PlayQTESuccess();
         CheckGameState();
     }
 
@@ -109,7 +120,7 @@ public class QTEManager : MonoBehaviour
     {
         if (gameOver) return;
         currentStance -= stanceLoss;
-        PlayFlash(Color.red);
+        if (audioManager != null) audioManager.PlayQTEFail();
         if (cameraShakeScript != null) cameraShakeScript.TriggerShake(0.3f, 0.2f);
         CheckGameState();
     }
@@ -128,30 +139,61 @@ public class QTEManager : MonoBehaviour
     {
         if (gameOver) return;
         gameOver = true;
+
         foreach (Transform child in canvasRect.transform)
             if (child.GetComponent<QTEPrompt>() != null) Destroy(child.gameObject);
 
         if (gameOverPanel != null) gameOverPanel.SetActive(true);
+
+        // Настройка текста и неона
         if (resultText != null)
         {
-            resultText.text = isWin ? "УСПЕХ" : "ПРОВАЛ";
+            resultText.text = isWin ? "УСПЕХ!" : "ПРОВАЛ!";
             resultText.color = isWin ? Color.green : Color.red;
+
+            // Локальная копия материала, чтобы не ломать другие тексты
+            resultText.fontMaterial = new Material(resultText.fontMaterial);
+            resultText.fontMaterial.SetColor("_UnderlayColor", isWin ? new Color32(0, 255, 60, 180) : new Color32(255, 40, 40, 180));
+            resultText.fontMaterial.SetFloat("_OutlineWidth", 0.3f);
+            resultText.fontMaterial.SetFloat("_UnderlaySoftness", 0.6f);
         }
+
+        // 1. Сначала останавливаем фоновую музыку
+        if (audioManager != null) audioManager.StopAmbience();
+
+        // 2. Переключаем кнопки
+        if (restartButton != null) restartButton.gameObject.SetActive(!isWin);
+        if (nextButton != null) nextButton.gameObject.SetActive(isWin);
+
+        // 3. Играем финальный звук
+        if (audioManager != null)
+        {
+            if (isWin) audioManager.PlayWinSound();
+            else audioManager.PlayLoseSound();
+        }
+
         Invoke(nameof(ProceedToStory), 2.5f);
     }
 
     void ProceedToStory() { Debug.Log("Мини-игра завершена."); }
 
-    void PlayFlash(Color color)
+    // Публичные методы для кнопок
+    public void RestartGame()
     {
-        if (flashOverlay == null) return;
-        StartCoroutine(FlashCoroutine(color));
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    IEnumerator FlashCoroutine(Color flashColor)
+    public void LoadNextScene()
     {
-        flashOverlay.color = new Color(flashColor.r, flashColor.g, flashColor.b, 0.35f);
-        yield return new WaitForSeconds(0.08f);
-        flashOverlay.color = Color.clear;
+        int nextIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        if (nextIndex < SceneManager.sceneCountInBuildSettings)
+        {
+            SceneManager.LoadScene(nextIndex);
+        }
+        else
+        {
+            Debug.Log("Это последняя сцена в сборке!");
+        }
     }
 }
+
