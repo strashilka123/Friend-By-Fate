@@ -73,3 +73,73 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 [Aa]ssets/[Ss]treamingAssets/aa.meta
 [Aa]ssets/[Ss]treamingAssets/aa/*
+
+# ================================
+# ОС-специфичные файлы (кросс-платформенная совместимость)
+# ================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+*.fseventsd
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.Trash-*
+.nfs*
+
+# VS Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# Rider / IntelliJ
+.idea/
+*.iml
+*.rider
+
+# Visual Studio (дополнительно)
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+
+# Мета-файлы, которые могут различаться при импорте на разных ОС
+Assets/*.meta.lock
+ProjectSettings/*.meta.lock
+
+# Кэш импорта ассетов (может генерироваться по-разному)
+Library/LastSceneManagerSetup.txt
+Library/EditorOnlyScriptingUserSettings.json
+
+# Локальные настройки редактора (у каждого свои)
+UserSettings/EditorUserSettings.asset
+UserSettings/EditorUserSettings.asset.meta
+
+# ================================
+# Сборки и артефакты (не должны коммититься)
+# ================================
+*.exe
+*.dll
+*.dylib
+*.so
+*.a
+*.lib
+*.pdb
+*.mdb
+*.il2cpp
+*.sym
