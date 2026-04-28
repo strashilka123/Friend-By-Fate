@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 3477720199142ed42945f02afff2e832
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - qtePrefab: {fileID: 5673654357922395560, guid: d97485313a1c7734d89845f4ffd12d65, type: 3}
+  - canvasTransform: {instanceID: 0}
+  - stanceSlider: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
