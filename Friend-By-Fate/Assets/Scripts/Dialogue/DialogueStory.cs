@@ -9,6 +9,7 @@ namespace Dialogue
     {
         [SerializeField] private Story[] _stories;
         private Dictionary<string, Story> _storiesDictionary;
+
         public event Action<Story> ChangedStory;
 
         [Serializable]
@@ -17,7 +18,6 @@ namespace Dialogue
             [field: SerializeField] public string Tag { get; private set; }
             [field: SerializeField] public string Text { get; private set; }
             [field: SerializeField] public Answer[] Answers { get; private set; }
-            // Поле для файла озвучки реплик Саши
             [field: SerializeField] public AudioClip VoiceClip { get; private set; }
         }
 
@@ -31,8 +31,19 @@ namespace Dialogue
         private void Start()
         {
             _storiesDictionary = _stories.ToDictionary(key => key.Tag, element => element);
-            ChangedStory(_stories[0]);
+            ChangedStory?.Invoke(_stories[0]);
         }
-        public void ChangeStory(string tag) => ChangedStory?.Invoke(_storiesDictionary[tag]);
+
+        public void ChangeStory(string tag)
+        {
+            if (_storiesDictionary.TryGetValue(tag, out Story story))
+            {
+                ChangedStory?.Invoke(story);
+            }
+            else
+            {
+                Debug.LogError($"Тег '{tag}' не найден!");
+            }
+        }
     }
 }

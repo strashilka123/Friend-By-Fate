@@ -38,19 +38,6 @@ public class PuzzleManag : MonoBehaviour
         GeneratePuzzlePieces();
     }
 
-    //private void CalculateGridSizes()
-    //{
-    //    float maxSidePx = Mathf.Max(sourceImage.width, sourceImage.height);
-    //    pixelsPerUnit = maxSidePx / maxBoardUnits;
-
-    //    pieceWidthUnits = (sourceImage.width / (float)gridWidth) / pixelsPerUnit;
-    //    pieceHeightUnits = (sourceImage.height / (float)gridHeight) / pixelsPerUnit;
-
-    //    float boardWidth = pieceWidthUnits * gridWidth;
-    //    float boardHeight = pieceHeightUnits * gridHeight;
-
-    //    boardBottomLeft = new Vector2(-boardWidth / 2f + pieceWidthUnits / 2f, -boardHeight / 2f + pieceHeightUnits / 2f);
-    //}
     private void CalculateGridSizes()
     {
         float maxSidePx = Mathf.Max(sourceImage.width, sourceImage.height);
@@ -173,11 +160,22 @@ public class PuzzleManag : MonoBehaviour
         CompleteMiniGame();
     }
 
+    private IEnumerator ShowVictoryPanelDelayed()
+    {
+        // Ждем 2 секунды
+        yield return new WaitForSeconds(1.5f);
+
+        // Показываем панель победы
+        if (devPanel != null)
+        {
+            devPanel.SetActive(true);
+        }
+    }
+
     public void CompleteMiniGame()
     {
         Debug.Log("Мини-игра завершена!");
 
-        // Отключаем коллайдеры у всех кусочков пазла (чтобы нельзя было нажать)
         foreach (var piece in allPieces)
         {
             if (piece != null)
@@ -190,11 +188,11 @@ public class PuzzleManag : MonoBehaviour
             }
         }
 
-        if (devPanel != null)
-        {
-            devPanel.SetActive(true); // показываем панель победы
-            allPieces.Clear();
-        }
+        // Запускаем корутину с задержкой перед показом панели
+        StartCoroutine(ShowVictoryPanelDelayed());
+
+        // Очищаем список сразу, чтобы нельзя было двигать кусочки
+        allPieces.Clear();
     }
 
     // Метод для загрузки сцены с картами

@@ -29,6 +29,7 @@ namespace Dialogue
 
         private void ChangeAnswers(DialogueStory.Story story)
         {
+            Debug.Log("Кнопки обновляются! Тег реплики: " + story.Tag);
             for (int i = 0; i < _buttonsText.Length; i++)
             {
                 if (story.Answers.Length <= i)
@@ -44,6 +45,10 @@ namespace Dialogue
             }
         }
 
-        private void SendAnswer(int button) => _dialogueStory.ChangeStory(_currentReplyTags[button]);
+        private void SendAnswer(int button)
+        {
+            Debug.Log(" Кнопка нажата! Индекс: " + button); 
+            _dialogueStory.ChangeStory(_currentReplyTags[button]);
+        }
     }
 }

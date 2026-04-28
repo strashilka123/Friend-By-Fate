@@ -43,6 +43,7 @@ public class QTEManager : MonoBehaviour
 
     private float spawnTimer;
     private bool gameOver = false;
+    private bool isGameOver = false;
 
     void Start()
     {
@@ -61,6 +62,11 @@ public class QTEManager : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.P) && !isGameOver)
+        {
+            ForceWinQTE();
+        }
+
         if (gameOver) return;
 
         currentStance = Mathf.Min(currentStance + passiveRegenRate * Time.deltaTime, maxStance);
@@ -75,6 +81,68 @@ public class QTEManager : MonoBehaviour
                 spawnInterval = Mathf.Max(minSpawnInterval, spawnInterval - spawnAcceleration);
             }
             spawnTimer = spawnInterval + Random.Range(-0.1f, 0.2f);
+        }
+    }
+
+
+    private void ForceWinQTE()
+    {
+        Debug.Log("Принудительная победа в QTE (тест)");
+
+        isGameOver = true;
+        gameOver = true;  
+
+        spawnTimer = 9999f;  
+
+        foreach (Transform child in canvasRect.transform)
+        {
+            if (child.GetComponent<QTEPrompt>() != null)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(true);
+            Debug.Log("Панель победы активирована");
+        }
+        else
+        {
+
+            var panel = GameObject.Find("GameOverPanel");
+            if (panel != null)
+            {
+                gameOverPanel = panel;
+                panel.SetActive(true);
+            }
+            else
+            {
+                Debug.LogWarning("⚠️ GameOverPanel не найден!");
+            }
+        }
+
+        if (restartButton != null) restartButton.gameObject.SetActive(false);
+        if (nextButton != null) nextButton.gameObject.SetActive(true);
+
+        StartCoroutine(LoadNextSceneDelayed(2f));
+    }
+
+
+    private IEnumerator LoadNextSceneDelayed(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        int nextIndex = SceneManager.GetActiveScene().buildIndex + 1;
+
+        if (nextIndex < SceneManager.sceneCountInBuildSettings)
+        {
+            Debug.Log($"Загрузка сцены #{nextIndex}");
+            SceneManager.LoadScene(nextIndex);
+        }
+        else
+        {
+            Debug.LogError("Нет следующей сцены в Build Settings!");
         }
     }
 
@@ -175,7 +243,21 @@ public class QTEManager : MonoBehaviour
         Invoke(nameof(ProceedToStory), 2.5f);
     }
 
-    void ProceedToStory() { Debug.Log("Мини-игра завершена."); }
+    void ProceedToStory()
+    {
+        if (currentStance >= maxStance)
+        {
+            int nextIndex = SceneManager.GetActiveScene().buildIndex + 1;
+            if (nextIndex < SceneManager.sceneCountInBuildSettings)
+            {
+                SceneManager.LoadScene(nextIndex);
+            }
+            else
+            {
+                Debug.LogError("Нет следующей сцены в Build Settings! Добавьте StreetScene после QTEgame");
+            }
+        }
+    }
 
     // Публичные методы для кнопок
     public void RestartGame()
