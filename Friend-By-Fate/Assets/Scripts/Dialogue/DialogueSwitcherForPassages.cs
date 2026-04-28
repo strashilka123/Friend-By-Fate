@@ -1,7 +1,6 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 namespace Dialogue
@@ -9,23 +8,36 @@ namespace Dialogue
     public class DialogueSwitcherForPassages : MonoBehaviour
     {
         [SerializeField] private string[] _disableTags;
-
         private DialogueStory _dialogueStory;
+
         private void Start()
         {
             _dialogueStory = FindObjectOfType<DialogueStory>(true);
-            _dialogueStory.ChangedStory += Disable;
+            if (_dialogueStory != null)
+            {
+                _dialogueStory.ChangedStory += Disable;
+            }
         }
 
-        private async void Disable(DialogueStory.Story story)
+        private void Disable(DialogueStory.Story story)
         {
             if (_disableTags.All(disableTag => story.Tag != disableTag))
                 return;
 
-            await Task.Delay(2500);
+            StartCoroutine(DisableAndLoadCoroutine());
+        }
 
-            _dialogueStory.gameObject.SetActive(false);
+        private IEnumerator DisableAndLoadCoroutine()
+        {
+            // Ждем 2.5 секунды
+            yield return new WaitForSeconds(2.5f);
 
+            if (_dialogueStory != null)
+            {
+                _dialogueStory.gameObject.SetActive(false);
+            }
+
+            // Загружаем следующую сцену (QTEgame)
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }

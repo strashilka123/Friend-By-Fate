@@ -23,6 +23,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/QTEgame.unity
     guid: 131d22cb143907e449d9c5f8a2c93983
+  - enabled: 1
+    path: Assets/Scenes/StreetScene.unity
+    guid: 1df00e65e0e4b7342b59f3481b2efc30
+  - enabled: 1
+    path: Assets/Scenes/AppartsScene.unity
+    guid: d0c883498555c974891d73371dc1a08c
   - enabled: 0
     path: Assets/Scenes/CardScene.unity
     guid: 5cddd5a585497824486513006eb928bc

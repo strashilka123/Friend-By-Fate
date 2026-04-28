@@ -1073,8 +1073,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1098,8 +1098,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 38
+  m_fontSizeBase: 38
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1380,7 +1380,7 @@ MonoBehaviour:
     <Text>k__BackingField: "\u0410\u043B\u0435\u043A\u0441\u0430\u043D\u0434\u0440:
       \u0417\u0440\u044F \u044F \u0441\u044E\u0434\u0430 \u043F\u0440\u0438\u0448\u0451\u043B.
       \u0421\u043B\u0438\u0448\u043A\u043E\u043C\u2026 \u043C\u043D\u043E\u0433\u043E
-      \u0432\u0441\u0435\u0433\u043E. \u0418 \u043B\u044E\u0434\u0438 \u043A\u0430\u043A\u0438\u0435-\u0442\u043E
+      \u0432\u0441\u0435\u0433\u043E.\\n \u0418 \u043B\u044E\u0434\u0438 \u043A\u0430\u043A\u0438\u0435-\u0442\u043E
       \u043D\u0435 \u043D\u0430\u0441\u0442\u043E\u044F\u0449\u0438\u0435."
     <Answers>k__BackingField:
     - <Text>k__BackingField: "\u0414\u0430\u043B\u0435\u0435"
@@ -1668,7 +1668,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableTags:
   - Smth3
-  _qteSceneName: QTEgame
 --- !u!1 &8894286320253519147
 GameObject:
   m_ObjectHideFlags: 0
