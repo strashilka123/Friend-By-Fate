@@ -1222,6 +1222,7 @@ MonoBehaviour:
   sizeText: {fileID: 2141269964}
   developmentPanel: {fileID: 1649505219}
   panelDisplayTime: 2
+  drawingId: DefaultDrawing
 --- !u!114 &651512472
 MonoBehaviour:
   m_ObjectHideFlags: 0

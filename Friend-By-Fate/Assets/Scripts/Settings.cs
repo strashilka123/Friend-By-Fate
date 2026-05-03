@@ -5,17 +5,22 @@ public class Settings : MonoBehaviour
 {
     [Header("Настройки звука")]
     public Slider volumeSlider;
-    public Text volumePercentageText; 
+    public Text volumePercentageText;
     public AudioSource BackGroundAudio;
 
+    private const string MusicVolumeKey = "VolumeLevel";
     private float volumeBeforeOpening;
 
-    void Start()
+    private void Start()
     {
-        float savedVolume = PlayerPrefs.GetFloat("VolumeLevel", 0.4f);
+        float savedVolume = PlayerPrefs.GetFloat(MusicVolumeKey, 0.4f);
+        Debug.Log($"[Settings] Start: loaded saved volume {savedVolume:F2}");
+        ApplyMusicVolume(savedVolume);
 
-        if (BackGroundAudio != null) BackGroundAudio.volume = savedVolume;
-        if (volumeSlider != null) volumeSlider.value = savedVolume;
+        if (volumeSlider != null)
+        {
+            volumeSlider.value = savedVolume;
+        }
 
         UpdateVolumeText(savedVolume);
         volumeBeforeOpening = savedVolume;
@@ -23,23 +28,67 @@ public class Settings : MonoBehaviour
 
     private void OnEnable()
     {
-        if (BackGroundAudio != null)
+        float currentVolume = PlayerPrefs.GetFloat(MusicVolumeKey, 0.4f);
+        Debug.Log($"[Settings] OnEnable: current saved volume {currentVolume:F2}");
+        volumeBeforeOpening = currentVolume;
+
+        if (volumeSlider != null)
         {
-            volumeBeforeOpening = BackGroundAudio.volume;
-            if (volumeSlider != null)
-            {
-                volumeSlider.value = volumeBeforeOpening;
-            }
-            UpdateVolumeText(volumeBeforeOpening);
+            volumeSlider.value = currentVolume;
         }
+
+        UpdateVolumeText(currentVolume);
     }
 
     public void ChangeVolume()
     {
-        if (BackGroundAudio != null && volumeSlider != null)
+        if (volumeSlider == null)
         {
-            BackGroundAudio.volume = volumeSlider.value;
-            UpdateVolumeText(volumeSlider.value);
+            return;
+        }
+
+        Debug.Log($"[Settings] ChangeVolume: {volumeSlider.value:F2}");
+        ApplyMusicVolume(volumeSlider.value);
+        UpdateVolumeText(volumeSlider.value);
+    }
+
+    public void OnSaveButtonClicked()
+    {
+        if (volumeSlider != null)
+        {
+            PlayerPrefs.SetFloat(MusicVolumeKey, volumeSlider.value);
+            PlayerPrefs.Save();
+            Debug.Log($"[Settings] Volume saved: {volumeSlider.value:F2}");
+        }
+
+        gameObject.SetActive(false);
+    }
+
+    public void OnBackButtonClicked()
+    {
+        Debug.Log($"[Settings] Reverting volume to {volumeBeforeOpening:F2}");
+        ApplyMusicVolume(volumeBeforeOpening);
+
+        if (volumeSlider != null)
+        {
+            volumeSlider.value = volumeBeforeOpening;
+        }
+
+        gameObject.SetActive(false);
+    }
+
+    private void ApplyMusicVolume(float volume)
+    {
+        volume = Mathf.Clamp01(volume);
+
+        if (BackGroundAudio != null)
+        {
+            BackGroundAudio.volume = volume;
+        }
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.SetMusicVolume(volume, false);
         }
     }
 
@@ -49,24 +98,5 @@ public class Settings : MonoBehaviour
         {
             volumePercentageText.text = Mathf.RoundToInt(vol * 100) + "%";
         }
-    }
-
-    public void OnSaveButtonClicked()
-    {
-        if (volumeSlider != null)
-        {
-            PlayerPrefs.SetFloat("VolumeLevel", volumeSlider.value);
-            PlayerPrefs.Save();
-        }
-        gameObject.SetActive(false);
-    }
-
-    public void OnBackButtonClicked()
-    {
-        if (BackGroundAudio != null)
-        {
-            BackGroundAudio.volume = volumeBeforeOpening;
-        }
-        gameObject.SetActive(false);
     }
 }

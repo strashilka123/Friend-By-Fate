@@ -39,7 +39,7 @@ public class RotatableTile : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!isRotating && puzzleManager != null && !puzzleManager.IsGameWon)
+        if (!isRotating && puzzleManager != null && !puzzleManager.isGameWon)
         {
             StartCoroutine(Rotate90Degrees());
         }

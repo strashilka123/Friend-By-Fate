@@ -13,7 +13,7 @@ namespace Dialogue
         [SerializeField] private Image _backgroundImage;
         [SerializeField] private Sprite _newBackground;
 
-        [SerializeField] private playerController _playerController;
+        [SerializeField] private PlayerController _playerController;
         [SerializeField] private Joystick _joystick;
         [SerializeField] private GameObject _playerObject;
 

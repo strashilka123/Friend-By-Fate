@@ -41,6 +41,10 @@ public class QTEManager : MonoBehaviour
     public float spawnAcceleration = 0.015f;
     public int maxQTEOnScreen = 8;
 
+    // --- НАСТРОЙКИ СОХРАНЕНИЙ ---
+    [Header("Сохранения")]
+    public string qteId = "DefaultQTE"; // Задайте уникальный ID в Inspector (например, "StreetQTE")
+
     private float spawnTimer;
     private bool gameOver = false;
     private bool isGameOver = false;
@@ -52,12 +56,16 @@ public class QTEManager : MonoBehaviour
 
         if (audioManager == null) audioManager = FindObjectOfType<AudioManager>();
 
-        // Скрываем кнопки до конца игры
         if (restartButton != null) restartButton.gameObject.SetActive(false);
         if (nextButton != null) nextButton.gameObject.SetActive(false);
 
         UpdateUI();
         spawnTimer = spawnInterval + Random.Range(-0.1f, 0.2f);
+
+        if (string.IsNullOrEmpty(qteId) || qteId == "DefaultQTE")
+        {
+            Debug.LogWarning($"[QTEManager] Не задан уникальный qteId для объекта {gameObject.name}. Сохранение может не работать корректно.");
+        }
     }
 
     void Update()
@@ -84,60 +92,40 @@ public class QTEManager : MonoBehaviour
         }
     }
 
-
     private void ForceWinQTE()
     {
         Debug.Log("Принудительная победа в QTE (тест)");
-
         isGameOver = true;
-        gameOver = true;  
-
-        spawnTimer = 9999f;  
+        gameOver = true;
+        spawnTimer = 9999f;
 
         foreach (Transform child in canvasRect.transform)
         {
-            if (child.GetComponent<QTEPrompt>() != null)
-            {
-                Destroy(child.gameObject);
-            }
+            if (child.GetComponent<QTEPrompt>() != null) Destroy(child.gameObject);
         }
 
-        if (gameOverPanel != null)
-        {
-            gameOverPanel.SetActive(true);
-            Debug.Log("Панель победы активирована");
-        }
+        if (gameOverPanel != null) gameOverPanel.SetActive(true);
         else
         {
-
             var panel = GameObject.Find("GameOverPanel");
-            if (panel != null)
-            {
-                gameOverPanel = panel;
-                panel.SetActive(true);
-            }
-            else
-            {
-                Debug.LogWarning("⚠️ GameOverPanel не найден!");
-            }
+            if (panel != null) { gameOverPanel = panel; panel.SetActive(true); }
         }
 
         if (restartButton != null) restartButton.gameObject.SetActive(false);
         if (nextButton != null) nextButton.gameObject.SetActive(true);
 
+        // Сохраняем победу
+        SaveProgress(true);
+
         StartCoroutine(LoadNextSceneDelayed(2f));
     }
-
 
     private IEnumerator LoadNextSceneDelayed(float delay)
     {
         yield return new WaitForSeconds(delay);
-
         int nextIndex = SceneManager.GetActiveScene().buildIndex + 1;
-
         if (nextIndex < SceneManager.sceneCountInBuildSettings)
         {
-            Debug.Log($"Загрузка сцены #{nextIndex}");
             SceneManager.LoadScene(nextIndex);
         }
         else
@@ -213,53 +201,63 @@ public class QTEManager : MonoBehaviour
 
         if (gameOverPanel != null) gameOverPanel.SetActive(true);
 
-        // Настройка текста и неона
         if (resultText != null)
         {
             resultText.text = isWin ? "УСПЕХ!" : "ПРОВАЛ!";
             resultText.color = isWin ? Color.green : Color.red;
-
-            // Локальная копия материала, чтобы не ломать другие тексты
             resultText.fontMaterial = new Material(resultText.fontMaterial);
             resultText.fontMaterial.SetColor("_UnderlayColor", isWin ? new Color32(0, 255, 60, 180) : new Color32(255, 40, 40, 180));
             resultText.fontMaterial.SetFloat("_OutlineWidth", 0.3f);
             resultText.fontMaterial.SetFloat("_UnderlaySoftness", 0.6f);
         }
 
-        // 1. Сначала останавливаем фоновую музыку
         if (audioManager != null) audioManager.StopAmbience();
 
-        // 2. Переключаем кнопки
         if (restartButton != null) restartButton.gameObject.SetActive(!isWin);
         if (nextButton != null) nextButton.gameObject.SetActive(isWin);
 
-        // 3. Играем финальный звук
         if (audioManager != null)
         {
             if (isWin) audioManager.PlayWinSound();
             else audioManager.PlayLoseSound();
         }
 
+        // --- СОХРАНЕНИЕ ТОЛЬКО ПРИ ПОБЕДЕ ---
+        if (isWin)
+        {
+            SaveProgress(true);
+        }
+
         Invoke(nameof(ProceedToStory), 2.5f);
+    }
+
+    // Метод сохранения
+    private void SaveProgress(bool isWin)
+    {
+        if (SaveManager.Instance != null)
+        {
+            SaveManager.Instance.SaveQTEProgress(qteId, isWin);
+            Debug.Log($"[SaveSystem] QTE '{qteId}' сохранен. Победа: {isWin}");
+        }
+        else
+        {
+            Debug.LogError("[SaveSystem] SaveManager не найден на сцене! Прогресс QTE не сохранен.");
+        }
     }
 
     void ProceedToStory()
     {
         if (currentStance >= maxStance)
         {
-            int nextIndex = SceneManager.GetActiveScene().buildIndex + 1;
-            if (nextIndex < SceneManager.sceneCountInBuildSettings)
+            int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+            if (SaveManager.Instance != null)
             {
-                SceneManager.LoadScene(nextIndex);
-            }
-            else
-            {
-                Debug.LogError("Нет следующей сцены в Build Settings! Добавьте StreetScene после QTEgame");
+                SaveManager.Instance.SaveLastScene(currentSceneIndex);
             }
         }
     }
 
-    // Публичные методы для кнопок
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -278,4 +276,3 @@ public class QTEManager : MonoBehaviour
         }
     }
 }
-
