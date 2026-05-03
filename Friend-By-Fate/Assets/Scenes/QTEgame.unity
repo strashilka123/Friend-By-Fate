@@ -554,6 +554,7 @@ GameObject:
   m_Component:
   - component: {fileID: 834999604}
   - component: {fileID: 834999603}
+  - component: {fileID: 834999605}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -573,11 +574,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b3fc0530f6ce8c409de474f8a45f101, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioMixer: {fileID: 0}
+  musicVolumeParameter: MusicVolume
   qteSuccess: {fileID: 8300000, guid: 374a4a7e9b6655e4a84dce6e364148d2, type: 3}
   qteFail: {fileID: 8300000, guid: 7237aef458c1ad443b629d89a68bc89b, type: 3}
   winSound: {fileID: 8300000, guid: 755e675885f3ded43adcf15b113c4813, type: 3}
   loseSound: {fileID: 8300000, guid: 3af01b9089b4a584c88547206d439d26, type: 3}
-  barAmbience: {fileID: 8300000, guid: a94c7a745ea22844084b3806bb287822, type: 3}
+  barAmbience: {fileID: 0}
   sfxVolume: 0.75
   ambienceVolume: 0.3
 --- !u!4 &834999604
@@ -595,6 +598,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &834999605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834999602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4ea85c5ebea49d08320b0ea7154d685, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playOnSceneLoad: 1
+  loop: 1
+  musicClip: {fileID: 8300000, guid: a94c7a745ea22844084b3806bb287822, type: 3}
+  musicOutputGroup: {fileID: 24300002, guid: e5e369478d35d484790470207c215724, type: 2}
 --- !u!1 &946923488
 GameObject:
   m_ObjectHideFlags: 0
