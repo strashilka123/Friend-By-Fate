@@ -165,6 +165,76 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &498131927
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 498131930}
+  - component: {fileID: 498131929}
+  - component: {fileID: 498131928}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &498131928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498131927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4ea85c5ebea49d08320b0ea7154d685, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playOnSceneLoad: 1
+  loop: 1
+  musicClip: {fileID: 8300000, guid: 21060d26e0a2edf45bc9d862484b8965, type: 3}
+  musicOutputGroup: {fileID: 24300002, guid: e5e369478d35d484790470207c215724, type: 2}
+--- !u!114 &498131929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498131927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b3fc0530f6ce8c409de474f8a45f101, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: e5e369478d35d484790470207c215724, type: 2}
+  musicVolumeParameter: MusicVolume
+  qteSuccess: {fileID: 0}
+  qteFail: {fileID: 0}
+  winSound: {fileID: 0}
+  loseSound: {fileID: 0}
+  barAmbience: {fileID: 0}
+  sfxVolume: 0.7
+  ambienceVolume: 0.4
+--- !u!4 &498131930
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498131927}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &720119764
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -905,7 +975,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.9725209, y: 0.95900005}
   m_AnchorMax: {x: 0.9725209, y: 0.95900005}
-  m_AnchoredPosition: {x: -53.60251, y: -53.792812}
+  m_AnchoredPosition: {x: -53.602478, y: -53.792816}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1982435283
@@ -2268,3 +2338,4 @@ SceneRoots:
   - {fileID: 53333925}
   - {fileID: 720119764}
   - {fileID: 2085028644}
+  - {fileID: 498131930}

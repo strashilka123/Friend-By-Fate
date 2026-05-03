@@ -614,7 +614,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1258730482}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35b5e56af954ca347bb715a15486ae62, type: 3}
+  m_Script: {fileID: 11500000, guid: bd1e3c58d74b677419f0c8418d2c8955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sourceImage: {fileID: 2800000, guid: 68dc2a20c59eaba44bf7262d22a0f225, type: 3}
@@ -624,17 +624,17 @@ MonoBehaviour:
   scatterArea:
     serializedVersion: 2
     x: -10
-    y: -5.5
-    width: 20
-    height: 10
-  boardColor: {r: 0.7735849, g: 0.41627473, b: 0.13866135, a: 0.9411765}
+    y: -4
+    width: 5
+    height: 8
+  boardColor: {r: 0.2, g: 0.2, b: 0.2, a: 0.5}
   pieceWidthUnits: 0
   pieceHeightUnits: 0
   boardBottomLeft: {x: 0, y: 0}
-  maxBoardUnits: 24
+  maxBoardUnits: 22
   devPanel: {fileID: 1696369181}
   isGameWon: 0
-  puzzleId: Puzzle
+  puzzleId: DefaultPuzzle
 --- !u!1 &1689764129
 GameObject:
   m_ObjectHideFlags: 0
