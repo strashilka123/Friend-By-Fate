@@ -1,16 +1,18 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
 
 /// <summary>
-/// Менеджер системы сохранений прогресса игры.
+/// Сохранение прогресса только для мини-игр.
 /// </summary>
 public class SaveManager : MonoBehaviour
 {
+    public static event Action ProgressReset;
+
     private static SaveManager _instance;
     public const string SaveKey = "FriendByFate_SaveData";
-    private const string SAVE_KEY = "FriendByFate_SaveData";
 
     public static SaveManager Instance
     {
@@ -26,13 +28,14 @@ public class SaveManager : MonoBehaviour
                     DontDestroyOnLoad(go);
                 }
             }
+
             return _instance;
         }
     }
 
     private GameSaveData _currentSave;
 
-    void Awake()
+    private void Awake()
     {
         if (_instance != null && _instance != this)
         {
@@ -40,355 +43,65 @@ public class SaveManager : MonoBehaviour
             return;
         }
 
-        DontDestroyOnLoad(gameObject);
         _instance = this;
-
+        DontDestroyOnLoad(gameObject);
         LoadGame();
+        Debug.Log("[SaveManager] Awake complete. Save loaded.");
     }
-
-    #region Public Methods
 
     public void SaveGame()
     {
-        try
-        {
-            // Обновляем время последнего сохранения перед записью
-            _currentSave.lastSaveTime = DateTime.Now.Ticks;
-
-            string json = JsonUtility.ToJson(_currentSave, true);
-            PlayerPrefs.SetString(SAVE_KEY, json);
-            PlayerPrefs.Save();
-            Debug.Log("[SaveManager] Игра успешно сохранена");
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"[SaveManager] Ошибка сохранения: {e.Message}");
-        }
+        _currentSave.lastSaveTime = DateTime.Now.Ticks;
+        string json = JsonUtility.ToJson(_currentSave, true);
+        PlayerPrefs.SetString(SaveKey, json);
+        PlayerPrefs.Save();
+        Debug.Log($"[SaveManager] SaveGame done. Last scene: {_currentSave.lastCompletedSceneIndex}");
     }
 
     public void LoadGame()
     {
-        try
+        if (!PlayerPrefs.HasKey(SaveKey))
         {
-            if (PlayerPrefs.HasKey(SAVE_KEY))
-            {
-                string json = PlayerPrefs.GetString(SAVE_KEY);
-                _currentSave = JsonUtility.FromJson<GameSaveData>(json);
-
-                // Защита от null списков при загрузке
-                if (_currentSave.puzzleProgress == null) _currentSave.puzzleProgress = new System.Collections.Generic.List<PuzzleSaveData>();
-                if (_currentSave.qteProgress == null) _currentSave.qteProgress = new System.Collections.Generic.List<QTESaveData>();
-                if (_currentSave.cardGameProgress == null) _currentSave.cardGameProgress = new System.Collections.Generic.List<CardGameSaveData>();
-                if (_currentSave.drawingProgress == null) _currentSave.drawingProgress = new System.Collections.Generic.List<DrawingSaveData>();
-                if (_currentSave.dialogueProgress == null) _currentSave.dialogueProgress = new System.Collections.Generic.List<DialogueSaveData>();
-
-                Debug.Log("[SaveManager] Игра успешно загружена");
-            }
-            else
-            {
-                _currentSave = new GameSaveData();
-                Debug.Log("[SaveManager] Созданы новые данные сохранения");
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"[SaveManager] Ошибка загрузки: {e.Message}");
             _currentSave = new GameSaveData();
+            Debug.Log("[SaveManager] No save found. Created new save data.");
+            return;
         }
+
+        string json = PlayerPrefs.GetString(SaveKey);
+        _currentSave = JsonUtility.FromJson<GameSaveData>(json) ?? new GameSaveData();
+        Debug.Log("[SaveManager] Save data loaded from PlayerPrefs.");
+
+        _currentSave.puzzleProgress ??= new List<PuzzleSaveData>();
+        _currentSave.qteProgress ??= new List<QTESaveData>();
+        _currentSave.cardGameProgress ??= new List<CardGameSaveData>();
+        _currentSave.drawingProgress ??= new List<DrawingSaveData>();
     }
+
+    public bool HasSave() => PlayerPrefs.HasKey(SaveKey);
 
     public void DeleteSave()
     {
-        if (PlayerPrefs.HasKey(SAVE_KEY))
-        {
-            PlayerPrefs.DeleteKey(SAVE_KEY);
-            PlayerPrefs.Save();
-            _currentSave = new GameSaveData();
-            Debug.Log("[SaveManager] Данные сохранения удалены");
-        }
+        ResetAllProgress();
     }
 
-    public bool HasSave()
+    public void ResetAllProgress()
     {
-        return PlayerPrefs.HasKey(SAVE_KEY);
+        PlayerPrefs.DeleteKey(SaveKey);
+        PlayerPrefs.Save();
+
+        _currentSave = new GameSaveData();
+        Debug.Log("[SaveManager] Full progress reset executed.");
+        ProgressReset?.Invoke();
     }
-
-    #endregion
-
-    #region Puzzle Progress
-
-    public void SavePuzzleProgress(string puzzleId, int gridWidth, int gridHeight, bool isCompleted)
-    {
-        if (_currentSave.puzzleProgress == null)
-            _currentSave.puzzleProgress = new System.Collections.Generic.List<PuzzleSaveData>();
-
-        var existing = GetPuzzleProgress(puzzleId);
-        if (existing != null)
-        {
-            existing.gridWidth = gridWidth;
-            existing.gridHeight = gridHeight;
-            existing.isCompleted = isCompleted;
-            existing.lastPlayedTime = DateTime.Now.Ticks;
-        }
-        else
-        {
-            var newData = new PuzzleSaveData
-            {
-                puzzleId = puzzleId,
-                gridWidth = gridWidth,
-                gridHeight = gridHeight,
-                isCompleted = isCompleted,
-                lastPlayedTime = DateTime.Now.Ticks
-            };
-            _currentSave.puzzleProgress.Add(newData);
-        }
-
-        SaveGame();
-    }
-
-    public PuzzleSaveData GetPuzzleProgress(string puzzleId)
-    {
-        if (_currentSave.puzzleProgress == null)
-            return null;
-
-        foreach (var puzzle in _currentSave.puzzleProgress)
-        {
-            if (puzzle.puzzleId == puzzleId)
-                return puzzle;
-        }
-        return null;
-    }
-
-    public bool IsPuzzleCompleted(string puzzleId)
-    {
-        var progress = GetPuzzleProgress(puzzleId);
-        return progress != null && progress.isCompleted;
-    }
-
-    #endregion
-
-    #region QTE Progress
-
-    /// <summary>
-    /// Сохранить прогресс QTE мини-игры.
-    /// Исправлено: убираем счетчики кликов, сохраняем только факт победы.
-    /// </summary>
-    public void SaveQTEProgress(string qteId, bool isWin)
-    {
-        if (!isWin) return; // Сохраняем только если игрок победил
-
-        if (_currentSave.qteProgress == null)
-            _currentSave.qteProgress = new System.Collections.Generic.List<QTESaveData>();
-
-        // Ищем существующую запись в текущих загруженных данных (_currentSave)
-        QTESaveData qteData = _currentSave.qteProgress.FirstOrDefault(q => q.qteId == qteId);
-
-        if (qteData == null)
-        {
-            qteData = new QTESaveData
-            {
-                qteId = qteId,
-                isCompleted = false,
-                bestStance = 0,
-                successfulClicks = 0,
-                totalClicks = 0
-            };
-            _currentSave.qteProgress.Add(qteData);
-        }
-
-        // Обновляем данные о победе
-        qteData.isCompleted = true;
-        qteData.bestStance = Mathf.Max(qteData.bestStance, 100f);
-        qteData.lastPlayedTime = DateTime.Now.Ticks;
-
-        Debug.Log($"[SaveSystem] QTE '{qteId}' сохранен как пройденный.");
-
-        SaveGame();
-    }
-
-    public QTESaveData GetQTEProgress(string qteId)
-    {
-        if (_currentSave.qteProgress == null)
-            return null;
-
-        foreach (var qte in _currentSave.qteProgress)
-        {
-            if (qte.qteId == qteId)
-                return qte;
-        }
-        return null;
-    }
-
-    public bool IsQTECompleted(string qteId)
-    {
-        var progress = GetQTEProgress(qteId);
-        return progress != null && progress.isCompleted;
-    }
-
-    #endregion
-
-    #region Card Game Progress
-
-    public void SaveCardGameProgress(string gameId, int playerWins, int dealerWins, bool isCompleted)
-    {
-        if (_currentSave.cardGameProgress == null)
-            _currentSave.cardGameProgress = new System.Collections.Generic.List<CardGameSaveData>();
-
-        var existing = GetCardGameProgress(gameId);
-        if (existing != null)
-        {
-            existing.playerWins = playerWins;
-            existing.dealerWins = dealerWins;
-            existing.isCompleted = isCompleted;
-            existing.lastPlayedTime = DateTime.Now.Ticks;
-        }
-        else
-        {
-            var newData = new CardGameSaveData
-            {
-                gameId = gameId,
-                playerWins = playerWins,
-                dealerWins = dealerWins,
-                isCompleted = isCompleted,
-                lastPlayedTime = DateTime.Now.Ticks
-            };
-            _currentSave.cardGameProgress.Add(newData);
-        }
-
-        SaveGame();
-    }
-
-    public CardGameSaveData GetCardGameProgress(string gameId)
-    {
-        if (_currentSave.cardGameProgress == null)
-            return null;
-
-        foreach (var game in _currentSave.cardGameProgress)
-        {
-            if (game.gameId == gameId)
-                return game;
-        }
-        return null;
-    }
-
-    public bool IsCardGameCompleted(string gameId)
-    {
-        var progress = GetCardGameProgress(gameId);
-        return progress != null && progress.isCompleted;
-    }
-
-    #endregion
-
-    #region Drawing Progress
-
-    public void SaveDrawingProgress(string drawingId, bool isCompleted, int drawingsCount)
-    {
-        if (_currentSave.drawingProgress == null)
-            _currentSave.drawingProgress = new System.Collections.Generic.List<DrawingSaveData>();
-
-        var existing = GetDrawingProgress(drawingId);
-        if (existing != null)
-        {
-            existing.isCompleted = isCompleted;
-            existing.drawingsCount = drawingsCount;
-            existing.lastPlayedTime = DateTime.Now.Ticks;
-        }
-        else
-        {
-            var newData = new DrawingSaveData
-            {
-                drawingId = drawingId,
-                isCompleted = isCompleted,
-                drawingsCount = drawingsCount,
-                lastPlayedTime = DateTime.Now.Ticks
-            };
-            _currentSave.drawingProgress.Add(newData);
-        }
-
-        SaveGame();
-    }
-
-    public DrawingSaveData GetDrawingProgress(string drawingId)
-    {
-        if (_currentSave.drawingProgress == null)
-            return null;
-
-        foreach (var drawing in _currentSave.drawingProgress)
-        {
-            if (drawing.drawingId == drawingId)
-                return drawing;
-        }
-        return null;
-    }
-
-    #endregion
-
-    #region Dialogue Progress
-
-    public void SaveDialogueProgress(string dialogueId, string lastNodeTag, System.Collections.Generic.List<string> choices)
-    {
-        if (_currentSave.dialogueProgress == null)
-            _currentSave.dialogueProgress = new System.Collections.Generic.List<DialogueSaveData>();
-
-        var existing = GetDialogueProgress(dialogueId);
-        if (existing != null)
-        {
-            existing.lastNodeTag = lastNodeTag;
-            existing.choicesMade = choices;
-            existing.lastPlayedTime = DateTime.Now.Ticks;
-        }
-        else
-        {
-            var newData = new DialogueSaveData
-            {
-                dialogueId = dialogueId,
-                lastNodeTag = lastNodeTag,
-                choicesMade = choices,
-                lastPlayedTime = DateTime.Now.Ticks
-            };
-            _currentSave.dialogueProgress.Add(newData);
-        }
-
-        SaveGame();
-    }
-
-    public DialogueSaveData GetDialogueProgress(string dialogueId)
-    {
-        if (_currentSave.dialogueProgress == null)
-            return null;
-
-        foreach (var dialogue in _currentSave.dialogueProgress)
-        {
-            if (dialogue.dialogueId == dialogueId)
-                return dialogue;
-        }
-        return null;
-    }
-
-    #endregion
-
-    #region General Stats
 
     public void SaveLastScene(int sceneIndex)
     {
         _currentSave.lastCompletedSceneIndex = sceneIndex;
-        Debug.Log($"[SaveSystem] Прогресс сохранен: сцена {sceneIndex} пройдена.");
         SaveGame();
+        Debug.Log($"[SaveManager] Last scene saved: {sceneIndex}");
     }
 
-    public void UpdateStats(int scenesVisited, float playTimeSeconds)
-    {
-        _currentSave.totalPlayTimeSeconds += playTimeSeconds;
-        _currentSave.scenesVisited = Mathf.Max(_currentSave.scenesVisited, scenesVisited);
-        _currentSave.lastSaveTime = DateTime.Now.Ticks;
-
-        SaveGame();
-    }
-
-    public float GetTotalPlayTimeHours()
-    {
-        return _currentSave.totalPlayTimeSeconds / 3600f;
-    }
+    public int GetLastSceneIndex() => _currentSave.lastCompletedSceneIndex;
 
     public static string GetLastSaveTime()
     {
@@ -406,79 +119,117 @@ public class SaveManager : MonoBehaviour
         try
         {
             GameSaveData data = JsonUtility.FromJson<GameSaveData>(json);
-            System.DateTime dateTime = System.DateTime.FromBinary(data.lastSaveTime);
+            DateTime dateTime = DateTime.FromBinary(data.lastSaveTime);
             return dateTime.ToString("dd.MM.yyyy HH:mm");
         }
-        catch (System.Exception e)
+        catch
         {
-            Debug.LogError("Ошибка при чтении времени сохранения: " + e.Message);
             return "Ошибка чтения";
         }
     }
 
-    public int GetLastSceneIndex()
+    public void SavePuzzleProgress(string puzzleId, int gridWidth, int gridHeight, bool isCompleted)
     {
-        return _currentSave.lastCompletedSceneIndex;
-    }
+        PuzzleSaveData existing = _currentSave.puzzleProgress.FirstOrDefault(p => p.puzzleId == puzzleId);
+        if (existing == null)
+        {
+            existing = new PuzzleSaveData { puzzleId = puzzleId };
+            _currentSave.puzzleProgress.Add(existing);
+        }
 
-    #endregion
+        existing.gridWidth = gridWidth;
+        existing.gridHeight = gridHeight;
+        existing.isCompleted = isCompleted;
+        existing.lastPlayedTime = DateTime.Now.Ticks;
 
-    #region Helper Methods
-
-    public void ResetAllProgress()
-    {
-        _currentSave = new GameSaveData();
         SaveGame();
-        Debug.Log("[SaveManager] Весь прогресс сброшен");
+        Debug.Log($"[SaveManager] Puzzle progress saved: {puzzleId}, completed={isCompleted}");
     }
 
-    public void PrintSaveStats()
+    public PuzzleSaveData GetPuzzleProgress(string puzzleId) =>
+        _currentSave.puzzleProgress.FirstOrDefault(p => p.puzzleId == puzzleId);
+
+    public bool IsPuzzleCompleted(string puzzleId) => GetPuzzleProgress(puzzleId)?.isCompleted == true;
+
+    public void SaveQTEProgress(string qteId, bool isWin)
     {
-        Debug.Log("СТАТИСТИКА СОХРАНЕНИЙ");
-        Debug.Log($"Всего сыграно часов: {GetTotalPlayTimeHours():F2}");
-        Debug.Log($"Последнее сохранение: {GetLastSaveTime()}");
+        if (!isWin)
+        {
+            return;
+        }
 
-        if (_currentSave.puzzleProgress != null)
-            Debug.Log($"Завершено пазлов: {_currentSave.puzzleProgress.Count(p => p.isCompleted)}/{_currentSave.puzzleProgress.Count}");
+        QTESaveData existing = _currentSave.qteProgress.FirstOrDefault(q => q.qteId == qteId);
+        if (existing == null)
+        {
+            existing = new QTESaveData { qteId = qteId };
+            _currentSave.qteProgress.Add(existing);
+        }
 
-        if (_currentSave.qteProgress != null)
-            Debug.Log($"Завершено QTE: {_currentSave.qteProgress.Count(q => q.isCompleted)}/{_currentSave.qteProgress.Count}");
+        existing.isCompleted = true;
+        existing.lastPlayedTime = DateTime.Now.Ticks;
 
-        if (_currentSave.cardGameProgress != null)
-            Debug.Log($"Завершено карточных игр: {_currentSave.cardGameProgress.Count(c => c.isCompleted)}/{_currentSave.cardGameProgress.Count}");
+        SaveGame();
+        Debug.Log($"[SaveManager] QTE saved as completed: {qteId}");
     }
 
-    #endregion
-}
+    public QTESaveData GetQTEProgress(string qteId) =>
+        _currentSave.qteProgress.FirstOrDefault(q => q.qteId == qteId);
 
-#region Save Data Classes
+    public bool IsQTECompleted(string qteId) => GetQTEProgress(qteId)?.isCompleted == true;
+
+    public void SaveCardGameProgress(string gameId, int playerWins, int dealerWins, bool isCompleted)
+    {
+        CardGameSaveData existing = _currentSave.cardGameProgress.FirstOrDefault(c => c.gameId == gameId);
+        if (existing == null)
+        {
+            existing = new CardGameSaveData { gameId = gameId };
+            _currentSave.cardGameProgress.Add(existing);
+        }
+
+        existing.playerWins = playerWins;
+        existing.dealerWins = dealerWins;
+        existing.isCompleted = isCompleted;
+        existing.lastPlayedTime = DateTime.Now.Ticks;
+
+        SaveGame();
+        Debug.Log($"[SaveManager] Card game progress saved: {gameId}, completed={isCompleted}");
+    }
+
+    public CardGameSaveData GetCardGameProgress(string gameId) =>
+        _currentSave.cardGameProgress.FirstOrDefault(c => c.gameId == gameId);
+
+    public bool IsCardGameCompleted(string gameId) => GetCardGameProgress(gameId)?.isCompleted == true;
+
+    public void SaveDrawingProgress(string drawingId, bool isCompleted, int drawingsCount)
+    {
+        DrawingSaveData existing = _currentSave.drawingProgress.FirstOrDefault(d => d.drawingId == drawingId);
+        if (existing == null)
+        {
+            existing = new DrawingSaveData { drawingId = drawingId };
+            _currentSave.drawingProgress.Add(existing);
+        }
+
+        existing.isCompleted = isCompleted;
+        existing.drawingsCount = drawingsCount;
+        existing.lastPlayedTime = DateTime.Now.Ticks;
+
+        SaveGame();
+        Debug.Log($"[SaveManager] Drawing progress saved: {drawingId}, completed={isCompleted}, count={drawingsCount}");
+    }
+
+    public DrawingSaveData GetDrawingProgress(string drawingId) =>
+        _currentSave.drawingProgress.FirstOrDefault(d => d.drawingId == drawingId);
+}
 
 [Serializable]
 public class GameSaveData
 {
-    public System.Collections.Generic.List<PuzzleSaveData> puzzleProgress;
-    public System.Collections.Generic.List<QTESaveData> qteProgress;
-    public System.Collections.Generic.List<CardGameSaveData> cardGameProgress;
-    public System.Collections.Generic.List<DrawingSaveData> drawingProgress;
-    public System.Collections.Generic.List<DialogueSaveData> dialogueProgress;
-
-    public long lastSaveTime;
-    public int scenesVisited;
-    public float totalPlayTimeSeconds;
+    public List<PuzzleSaveData> puzzleProgress = new();
+    public List<QTESaveData> qteProgress = new();
+    public List<CardGameSaveData> cardGameProgress = new();
+    public List<DrawingSaveData> drawingProgress = new();
+    public long lastSaveTime = DateTime.Now.Ticks;
     public int lastCompletedSceneIndex;
-
-    public GameSaveData()
-    {
-        puzzleProgress = new System.Collections.Generic.List<PuzzleSaveData>();
-        qteProgress = new System.Collections.Generic.List<QTESaveData>();
-        cardGameProgress = new System.Collections.Generic.List<CardGameSaveData>();
-        drawingProgress = new System.Collections.Generic.List<DrawingSaveData>();
-        dialogueProgress = new System.Collections.Generic.List<DialogueSaveData>();
-        lastSaveTime = DateTime.Now.Ticks;
-        scenesVisited = 0;
-        totalPlayTimeSeconds = 0f;
-        lastCompletedSceneIndex = 0;
-    }
 }
 
 [Serializable]
@@ -495,9 +246,6 @@ public class PuzzleSaveData
 public class QTESaveData
 {
     public string qteId;
-    public float bestStance;
-    public int successfulClicks;
-    public int totalClicks;
     public bool isCompleted;
     public long lastPlayedTime;
 }
@@ -520,14 +268,3 @@ public class DrawingSaveData
     public int drawingsCount;
     public long lastPlayedTime;
 }
-
-[Serializable]
-public class DialogueSaveData
-{
-    public string dialogueId;
-    public string lastNodeTag;
-    public System.Collections.Generic.List<string> choicesMade;
-    public long lastPlayedTime;
-}
-
-#endregion

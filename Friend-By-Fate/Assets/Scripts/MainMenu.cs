@@ -5,7 +5,29 @@ public class MainMenu : MonoBehaviour
 {
     public void PlayGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        int sceneIndexToLoad;
+
+        // Проверяем, есть ли сохранение прогресса
+        if (SaveManager.Instance != null && SaveManager.Instance.HasSave())
+        {
+            int lastPlayed = SaveManager.Instance.GetLastSceneIndex();
+            sceneIndexToLoad = lastPlayed + 1;
+
+            // Проверка на выход за границы
+            if (sceneIndexToLoad >= SceneManager.sceneCountInBuildSettings)
+            {
+                sceneIndexToLoad = 1; 
+            }
+
+            Debug.Log($"Загрузка продолжения: сцена {sceneIndexToLoad}");
+        }
+        else
+        {
+            sceneIndexToLoad = 1;
+            Debug.Log("Новая игра: сцена 1");
+        }
+
+        SceneManager.LoadScene(sceneIndexToLoad);
     }
 
     public void ExitGame()
@@ -13,4 +35,11 @@ public class MainMenu : MonoBehaviour
         Debug.Log("The game is closed");
         Application.Quit();
     }
+
+
+    public void ClearSaves()
+    {
+        SaveManager.Instance.DeleteSave();
+    }
+
 }

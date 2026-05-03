@@ -60,9 +60,16 @@ public class CardGameManager : MonoBehaviour
     private string[] suits = { "hearts", "diamonds", "clubs", "spades" };
     private string[] values = { "02", "03", "04", "05", "06", "07", "08", "09", "10", "J", "Q", "K", "A" };
     private int[] points = { 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11 };
+    
+    [Header("Сохранения")]
+    public string cardGameId = "DefaultCardGame"; // Уникальный идентификатор карточной игры для сохранения
+    private SaveManager saveManager;
 
     void Start()
     {
+        // Получаем ссылку на SaveManager
+        saveManager = SaveManager.Instance;
+        
         if (hitButton != null) hitButton.onClick.AddListener(Hit);
         if (standButton != null) standButton.onClick.AddListener(Stand);
 
@@ -71,6 +78,12 @@ public class CardGameManager : MonoBehaviour
 
         if (winPanel != null) winPanel.SetActive(false);
         if (losePanel != null) losePanel.SetActive(false);
+
+        // Проверяем, была ли уже завершена эта карточная игра
+        if (saveManager.IsCardGameCompleted(cardGameId))
+        {
+            Debug.Log($"[CardGameManager] Карточная игра '{cardGameId}' уже была завершена ранее");
+        }
 
         StartNewGame();
     }
@@ -374,6 +387,14 @@ public class CardGameManager : MonoBehaviour
         if (hitButton != null) hitButton.interactable = false;
         if (standButton != null) standButton.interactable = false;
 
+        // Сохраняем прогресс карточной игры
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        if (SaveManager.Instance != null)
+        {
+            SaveManager.Instance.SaveLastScene(currentSceneIndex);
+        }
+
         if (winPanel != null)
         {
             winPanel.SetActive(true);
@@ -386,6 +407,13 @@ public class CardGameManager : MonoBehaviour
 
         if (hitButton != null) hitButton.interactable = false;
         if (standButton != null) standButton.interactable = false;
+
+        // Сохраняем прогресс карточной игры
+        if (saveManager != null)
+        {
+            saveManager.SaveCardGameProgress(cardGameId, playerWinCount, dealerWinCount, false);
+            Debug.Log($"[CardGameManager] Прогресс карточной игры '{cardGameId}' сохранён");
+        }
 
         if (losePanel != null)
         {

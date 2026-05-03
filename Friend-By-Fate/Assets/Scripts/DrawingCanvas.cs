@@ -20,13 +20,21 @@ public class DrawingCanvas : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     public GameObject developmentPanel;  // Перетащите сюда панель "В разработке"
     public float panelDisplayTime = 2f; // Сколько секунд показывать панель
 
+    [Header("Сохранения")]
+    public string drawingId = "DefaultDrawing"; // Уникальный идентификатор рисования для сохранения
+    
     private Texture2D _texture;
     private Vector2 _previousPosition;
     private bool _wasDrawing;
     private bool _needsApply;
+    private SaveManager saveManager;
+    private int drawingsCount = 0; // Счётчик сохранённых рисунков
 
     void Start()
     {
+        // Получаем ссылку на SaveManager
+        saveManager = SaveManager.Instance;
+        
         _texture = new Texture2D(textureWidth, textureHeight, TextureFormat.RGBA32, false);
         _texture.filterMode = FilterMode.Bilinear;
 
@@ -39,6 +47,14 @@ public class DrawingCanvas : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         // Скрываем панель при старте
         if (developmentPanel != null)
             developmentPanel.SetActive(false);
+            
+        // Проверяем прогресс рисования
+        var drawingProgress = saveManager.GetDrawingProgress(drawingId);
+        if (drawingProgress != null)
+        {
+            drawingsCount = drawingProgress.drawingsCount;
+            Debug.Log($"[DrawingCanvas] Загружено сохранений рисунков: {drawingsCount}");
+        }
     }
 
     void Update()
@@ -165,9 +181,17 @@ public class DrawingCanvas : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
         // Сохраняем изображение
         byte[] bytes = _texture.EncodeToPNG();
-        string path = Path.Combine(Application.persistentDataPath, "MyDrawing.png");
+        string path = Path.Combine(Application.persistentDataPath, $"MyDrawing_{drawingsCount + 1}.png");
         File.WriteAllBytes(path, bytes);
         Debug.Log("Сохранено в: " + path);
+
+        // Увеличиваем счётчик и сохраняем прогресс
+        drawingsCount++;
+        if (saveManager != null)
+        {
+            saveManager.SaveDrawingProgress(drawingId, true, drawingsCount);
+            Debug.Log($"[DrawingCanvas] Прогресс рисования '{drawingId}' сохранён (всего рисунков: {drawingsCount})");
+        }
 
         // Скрываем панель через указанное время
         if (developmentPanel != null)

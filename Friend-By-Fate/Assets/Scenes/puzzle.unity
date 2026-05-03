@@ -633,6 +633,8 @@ MonoBehaviour:
   boardBottomLeft: {x: 0, y: 0}
   maxBoardUnits: 24
   devPanel: {fileID: 1696369181}
+  isGameWon: 0
+  puzzleId: Puzzle
 --- !u!1 &1689764129
 GameObject:
   m_ObjectHideFlags: 0
@@ -717,7 +719,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1258730485}
-        m_TargetAssemblyTypeName: PuzzleManag, Assembly-CSharp
+        m_TargetAssemblyTypeName: PuzzleManager, Assembly-CSharp
         m_MethodName: LoadCardGameScene
         m_Mode: 1
         m_Arguments:

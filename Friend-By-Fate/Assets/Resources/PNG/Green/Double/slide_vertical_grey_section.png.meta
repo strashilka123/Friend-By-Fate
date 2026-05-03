@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      slide_vertical_grey_section_0: -1502441655900807816
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

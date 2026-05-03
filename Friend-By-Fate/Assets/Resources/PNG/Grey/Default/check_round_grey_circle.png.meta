@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      check_round_grey_circle_0: -7524341903146727432
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

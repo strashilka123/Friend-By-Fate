@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      slide_horizontal_grey_section_wide_0: 7298015763586725558
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
