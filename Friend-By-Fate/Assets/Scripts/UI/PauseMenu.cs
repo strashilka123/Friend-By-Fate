@@ -80,7 +80,7 @@ public class PauseMenu : MonoBehaviour
         if (pauseButton != null) pauseButton.SetActive(true);
 
         yield return new WaitForSecondsRealtime(0.1f);
-        SceneManager.LoadScene(sceneName);
+        SceneTransition.LoadScene(sceneName);
     }
 
     public void GoToMainMenu()
@@ -91,7 +91,7 @@ public class PauseMenu : MonoBehaviour
         if (pausePanel != null) pausePanel.SetActive(false);
         if (pauseButton != null) pauseButton.SetActive(true);
 
-        SceneManager.LoadScene("Menu");
+        SceneTransition.LoadScene("Menu");
     }
 
     public void QuitGame()

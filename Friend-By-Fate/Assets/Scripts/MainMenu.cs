@@ -27,7 +27,7 @@ public class MainMenu : MonoBehaviour
             Debug.Log("Новая игра: сцена 1");
         }
 
-        SceneManager.LoadScene(sceneIndexToLoad);
+        SceneTransition.LoadScene(sceneIndexToLoad);
     }
 
     public void ExitGame()

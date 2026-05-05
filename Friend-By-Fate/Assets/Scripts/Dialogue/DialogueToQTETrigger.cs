@@ -44,7 +44,7 @@ public class DialogueToQTETrigger : MonoBehaviour
 
         // Загружаем следующую сцену (AppartsScene)
         int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
-        SceneManager.LoadScene(nextSceneIndex);
+        SceneTransition.LoadScene(nextSceneIndex);
     }
 
     private void OnDestroy()

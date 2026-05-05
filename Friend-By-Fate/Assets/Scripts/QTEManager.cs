@@ -142,7 +142,7 @@ public class QTEManager : MonoBehaviour
         int nextIndex = SceneManager.GetActiveScene().buildIndex + 1;
         if (nextIndex < SceneManager.sceneCountInBuildSettings)
         {
-            SceneManager.LoadScene(nextIndex);
+            SceneTransition.LoadScene(nextIndex);
         }
         else
         {
@@ -277,7 +277,7 @@ public class QTEManager : MonoBehaviour
 
     public void RestartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneTransition.ReloadCurrentScene();
     }
 
     public void LoadNextScene()
@@ -285,7 +285,7 @@ public class QTEManager : MonoBehaviour
         int nextIndex = SceneManager.GetActiveScene().buildIndex + 1;
         if (nextIndex < SceneManager.sceneCountInBuildSettings)
         {
-            SceneManager.LoadScene(nextIndex);
+            SceneTransition.LoadScene(nextIndex);
         }
         else
         {

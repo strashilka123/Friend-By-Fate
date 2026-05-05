@@ -37,8 +37,7 @@ namespace Dialogue
                 _dialogueStory.gameObject.SetActive(false);
             }
 
-            // Загружаем следующую сцену (QTEgame)
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            SceneTransition.LoadNextScene();
         }
     }
 }
