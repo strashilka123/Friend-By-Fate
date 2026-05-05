@@ -576,13 +576,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioMixer: {fileID: 0}
   musicVolumeParameter: MusicVolume
+  voiceVolumeParameter: VoiceVolume
   qteSuccess: {fileID: 8300000, guid: 374a4a7e9b6655e4a84dce6e364148d2, type: 3}
   qteFail: {fileID: 8300000, guid: 7237aef458c1ad443b629d89a68bc89b, type: 3}
   winSound: {fileID: 8300000, guid: 755e675885f3ded43adcf15b113c4813, type: 3}
   loseSound: {fileID: 8300000, guid: 3af01b9089b4a584c88547206d439d26, type: 3}
-  barAmbience: {fileID: 0}
-  sfxVolume: 0.75
-  ambienceVolume: 0.3
+  barAmbience: {fileID: 8300000, guid: a94c7a745ea22844084b3806bb287822, type: 3}
+  sfxVolume: 0.9
+  ambienceVolume: 0.4
+  voiceVolume: 0.8
 --- !u!4 &834999604
 Transform:
   m_ObjectHideFlags: 0

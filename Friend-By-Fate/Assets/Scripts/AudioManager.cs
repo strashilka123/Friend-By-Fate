@@ -7,10 +7,12 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance;
 
     private const string MusicVolumeKey = "VolumeLevel";
+    private const string VoiceVolumeKey = "VoiceVolumeLevel";
 
     [Header("AudioMixer")]
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] private string musicVolumeParameter = "MusicVolume";
+    [SerializeField] private string voiceVolumeParameter = "VoiceVolume";
 
     [Header("QTE Звуки")]
     public AudioClip qteSuccess;
@@ -25,7 +27,8 @@ public class AudioManager : MonoBehaviour
 
     [Header("Громкость")]
     [Range(0f, 1f)] public float sfxVolume = 0.7f;
-    [Range(0f, 1f)] public float ambienceVolume = 0.4f;
+    [Range(0f, 1f)] public float ambienceVolume = 0.3f;
+    [Range(0f, 1f)] public float voiceVolume = 0.8f;
 
     private AudioSource sfxSource;
     private AudioSource ambienceSource;
@@ -37,14 +40,14 @@ public class AudioManager : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            Debug.Log("[AudioManager] Duplicate instance destroyed.");
-            Destroy(gameObject);
+            Instance.AbsorbSceneAudioSettings(this);
+            //Debug.Log("[AudioManager] Duplicate AudioManager component removed after syncing scene settings.");
+            Destroy(this);
             return;
         }
 
         Instance = this;
-        Debug.Log("[AudioManager] Instance initialized and marked DontDestroyOnLoad.");
-        DontDestroyOnLoad(gameObject);
+        Debug.Log("[AudioManager] Instance initialized.");
 
         sfxSource = gameObject.AddComponent<AudioSource>();
         sfxSource.playOnAwake = false;
@@ -56,20 +59,69 @@ public class AudioManager : MonoBehaviour
 
         float savedMusicVolume = PlayerPrefs.GetFloat(MusicVolumeKey, ambienceVolume);
         SetMusicVolume(savedMusicVolume, false);
+        float savedVoiceVolume = PlayerPrefs.GetFloat(VoiceVolumeKey, voiceVolume);
+        SetVoiceVolume(savedVoiceVolume, false);
 
         ApplySceneMusicConfig(SceneManager.GetActiveScene());
+
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private void AbsorbSceneAudioSettings(AudioManager source)
+    {
+        if (source == null)
+        {
+            return;
+        }
+
+        if (source.qteSuccess != null) qteSuccess = source.qteSuccess;
+        if (source.qteFail != null) qteFail = source.qteFail;
+        if (source.winSound != null) winSound = source.winSound;
+        if (source.loseSound != null) loseSound = source.loseSound;
+        if (source.barAmbience != null) barAmbience = source.barAmbience;
+
+        if (source.audioMixer != null) audioMixer = source.audioMixer;
+        if (!string.IsNullOrWhiteSpace(source.musicVolumeParameter)) musicVolumeParameter = source.musicVolumeParameter;
+        if (!string.IsNullOrWhiteSpace(source.voiceVolumeParameter)) voiceVolumeParameter = source.voiceVolumeParameter;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        DisableSceneAutoplayMusicSources(scene);
         ApplySceneMusicConfig(scene);
         float savedMusicVolume = PlayerPrefs.GetFloat(MusicVolumeKey, ambienceVolume);
         SetMusicVolume(savedMusicVolume, false);
+        float savedVoiceVolume = PlayerPrefs.GetFloat(VoiceVolumeKey, voiceVolume);
+        SetVoiceVolume(savedVoiceVolume, false);
+    }
+
+    private void DisableSceneAutoplayMusicSources(Scene scene)
+    {
+        AudioSource[] sources = FindObjectsByType<AudioSource>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (AudioSource source in sources)
+        {
+            if (source == null || source == sfxSource || source == ambienceSource)
+            {
+                continue;
+            }
+
+            if (source.gameObject.scene != scene)
+            {
+                continue;
+            }
+
+            if (source.clip != null && source.playOnAwake && source.loop)
+            {
+                source.Stop();
+                source.enabled = false;
+                Debug.Log($"[AudioManager] Disabled scene autoplay music source '{source.gameObject.name}' in '{scene.name}'.");
+            }
+        }
     }
 
     private void ApplySceneMusicConfig(Scene scene)
     {
-        SceneMusicConfig sceneMusic = FindObjectOfType<SceneMusicConfig>();
+        SceneMusicConfig sceneMusic = FindSceneMusicConfig(scene);
         if (sceneMusic != null && sceneMusic.PlayOnSceneLoad)
         {
             Debug.Log($"[AudioManager] Scene music config found in '{scene.name}'.");
@@ -83,6 +135,21 @@ public class AudioManager : MonoBehaviour
             PlayBackgroundMusic(barAmbience, null, true);
         }
     }
+
+    private SceneMusicConfig FindSceneMusicConfig(Scene scene)
+    {
+        SceneMusicConfig[] configs = FindObjectsByType<SceneMusicConfig>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (SceneMusicConfig config in configs)
+        {
+            if (config.gameObject.scene == scene)
+            {
+                return config;
+            }
+        }
+
+        return null;
+    }
+
 
     public void PlayBackgroundMusic(AudioClip clip, AudioMixerGroup outputGroup, bool loop = true)
     {
@@ -137,5 +204,24 @@ public class AudioManager : MonoBehaviour
         }
 
         Debug.Log($"[AudioManager] Music volume set to {ambienceVolume:F2}");
+    }
+
+    public void SetVoiceVolume(float normalizedVolume, bool save = true)
+    {
+        voiceVolume = Mathf.Clamp01(normalizedVolume);
+
+        if (audioMixer != null)
+        {
+            float db = voiceVolume <= 0.0001f ? -80f : Mathf.Log10(voiceVolume) * 20f;
+            audioMixer.SetFloat(voiceVolumeParameter, db);
+        }
+
+        if (save)
+        {
+            PlayerPrefs.SetFloat(VoiceVolumeKey, voiceVolume);
+            PlayerPrefs.Save();
+        }
+
+        Debug.Log($"[AudioManager] Voice volume {voiceVolume:F2}");
     }
 }

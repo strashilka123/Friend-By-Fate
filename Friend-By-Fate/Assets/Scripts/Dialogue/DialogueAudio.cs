@@ -18,6 +18,11 @@ namespace Dialogue
         private void PlayVoice(DialogueStory.Story story)
         {
             _audioSource.Stop();
+            if (AudioManager.Instance != null)
+            {
+                _audioSource.volume = AudioManager.Instance.voiceVolume;
+            }
+
             if (story.VoiceClip != null)
             {
                 _audioSource.clip = story.VoiceClip;

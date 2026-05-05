@@ -4,74 +4,129 @@ using UnityEngine.UI;
 public class Settings : MonoBehaviour
 {
     [Header("Настройки звука")]
-    public Slider volumeSlider;
-    public Text volumePercentageText;
+    public Slider musicVolumeSlider;
+    public Text musicVolumePercentageText;
+    [SerializeField] private Slider volumeSlider;
+    [SerializeField] private Text volumePercentageText;
+    public Slider voiceVolumeSlider;
+    public Text voiceVolumePercentageText;
     public AudioSource BackGroundAudio;
 
     private const string MusicVolumeKey = "VolumeLevel";
-    private float volumeBeforeOpening;
+    private const string VoiceVolumeKey = "VoiceVolumeLevel";
+    private float musicVolumeBeforeOpening;
+    private float voiceVolumeBeforeOpening;
+
+    private Slider ActiveMusicSlider => musicVolumeSlider != null ? musicVolumeSlider : volumeSlider;
+    private Text ActiveMusicText => musicVolumePercentageText != null ? musicVolumePercentageText : volumePercentageText;
 
     private void Start()
     {
-        float savedVolume = PlayerPrefs.GetFloat(MusicVolumeKey, 0.4f);
+        float savedVolume = PlayerPrefs.GetFloat(MusicVolumeKey, 0.3f);
+        float savedVoiceVolume = PlayerPrefs.GetFloat(VoiceVolumeKey, 0.8f);
         Debug.Log($"[Settings] Start: loaded saved volume {savedVolume:F2}");
         ApplyMusicVolume(savedVolume);
+        ApplyVoiceVolume(savedVoiceVolume);
 
-        if (volumeSlider != null)
+        if (musicVolumeSlider != null)
         {
-            volumeSlider.value = savedVolume;
+            musicVolumeSlider.value = savedVolume;
         }
 
-        UpdateVolumeText(savedVolume);
-        volumeBeforeOpening = savedVolume;
+        if (voiceVolumeSlider != null)
+        {
+            voiceVolumeSlider.value = savedVoiceVolume;
+        }
+
+        UpdateMusicVolumeText(savedVolume);
+        UpdateVoiceVolumeText(savedVoiceVolume);
+        musicVolumeBeforeOpening = savedVolume;
+        voiceVolumeBeforeOpening = savedVoiceVolume;
     }
 
     private void OnEnable()
     {
-        float currentVolume = PlayerPrefs.GetFloat(MusicVolumeKey, 0.4f);
-        Debug.Log($"[Settings] OnEnable: current saved volume {currentVolume:F2}");
-        volumeBeforeOpening = currentVolume;
+        float currentVolume = PlayerPrefs.GetFloat(MusicVolumeKey, 0.3f);
+        float currentVoiceVolume = PlayerPrefs.GetFloat(VoiceVolumeKey, 0.8f);
+        musicVolumeBeforeOpening = currentVolume;
+        voiceVolumeBeforeOpening = currentVoiceVolume;
 
-        if (volumeSlider != null)
+        if (musicVolumeSlider != null)
         {
-            volumeSlider.value = currentVolume;
+            musicVolumeSlider.value = currentVolume;
         }
 
-        UpdateVolumeText(currentVolume);
+        if (voiceVolumeSlider != null)
+        {
+            voiceVolumeSlider.value = currentVoiceVolume;
+        }
+
+        UpdateMusicVolumeText(currentVolume);
+        UpdateVoiceVolumeText(currentVoiceVolume);
     }
 
-    public void ChangeVolume()
+    public void ChangeMusicVolume()
     {
-        if (volumeSlider == null)
+        if (ActiveMusicSlider == null)
         {
             return;
         }
 
-        Debug.Log($"[Settings] ChangeVolume: {volumeSlider.value:F2}");
-        ApplyMusicVolume(volumeSlider.value);
-        UpdateVolumeText(volumeSlider.value);
+        Debug.Log($"[Settings] ChangeMusicVolume: {ActiveMusicSlider.value:F2}");
+        ApplyMusicVolume(ActiveMusicSlider.value);
+        UpdateMusicVolumeText(ActiveMusicSlider.value);
+    }
+
+    public void ChangeVolume()
+    {
+        ChangeMusicVolume();
+    }
+
+    public void ChangeVoiceVolume()
+    {
+        if (voiceVolumeSlider == null)
+        {
+            return;
+        }
+
+        Debug.Log($"[Settings] ChangeVoiceVolume: {voiceVolumeSlider.value:F2}");
+        ApplyVoiceVolume(voiceVolumeSlider.value);
+        UpdateVoiceVolumeText(voiceVolumeSlider.value);
     }
 
     public void OnSaveButtonClicked()
     {
-        if (volumeSlider != null)
+        if (ActiveMusicSlider != null)
         {
-            PlayerPrefs.SetFloat(MusicVolumeKey, volumeSlider.value);
-            PlayerPrefs.Save();
-            Debug.Log($"[Settings] Volume saved: {volumeSlider.value:F2}");
+            PlayerPrefs.SetFloat(MusicVolumeKey, ActiveMusicSlider.value);
+            Debug.Log($"[Settings] Music volume saved: {ActiveMusicSlider.value:F2}");
         }
+
+        if (voiceVolumeSlider != null)
+        {
+            PlayerPrefs.SetFloat(VoiceVolumeKey, voiceVolumeSlider.value);
+            Debug.Log($"[Settings] Voice volume saved: {voiceVolumeSlider.value:F2}");
+        }
+
+        PlayerPrefs.Save();
 
         gameObject.SetActive(false);
     }
 
+
     public void OnBackButtonClicked()
     {
-        Debug.Log($"[Settings] Reverting volume to {volumeBeforeOpening:F2}");
-        ApplyMusicVolume(volumeBeforeOpening);
+        ApplyMusicVolume(musicVolumeBeforeOpening);
+        ApplyVoiceVolume(voiceVolumeBeforeOpening);
 
-        if (volumeSlider != null)
+        if (musicVolumeSlider != null)
         {
-            volumeSlider.value = volumeBeforeOpening;
+            musicVolumeSlider.value = musicVolumeBeforeOpening;
+        }
+
+        if (voiceVolumeSlider != null)
+        {
+            voiceVolumeSlider.value = voiceVolumeBeforeOpening;
         }
 
         gameObject.SetActive(false);
@@ -92,11 +147,27 @@ public class Settings : MonoBehaviour
         }
     }
 
-    private void UpdateVolumeText(float vol)
+    private void ApplyVoiceVolume(float volume)
     {
-        if (volumePercentageText != null)
+        volume = Mathf.Clamp01(volume);
+
+        if (AudioManager.Instance != null)
         {
-            volumePercentageText.text = Mathf.RoundToInt(vol * 100) + "%";
+            AudioManager.Instance.SetVoiceVolume(volume, false);
         }
+    }
+
+    private void UpdateMusicVolumeText(float vol)
+    {
+        if (ActiveMusicText != null)
+        {
+            ActiveMusicText.text = Mathf.RoundToInt(vol * 100) + "%";
+        }
+    }
+
+    private void UpdateVoiceVolumeText(float vol)
+    {
+        if (voiceVolumePercentageText != null)
+            voiceVolumePercentageText.text = Mathf.RoundToInt(vol * 100) + "%";
     }
 }

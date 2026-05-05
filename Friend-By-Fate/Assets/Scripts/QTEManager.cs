@@ -54,7 +54,7 @@ public class QTEManager : MonoBehaviour
         if (canvasRect == null) { Debug.LogError("canvasRect не назначен!", this); return; }
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
 
-        if (audioManager == null) audioManager = FindObjectOfType<AudioManager>();
+        audioManager = ResolveAudioManager();
 
         if (restartButton != null) restartButton.gameObject.SetActive(false);
         if (nextButton != null) nextButton.gameObject.SetActive(false);
@@ -90,6 +90,22 @@ public class QTEManager : MonoBehaviour
             }
             spawnTimer = spawnInterval + Random.Range(-0.1f, 0.2f);
         }
+    }
+
+    private AudioManager ResolveAudioManager()
+    {
+        if (AudioManager.Instance != null)
+        {
+            audioManager = AudioManager.Instance;
+            return audioManager;
+        }
+
+        if (audioManager == null)
+        {
+            audioManager = FindObjectOfType<AudioManager>();
+        }
+
+        return audioManager;
     }
 
     private void ForceWinQTE()
@@ -168,7 +184,7 @@ public class QTEManager : MonoBehaviour
     {
         if (gameOver) return;
         currentStance += stanceGain;
-        if (audioManager != null) audioManager.PlayQTESuccess();
+        ResolveAudioManager()?.PlayQTESuccess();
         CheckGameState();
     }
 
@@ -176,7 +192,7 @@ public class QTEManager : MonoBehaviour
     {
         if (gameOver) return;
         currentStance -= stanceLoss;
-        if (audioManager != null) audioManager.PlayQTEFail();
+        ResolveAudioManager()?.PlayQTEFail();
         if (cameraShakeScript != null) cameraShakeScript.TriggerShake(0.3f, 0.2f);
         CheckGameState();
     }
@@ -211,15 +227,16 @@ public class QTEManager : MonoBehaviour
             resultText.fontMaterial.SetFloat("_UnderlaySoftness", 0.6f);
         }
 
-        if (audioManager != null) audioManager.StopAmbience();
+        ResolveAudioManager()?.StopAmbience();
 
         if (restartButton != null) restartButton.gameObject.SetActive(!isWin);
         if (nextButton != null) nextButton.gameObject.SetActive(isWin);
 
-        if (audioManager != null)
+        AudioManager activeAudioManager = ResolveAudioManager();
+        if (activeAudioManager != null)
         {
-            if (isWin) audioManager.PlayWinSound();
-            else audioManager.PlayLoseSound();
+            if (isWin) activeAudioManager.PlayWinSound();
+            else activeAudioManager.PlayLoseSound();
         }
 
         // --- СОХРАНЕНИЕ ТОЛЬКО ПРИ ПОБЕДЕ ---
