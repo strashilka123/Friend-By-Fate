@@ -19,7 +19,7 @@ public class UIConfirmationPopup : MonoBehaviour
         // 2. Закрываем окно
         ClosePopup();
 
-        UnityEngine.SceneManagement.SceneManager.LoadScene(0); // Перезагрузка на главный экран
+        SceneTransition.LoadScene(0);
     }
 
     // Метод для кнопки "НЕТ"

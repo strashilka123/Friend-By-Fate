@@ -240,7 +240,7 @@ public class PuzzleManager : MonoBehaviour
     // Метод для загрузки сцены с картами
     public void LoadCardGameScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneTransition.LoadNextScene();
     }
 
     // ТЕСТОВЫЙ МЕТОД: нажмите P для принудительной победы 

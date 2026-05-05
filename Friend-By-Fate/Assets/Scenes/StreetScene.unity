@@ -1620,7 +1620,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playOnSceneLoad: 1
   loop: 1
-  musicClip: {fileID: 8300000, guid: 21060d26e0a2edf45bc9d862484b8965, type: 3}
+  musicClip: {fileID: 8300000, guid: 09c914c49362d744781ec8f29f67474b, type: 3}
   musicOutputGroup: {fileID: 24300002, guid: e5e369478d35d484790470207c215724, type: 2}
 --- !u!114 &1980191115
 MonoBehaviour:
@@ -1636,6 +1636,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioMixer: {fileID: 24100000, guid: e5e369478d35d484790470207c215724, type: 2}
   musicVolumeParameter: MusicVolume
+  voiceVolumeParameter: VoiceVolume
   qteSuccess: {fileID: 0}
   qteFail: {fileID: 0}
   winSound: {fileID: 0}
@@ -1643,6 +1644,7 @@ MonoBehaviour:
   barAmbience: {fileID: 0}
   sfxVolume: 0.7
   ambienceVolume: 0.4
+  voiceVolume: 0.8
 --- !u!4 &1980191116
 Transform:
   m_ObjectHideFlags: 0
@@ -2251,8 +2253,8 @@ SceneRoots:
   m_Roots:
   - {fileID: 1001287980}
   - {fileID: 1471994997}
-  - {fileID: 356259316}
   - {fileID: 1875585095}
   - {fileID: 1991845131}
-  - {fileID: 528399450}
   - {fileID: 1980191116}
+  - {fileID: 528399450}
+  - {fileID: 356259316}

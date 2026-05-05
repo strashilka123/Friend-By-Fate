@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using TMPro;
 using UnityEngine.SceneManagement;
 
@@ -73,8 +74,8 @@ public class CardGameManager : MonoBehaviour
         if (hitButton != null) hitButton.onClick.AddListener(Hit);
         if (standButton != null) standButton.onClick.AddListener(Stand);
 
-        if (nextLevelButton != null) nextLevelButton.onClick.AddListener(GoToNextLevel);
-        if (backButton != null) backButton.onClick.AddListener(GoBack);
+        AddListenerIfButtonHasNoPersistentEvents(nextLevelButton, GoToNextLevel);
+        AddListenerIfButtonHasNoPersistentEvents(backButton, GoBack);
 
         if (winPanel != null) winPanel.SetActive(false);
         if (losePanel != null) losePanel.SetActive(false);
@@ -86,6 +87,21 @@ public class CardGameManager : MonoBehaviour
         }
 
         StartNewGame();
+    }
+
+    private void AddListenerIfButtonHasNoPersistentEvents(Button button, UnityAction action)
+    {
+        if (button == null)
+        {
+            return;
+        }
+
+        if (button.onClick.GetPersistentEventCount() > 0)
+        {
+            return;
+        }
+
+        button.onClick.AddListener(action);
     }
 
     void StartNewGame()
@@ -426,7 +442,7 @@ public class CardGameManager : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(nextSceneName))
         {
-            SceneManager.LoadScene(nextSceneName);
+            SceneTransition.LoadScene(nextSceneName);
         }
         else
         {
@@ -439,7 +455,7 @@ public class CardGameManager : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(previousSceneName))
         {
-            SceneManager.LoadScene(previousSceneName);
+            SceneTransition.LoadScene(previousSceneName);
         }
         else
         {
@@ -447,7 +463,6 @@ public class CardGameManager : MonoBehaviour
         }
     }
 
-    // ТЕСТОВЫЙ МЕТОД: нажмите P для автоматической победы в раунде (только для отладки)
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.P))
