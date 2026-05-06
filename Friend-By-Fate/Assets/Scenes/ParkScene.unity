@@ -2176,9 +2176,9 @@ MonoBehaviour:
       <NextStoryTag>k__BackingField: Player3.4
       <PointTag>k__BackingField: 
     <VoiceClip>k__BackingField: {fileID: 0}
-  - <Tag>k__BackingField: Player3.3
-    <Text>k__BackingField: "\u0412\u044B: \u0421 \xAB\u043D\u0430\u0432\u0435\u0440\u043D\u043E\u0435\xBB
-      \u0442\u043E\u0436\u0435 \u043C\u043E\u0436\u043D\u043E \u043D\u0430\u0447\u0430\u0442\u044C."
+  - <Tag>k__BackingField: Player3.4
+    <Text>k__BackingField: "\u0412\u044B: \u0422\u0435\u0431\u044F \u043A\u0430\u043A
+      \u0437\u0432\u0430\u0442\u044C-\u0442\u043E?"
     <Answers>k__BackingField:
     - <Text>k__BackingField: "\u0414\u0430\u043B\u0435\u0435"
       <NextStoryTag>k__BackingField: NPC2.2
