@@ -24,8 +24,9 @@ namespace Dialogue
         [Serializable]
         public struct Answer
         {
-            [field: SerializeField] public string Text { get; private set; }
-            [field: SerializeField] public string ReposeText { get; private set; }
+            [field: SerializeField] public string Text { get; private set; } // Текст на кнопке
+            [field: SerializeField] public string NextStoryTag { get; private set; } // Куда идем дальше
+            [field: SerializeField] public string PointTag { get; private set; } // Какой тег для Tracker
         }
 
         private void Start()

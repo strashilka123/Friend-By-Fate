@@ -9,8 +9,11 @@ namespace Dialogue
         [SerializeField] private Button[] _buttons;
         private TMP_Text[] _buttonsText;
         private string[] _currentReplyTags;
+        private string[] _nextStoryTags; // Массив для переходов
+        private string[] _pointTags;
         private DialogueStory _dialogueStory;
         private DialogueChoiceOutcomeTracker _choiceOutcomeTracker;
+
 
         private void Awake()
         {
@@ -41,19 +44,22 @@ namespace Dialogue
                     continue;
                 }
 
-                _buttonsText[i].text = story.Answers[i].Text;
-                _currentReplyTags[i] = story.Answers[i].ReposeText;
+                var answer = story.Answers[i];
+                _buttonsText[i].text = answer.Text;
+                _nextStoryTags[i] = answer.NextStoryTag;
+                _pointTags[i] = answer.PointTag;
+
                 _buttons[i].interactable = true;
             }
         }
 
-        private void SendAnswer(int button)
+        private void SendAnswer(int buttonIndex)
         {
-            Debug.Log(" Кнопка нажата! Индекс: " + button);
-            string replyTag = _currentReplyTags[button];
-            Debug.Log($"[AnswerButtons] Reply selected: {replyTag}");
-            _choiceOutcomeTracker?.RegisterChoice(replyTag);
-            _dialogueStory.ChangeStory(replyTag);
+            string pTag = _pointTags[buttonIndex];
+            string nTag = _nextStoryTags[buttonIndex];
+
+            _choiceOutcomeTracker?.RegisterChoice(pTag);
+            _dialogueStory.ChangeStory(nTag);
         }
     }
 }

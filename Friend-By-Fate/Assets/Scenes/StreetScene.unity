@@ -1386,8 +1386,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 228102273}
-  - {fileID: 2081428516}
   - {fileID: 772936714}
+  - {fileID: 2081428516}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1856,6 +1856,7 @@ GameObject:
   - component: {fileID: 2081428521}
   - component: {fileID: 2081428519}
   - component: {fileID: 2081428524}
+  - component: {fileID: 2081428525}
   - component: {fileID: 2081428518}
   - component: {fileID: 2081428517}
   m_Layer: 5
@@ -2020,13 +2021,16 @@ MonoBehaviour:
     - <Text>k__BackingField: "\u0422\u044B \u043D\u0435 \u0437\u0430\u0441\u043B\u0443\u0436\u0438\u0432\u0430\u0435\u0448\u044C
         \u0442\u0430\u043A\u043E\u0433\u043E \u043E\u0431\u0440\u0430\u0449\u0435\u043D\u0438\u044F
         \u043A \u0441\u0435\u0431\u0435!"
-      <ReposeText>k__BackingField: NPC1.2
+      <NextStoryTag>k__BackingField: NPC1.2
+      <PointTag>k__BackingField: g2
     - <Text>k__BackingField: "\u0422\u0440\u043E\u0435 \u043D\u0430 \u043E\u0434\u043D\u043E\u0433\u043E!
         \\n\u0422\u044B \u0431\u044B \u043D\u0435 \u0432\u044B\u0432\u0435\u0437!"
-      <ReposeText>k__BackingField: NPC1.2
+      <NextStoryTag>k__BackingField: Smth4
+      <PointTag>k__BackingField: g1
     - <Text>k__BackingField: "\u041F\u0440\u043E\u0441\u0442\u043E \u0445\u043E\u0442\u0435\u043B\u043E\u0441\u044C
         \\n\u043A\u043E\u043C\u0443-\u043D\u0438\u0431\u0443\u0434\u044C \u0432\u0440\u0435\u0437\u0430\u0442\u044C!"
-      <ReposeText>k__BackingField: Smth4
+      <NextStoryTag>k__BackingField: Smth4
+      <PointTag>k__BackingField: 
     <VoiceClip>k__BackingField: {fileID: 0}
   - <Tag>k__BackingField: NPC1.2
     <Text>k__BackingField: "\u0410\u043B\u0435\u043A\u0441\u0430\u043D\u0434\u0440:
@@ -2034,15 +2038,20 @@ MonoBehaviour:
       \u043D\u0435 \u0432\u0441\u0442\u0443\u043F\u0430\u044E\u0442\u0441\u044F.
       \\n\u042F \u043B\u0438\u0431\u043E \xAB\u043D\u0435 \u0442\u043E\u0442\xBB,
       \u043B\u0438\u0431\u043E \xAB\u043D\u0435 \u0432\u043E\u0432\u0440\u0435\u043C\u044F\xBB...
-      \u0441\u043F\u0430\u0441\u0438\u0431\u043E \u0442\u0435\u0431\u0435"
+      \u0441\u043F\u0430\u0441\u0438\u0431\u043E \u0442\u0435\u0431\u0435!"
     <Answers>k__BackingField:
     - <Text>k__BackingField: "\u0414\u0430\u043B\u0435\u0435"
-      <ReposeText>k__BackingField: Smth4
+      <NextStoryTag>k__BackingField: Smth4
+      <PointTag>k__BackingField: 
     <VoiceClip>k__BackingField: {fileID: 0}
   - <Tag>k__BackingField: Smth4
     <Text>k__BackingField: "\u0410\u043B\u0435\u043A\u0441\u0430\u043D\u0434\u0440:
-      \u041B\u0430\u0434\u043D\u043E.. \u0438\u0434\u0451\u043C"
-    <Answers>k__BackingField: []
+      \u041B\u0430\u0434\u043D\u043E, \u0438\u0434\u0451\u043C"
+    <Answers>k__BackingField:
+    - <Text>k__BackingField: "\u0412 \u043A\u0432\u0430\u0440\u0442\u0438\u0440\u0443
+        \u043A \u0410\u043B\u0435\u043A\u0441\u0430\u043D\u0434\u0440\u0443"
+      <NextStoryTag>k__BackingField: 
+      <PointTag>k__BackingField: 
     <VoiceClip>k__BackingField: {fileID: 0}
 --- !u!114 &2081428521
 MonoBehaviour:
@@ -2111,6 +2120,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerTag: Smth4
+--- !u!114 &2081428525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081428515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8be03d4f4d4d7f8f1c8b1d7e0a4f30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _startingValue: 0
+  _goodEndingThreshold: 5
+  _neutralEndingThreshold: -10
+  _trackedChoices:
+  - <ReplyTag>k__BackingField: g1
+    <Delta>k__BackingField: 1
+  - <ReplyTag>k__BackingField: g2
+    <Delta>k__BackingField: 2
+  _applyChoiceImpactOnlyOnce: 1
 --- !u!1 &2133427058
 GameObject:
   m_ObjectHideFlags: 0
