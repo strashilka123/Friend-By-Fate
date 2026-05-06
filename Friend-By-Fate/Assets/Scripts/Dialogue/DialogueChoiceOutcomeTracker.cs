@@ -7,8 +7,8 @@ namespace Dialogue
     public class DialogueChoiceOutcomeTracker : MonoBehaviour
     {
         [SerializeField] private int _startingValue;
-        [SerializeField] private int _goodEndingThreshold = 3;
-        [SerializeField] private int _neutralEndingThreshold = 0;
+        [SerializeField] private int _goodEndingThreshold = 5;
+        [SerializeField] private int _neutralEndingThreshold = -10;
         [SerializeField] private ChoiceImpact[] _trackedChoices;
         [SerializeField] private bool _applyChoiceImpactOnlyOnce = true;
 

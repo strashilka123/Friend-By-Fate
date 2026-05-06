@@ -664,6 +664,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicVolumeSlider: {fileID: 153242519}
   musicVolumePercentageText: {fileID: 344390387}
+  volumeSlider: {fileID: 0}
+  volumePercentageText: {fileID: 0}
   voiceVolumeSlider: {fileID: 718393151}
   voiceVolumePercentageText: {fileID: 236908358}
   BackGroundAudio: {fileID: 1931638747}

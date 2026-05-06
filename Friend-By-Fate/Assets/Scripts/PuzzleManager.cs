@@ -195,8 +195,7 @@ public class PuzzleManager : MonoBehaviour
 
     private IEnumerator ShowVictoryPanelDelayed()
     {
-        // Ждем 2 секунды
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2f);
 
         // Показываем панель победы
         if (devPanel != null)
