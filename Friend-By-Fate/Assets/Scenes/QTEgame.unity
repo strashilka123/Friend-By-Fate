@@ -360,14 +360,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentStance: 30
-  maxStance: 300
+  maxStance: 600
   stanceGain: 15
   stanceLoss: 20
   passiveRegenRate: 0.5
   qtePrefab: {fileID: 5673654357922395560, guid: d97485313a1c7734d89845f4ffd12d65, type: 3}
   canvasRect: {fileID: 2062659252}
-  spawnInterval: 1.5
-  reactionTime: 1.25
+  spawnInterval: 1.2
+  reactionTime: 1
   stanceSlider: {fileID: 1440685612}
   gameOverPanel: {fileID: 88768706}
   resultText: {fileID: 1757752485}
@@ -614,8 +614,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playOnSceneLoad: 1
   loop: 1
-  musicClip: {fileID: 8300000, guid: a94c7a745ea22844084b3806bb287822, type: 3}
+  musicClip: {fileID: 8300000, guid: 98f6aeb3dd2d664498c88c778074a47c, type: 3}
   musicOutputGroup: {fileID: 24300002, guid: e5e369478d35d484790470207c215724, type: 2}
+  extraAmbience2: {fileID: 8300000, guid: 5533797866594f24da0a5cfc0f1a44a7, type: 3}
+  loopExtraAmbience2: 1
+  extraAmbience3: {fileID: 0}
+  loopExtraAmbience3: 1
 --- !u!1 &946923488
 GameObject:
   m_ObjectHideFlags: 0

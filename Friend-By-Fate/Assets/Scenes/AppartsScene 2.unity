@@ -1144,8 +1144,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playOnSceneLoad: 1
   loop: 1
-  musicClip: {fileID: 8300000, guid: 21060d26e0a2edf45bc9d862484b8965, type: 3}
+  musicClip: {fileID: 8300000, guid: cc699d3710f0e26408a16d19379ef971, type: 3}
   musicOutputGroup: {fileID: 24300002, guid: e5e369478d35d484790470207c215724, type: 2}
+  extraAmbience2: {fileID: 8300000, guid: 10fd6ee812a492645b63dc4323b00d8c, type: 3}
+  loopExtraAmbience2: 1
+  extraAmbience3: {fileID: 0}
+  loopExtraAmbience3: 1
 --- !u!114 &661667441
 MonoBehaviour:
   m_ObjectHideFlags: 0
