@@ -1845,7 +1845,7 @@ MonoBehaviour:
     - <Text>k__BackingField: "\u0414\u0430\u043B\u0435\u0435"
       <NextStoryTag>k__BackingField: Player1
       <PointTag>k__BackingField: 
-    <VoiceClip>k__BackingField: {fileID: 0}
+    <VoiceClip>k__BackingField: {fileID: 8300000, guid: 3f847131ea5f9a04c9a77c98f9620a2e, type: 3}
   - <Tag>k__BackingField: Player1
     <Text>k__BackingField: "\u0412\u044B: \u041D\u0443 \u0437\u043D\u0430\u0435\u0448\u044C
       \u043B\u0438..."
@@ -1876,7 +1876,7 @@ MonoBehaviour:
     - <Text>k__BackingField: "\u0414\u0430\u043B\u0435\u0435"
       <NextStoryTag>k__BackingField: Player2
       <PointTag>k__BackingField: 
-    <VoiceClip>k__BackingField: {fileID: 0}
+    <VoiceClip>k__BackingField: {fileID: 8300000, guid: f3900e69a6218b14eb3ab0c7d6eec874, type: 3}
   - <Tag>k__BackingField: Player2
     <Text>k__BackingField: "\u0412\u044B: \u0422\u043E\u0433\u0434\u0430 \u044D\u0442\u043E
       \u0441\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043A\u0430, \u043D\u043E

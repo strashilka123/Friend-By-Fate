@@ -1847,13 +1847,13 @@ MonoBehaviour:
   - <Tag>k__BackingField: NPC10
     <Text>k__BackingField: "\u0410\u043B\u0435\u043A\u0441\u0430\u043D\u0434\u0440:
       \u041E\u043D.. \u041E\u043D \u043F\u0438\u0448\u0435\u0442, \u0447\u0442\u043E
-      \u044F \u0432\u0441\u0451 \u0442\u0430\u043A\u043E\u0439 \u0436\u0435 \u043D\u0438\u043A\u0447\u0435\u043C\u043D\u044B\u0439.
+      \u044F \u0432\u0441\u0451 \u0442\u0430\u043A\u043E\u0439 \u0436\u0435 \u043D\u0438\u043A\u0447\u0451\u043C\u043D\u044B\u0439.
       \\n\u0427\u0442\u043E \u043D\u0438\u0447\u0435\u0433\u043E \u043D\u0435 \u0438\u0437\u043C\u0435\u043D\u0438\u043B\u043E\u0441\u044C."
     <Answers>k__BackingField:
     - <Text>k__BackingField: "\u0414\u0430\u043B\u0435\u0435"
       <NextStoryTag>k__BackingField: NPC20
       <PointTag>k__BackingField: 
-    <VoiceClip>k__BackingField: {fileID: 0}
+    <VoiceClip>k__BackingField: {fileID: 8300000, guid: 89d31d57da9191e4db28d0e284ac7cc2, type: 3}
   - <Tag>k__BackingField: NPC20
     <Text>k__BackingField: "\u0410\u043B\u0435\u043A\u0441\u0430\u043D\u0434\u0440:
       \u041C\u043E\u0436\u0435\u0442, \u043E\u043D \u043F\u0440\u0430\u0432? \u041C\u043E\u0436\u0435\u0442,
@@ -1862,7 +1862,7 @@ MonoBehaviour:
     - <Text>k__BackingField: "\u0414\u0430\u043B\u0435\u0435"
       <NextStoryTag>k__BackingField: Player1
       <PointTag>k__BackingField: 
-    <VoiceClip>k__BackingField: {fileID: 0}
+    <VoiceClip>k__BackingField: {fileID: 8300000, guid: c175ca158ac301b47a3a4ba11e288c78, type: 3}
   - <Tag>k__BackingField: Player1
     <Text>k__BackingField: "\u0412\u044B: \u042F \u0434\u0443\u043C\u0430\u044E,
       \u0447\u0442\u043E ..."
@@ -1900,7 +1900,7 @@ MonoBehaviour:
     - <Text>k__BackingField: "\u0414\u0430\u043B\u0435\u0435"
       <NextStoryTag>k__BackingField: NPC4
       <PointTag>k__BackingField: 
-    <VoiceClip>k__BackingField: {fileID: 0}
+    <VoiceClip>k__BackingField: {fileID: 8300000, guid: 967efb7c7158e2548b5ad65a1324d5fd, type: 3}
   - <Tag>k__BackingField: NPC4
     <Text>k__BackingField: "\u0410\u043B\u0435\u043A\u0441\u0430\u043D\u0434\u0440:
       \u041F\u043E\u0447\u0435\u043C\u0443 \u0442\u044B \u0432\u043E\u043E\u0431\u0449\u0435
@@ -1911,7 +1911,7 @@ MonoBehaviour:
     - <Text>k__BackingField: "\u0414\u0430\u043B\u0435\u0435"
       <NextStoryTag>k__BackingField: Player3
       <PointTag>k__BackingField: 
-    <VoiceClip>k__BackingField: {fileID: 0}
+    <VoiceClip>k__BackingField: {fileID: 8300000, guid: 9d75256f619bad04a8138803ecc6f5f1, type: 3}
   - <Tag>k__BackingField: Player3
     <Text>k__BackingField: "\u0412\u044B: \u041F\u043E\u0442\u043E\u043C\u0443 \u0447\u0442\u043E..."
     <Answers>k__BackingField:
