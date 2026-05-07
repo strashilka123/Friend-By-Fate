@@ -1957,7 +1957,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTag: Player2
-  cardSceneName: KitchenTruth
+  cardSceneName: MessengerScene
   transitionDelay: 4
   disableDialogueBeforeLoad: 1
 --- !u!1 &1332667863
