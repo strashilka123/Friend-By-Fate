@@ -2123,8 +2123,8 @@ MonoBehaviour:
     <Text>k__BackingField: "\u0412\u044B: \u0418\u043D\u043E\u0433\u0434\u0430..
       \u041D\u043E \u0440\u0435\u0434\u043A\u043E."
     <Answers>k__BackingField:
-    - <Text>k__BackingField: Think1
-      <NextStoryTag>k__BackingField: 
+    - <Text>k__BackingField: "\u0414\u0430\u043B\u0435\u0435"
+      <NextStoryTag>k__BackingField: Think1
       <PointTag>k__BackingField: 
     <VoiceClip>k__BackingField: {fileID: 0}
   - <Tag>k__BackingField: Think1
@@ -2159,7 +2159,7 @@ MonoBehaviour:
       \u0418\u043C \u0432\u0441\u0451 \u0440\u0430\u0432\u043D\u043E."
     <Answers>k__BackingField:
     - <Text>k__BackingField: "\u0414\u0430\u043B\u0435\u0435"
-      <NextStoryTag>k__BackingField: 
+      <NextStoryTag>k__BackingField: Player3.1
       <PointTag>k__BackingField: 
     <VoiceClip>k__BackingField: {fileID: 8300000, guid: 6c21db87c404942448403496703a5806, type: 3}
   - <Tag>k__BackingField: NPC5
