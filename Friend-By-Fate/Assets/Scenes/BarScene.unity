@@ -1973,8 +1973,8 @@ MonoBehaviour:
     <Text>k__BackingField: "\u0410\u043B\u0435\u043A\u0441\u0430\u043D\u0434\u0440:
       \u0417\u0440\u044F \u044F \u0441\u044E\u0434\u0430 \u043F\u0440\u0438\u0448\u0451\u043B.
       \u0421\u043B\u0438\u0448\u043A\u043E\u043C\u2026 \u043C\u043D\u043E\u0433\u043E
-      \u0432\u0441\u0435\u0433\u043E.\\n \u0418 \u043B\u044E\u0434\u0438 \u043A\u0430\u043A\u0438\u0435-\u0442\u043E
-      \u043D\u0435 \u043D\u0430\u0441\u0442\u043E\u044F\u0449\u0438\u0435."
+      \u0432\u0441\u0435\u0433\u043E. \\n\u0418 \u043B\u044E\u0434\u0438 \u043A\u0430\u043A\u0438\u0435-\u0442\u043E
+      \u043D\u0435\u043D\u0430\u0441\u0442\u043E\u044F\u0449\u0438\u0435."
     <Answers>k__BackingField:
     - <Text>k__BackingField: "\u0414\u0430\u043B\u0435\u0435"
       <NextStoryTag>k__BackingField: Player1
@@ -2286,6 +2286,9 @@ MonoBehaviour:
   _neutralEndingThreshold: -10
   _trackedChoices: []
   _applyChoiceImpactOnlyOnce: 1
+  _endTag: END
+  _goodEndingSceneName: GoodEnd
+  _badEndingSceneName: BadEnd
 --- !u!1 &8894286320253519147
 GameObject:
   m_ObjectHideFlags: 0
