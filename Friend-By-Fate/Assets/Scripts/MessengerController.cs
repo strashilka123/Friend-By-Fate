@@ -97,8 +97,8 @@ public class MessengerController : MonoBehaviour
 
         if (!string.IsNullOrEmpty(nextSceneName))
         {
-            yield return new WaitForSeconds(1f);
-            SceneManager.LoadScene(nextSceneName);
+            yield return new WaitForSeconds(4f);
+            SceneTransition.LoadScene(nextSceneName);
         }
     }
 

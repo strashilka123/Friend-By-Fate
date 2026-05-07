@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/ParkScene.unity
     guid: 83f4a662467028d43afe876bf77ecb2e
   - enabled: 1
-    path: Assets/Scenes/puzzle.unity
+    path: Assets/Scenes/Puzzle.unity
     guid: c235529863e37e243ab2f497b44752bf
   - enabled: 1
     path: Assets/Scenes/FirstPassage.unity
@@ -44,6 +44,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/KitchenTruth.unity
     guid: d34b17b4d3d09d74c99e07a4618751a6
+  - enabled: 1
+    path: Assets/Scenes/MessengerScene.unity
+    guid: 0564d88506b218641b5907ec03a14b01
   - enabled: 1
     path: Assets/Scenes/GoodEnd.unity
     guid: 91f7f732b21260d45aa78b5d900a5408
