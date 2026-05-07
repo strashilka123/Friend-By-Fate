@@ -8,8 +8,14 @@ public class SceneMusicConfig : MonoBehaviour
     [SerializeField] private AudioClip musicClip;
     [SerializeField] private AudioMixerGroup musicOutputGroup;
 
+    [Header("Additional Ambience")]
+    [SerializeField] private AudioClip extraAmbience;
+    [SerializeField] private bool loopExtraAmbience = true;
+
     public bool PlayOnSceneLoad => playOnSceneLoad;
     public bool Loop => loop;
     public AudioClip MusicClip => musicClip;
     public AudioMixerGroup MusicOutputGroup => musicOutputGroup;
+    public AudioClip ExtraAmbience => extraAmbience;
+    public bool LoopExtraAmbience => loopExtraAmbience;
 }

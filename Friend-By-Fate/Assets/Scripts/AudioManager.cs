@@ -32,6 +32,7 @@ public class AudioManager : MonoBehaviour
 
     private AudioSource sfxSource;
     private AudioSource ambienceSource;
+    private AudioSource extraAmbienceSource;
 
     private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
     private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -41,7 +42,6 @@ public class AudioManager : MonoBehaviour
         if (Instance != null && Instance != this)
         {
             Instance.AbsorbSceneAudioSettings(this);
-            //Debug.Log("[AudioManager] Duplicate AudioManager component removed after syncing scene settings.");
             Destroy(this);
             return;
         }
@@ -57,6 +57,11 @@ public class AudioManager : MonoBehaviour
         ambienceSource.playOnAwake = false;
         ambienceSource.loop = true;
 
+        extraAmbienceSource = gameObject.AddComponent<AudioSource>();
+        extraAmbienceSource.playOnAwake = false;
+        extraAmbienceSource.loop = true;
+        extraAmbienceSource.volume = ambienceVolume;
+
         float savedMusicVolume = PlayerPrefs.GetFloat(MusicVolumeKey, ambienceVolume);
         SetMusicVolume(savedMusicVolume, false);
         float savedVoiceVolume = PlayerPrefs.GetFloat(VoiceVolumeKey, voiceVolume);
@@ -69,10 +74,7 @@ public class AudioManager : MonoBehaviour
 
     private void AbsorbSceneAudioSettings(AudioManager source)
     {
-        if (source == null)
-        {
-            return;
-        }
+        if (source == null) return;
 
         if (source.qteSuccess != null) qteSuccess = source.qteSuccess;
         if (source.qteFail != null) qteFail = source.qteFail;
@@ -100,7 +102,7 @@ public class AudioManager : MonoBehaviour
         AudioSource[] sources = FindObjectsByType<AudioSource>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         foreach (AudioSource source in sources)
         {
-            if (source == null || source == sfxSource || source == ambienceSource)
+            if (source == null || source == sfxSource || source == ambienceSource || source == extraAmbienceSource)
             {
                 continue;
             }
@@ -125,7 +127,13 @@ public class AudioManager : MonoBehaviour
         if (sceneMusic != null && sceneMusic.PlayOnSceneLoad)
         {
             Debug.Log($"[AudioManager] Scene music config found in '{scene.name}'.");
+
+            // Основная музыка
             PlayBackgroundMusic(sceneMusic.MusicClip, sceneMusic.MusicOutputGroup, sceneMusic.Loop);
+
+            // Дополнительный амбиент
+            PlayExtraAmbience(sceneMusic.ExtraAmbience, sceneMusic.LoopExtraAmbience);
+
             return;
         }
 
@@ -150,7 +158,6 @@ public class AudioManager : MonoBehaviour
         return null;
     }
 
-
     public void PlayBackgroundMusic(AudioClip clip, AudioMixerGroup outputGroup, bool loop = true)
     {
         if (clip == null)
@@ -174,11 +181,43 @@ public class AudioManager : MonoBehaviour
         Debug.Log($"[AudioManager] Background music started: {clip.name}");
     }
 
+    public void PlayExtraAmbience(AudioClip clip, bool loop = true)
+    {
+        if (clip == null)
+        {
+            if (extraAmbienceSource.isPlaying)
+                extraAmbienceSource.Stop();
+            return;
+        }
+
+        if (extraAmbienceSource.clip == clip && extraAmbienceSource.isPlaying)
+            return;
+
+        extraAmbienceSource.loop = loop;
+        extraAmbienceSource.clip = clip;
+        extraAmbienceSource.Play();
+        Debug.Log($"[AudioManager] Extra ambience started: {clip.name}");
+    }
+
+    public void StopExtraAmbience()
+    {
+        if (extraAmbienceSource.isPlaying)
+        {
+            extraAmbienceSource.Stop();
+            Debug.Log("[AudioManager] Extra ambience stopped");
+        }
+    }
+
     public void PlayQTESuccess() { if (qteSuccess != null) sfxSource.PlayOneShot(qteSuccess, sfxVolume); }
     public void PlayQTEFail() { if (qteFail != null) sfxSource.PlayOneShot(qteFail, sfxVolume); }
     public void PlayWinSound() { if (winSound != null) sfxSource.PlayOneShot(winSound, sfxVolume); }
     public void PlayLoseSound() { if (loseSound != null) sfxSource.PlayOneShot(loseSound, sfxVolume); }
-    public void StopAmbience() { if (ambienceSource.isPlaying) ambienceSource.Stop(); }
+
+    public void StopAmbience()
+    {
+        if (ambienceSource.isPlaying) ambienceSource.Stop();
+        if (extraAmbienceSource.isPlaying) extraAmbienceSource.Stop();
+    }
 
     public void SetSFXVolume(float volume)
     {
@@ -190,6 +229,9 @@ public class AudioManager : MonoBehaviour
     {
         ambienceVolume = Mathf.Clamp01(normalizedVolume);
         ambienceSource.volume = ambienceVolume;
+
+        if (extraAmbienceSource != null)
+            extraAmbienceSource.volume = ambienceVolume;
 
         if (audioMixer != null)
         {

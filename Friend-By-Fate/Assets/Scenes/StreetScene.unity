@@ -1622,6 +1622,8 @@ MonoBehaviour:
   loop: 1
   musicClip: {fileID: 8300000, guid: 0adea7da7f1904845ab268de13bb03cb, type: 3}
   musicOutputGroup: {fileID: 24300002, guid: e5e369478d35d484790470207c215724, type: 2}
+  extraAmbience: {fileID: 8300000, guid: 5af5a6be02084b547b97a392b76f376a, type: 3}
+  loopExtraAmbience: 1
 --- !u!114 &1980191115
 MonoBehaviour:
   m_ObjectHideFlags: 0
