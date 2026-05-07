@@ -1883,7 +1883,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stories:
-  - <Tag>k__BackingField: NPC1.1
+  - <Tag>k__BackingField: NPC
     <Text>k__BackingField: "\u0410\u043B\u0435\u043A\u0441\u0430\u043D\u0434\u0440:
       \u0425\u043E\u0440\u043E\u0448\u043E \u0441\u044B\u0433\u0440\u0430\u043B\u0438!"
     <Answers>k__BackingField:
@@ -1897,7 +1897,7 @@ MonoBehaviour:
       \u043F\u0438\u0441\u044C\u043C\u043E)"
     <Answers>k__BackingField:
     - <Text>k__BackingField: "\u0414\u0430\u043B\u0435\u0435"
-      <NextStoryTag>k__BackingField: 
+      <NextStoryTag>k__BackingField: NPC2
       <PointTag>k__BackingField: 
     <VoiceClip>k__BackingField: {fileID: 0}
   - <Tag>k__BackingField: NPC2
@@ -1979,7 +1979,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetTag: NPC2
   cardSceneName: LetterGame
-  transitionDelay: 3
+  transitionDelay: 4
   disableDialogueBeforeLoad: 1
 --- !u!1 &1332667863
 GameObject:

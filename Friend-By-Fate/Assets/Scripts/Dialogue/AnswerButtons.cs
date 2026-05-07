@@ -23,6 +23,8 @@ namespace Dialogue
 
             _buttonsText = new TMP_Text[_buttons.Length];
             _currentReplyTags = new string[_buttons.Length];
+            _nextStoryTags = new string[_buttons.Length];
+            _pointTags = new string[_buttons.Length];
 
             for (int i = 0; i < _buttons.Length; i++)
             {
