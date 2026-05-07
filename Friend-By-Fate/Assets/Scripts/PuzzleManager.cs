@@ -16,7 +16,6 @@ public class PuzzleManager : MonoBehaviour
     public Color boardColor = new Color(0.2f, 0.2f, 0.2f, 0.5f);
 
     [Header("Переходы")]
-
     [HideInInspector] public float pieceWidthUnits;
     [HideInInspector] public float pieceHeightUnits;
     [HideInInspector] public Vector2 boardBottomLeft;

@@ -1147,7 +1147,7 @@ MonoBehaviour:
   musicClip: {fileID: 8300000, guid: cc699d3710f0e26408a16d19379ef971, type: 3}
   musicOutputGroup: {fileID: 24300002, guid: e5e369478d35d484790470207c215724, type: 2}
   extraAmbience2: {fileID: 0}
-  loopExtraAmbience2: 1
+  loopExtraAmbience2: 0
   extraAmbience3: {fileID: 8300000, guid: 10fd6ee812a492645b63dc4323b00d8c, type: 3}
   loopExtraAmbience3: 1
 --- !u!114 &661667441
@@ -1873,10 +1873,20 @@ MonoBehaviour:
       \u041D\u0430\u0432\u0435\u0440\u043D\u043E\u0435 \u043F\u043E\u0442\u043E\u043C\u0443
       \u0447\u0442\u043E \u0442\u044B \u0437\u0434\u0435\u0441\u044C."
     <Answers>k__BackingField:
+    - <Text>k__BackingField: "\u0414\u0430\u043B\u0435\u0435"
+      <NextStoryTag>k__BackingField: Player2
+      <PointTag>k__BackingField: 
+    <VoiceClip>k__BackingField: {fileID: 8300000, guid: 18e5728f47ea1f047a6ed3dff03a96b8, type: 3}
+  - <Tag>k__BackingField: Player2
+    <Text>k__BackingField: "\u0412\u044B: \u042D\u0442\u043E \u0445\u043E\u0440\u043E\u0448\u043E.
+      \\n\u0422\u043E\u0433\u0434\u0430 \u0443 \u043C\u0435\u043D\u044F \u0435\u0441\u0442\u044C
+      \u0437\u0430\u043C\u0430\u043D\u0447\u0438\u0432\u043E\u0435 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u0435:
+      \u0438\u0433\u0440\u0430\u0435\u043C \u0432 \u043A\u0430\u0440\u0442\u044B!"
+    <Answers>k__BackingField:
     - <Text>k__BackingField: "\u041C\u0438\u043D\u0438-\u0438\u0433\u0440\u0430 \"\u041A\u0430\u0440\u0442\u044B\""
       <NextStoryTag>k__BackingField: 
       <PointTag>k__BackingField: 
-    <VoiceClip>k__BackingField: {fileID: 8300000, guid: 18e5728f47ea1f047a6ed3dff03a96b8, type: 3}
+    <VoiceClip>k__BackingField: {fileID: 0}
 --- !u!114 &1193944686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1943,9 +1953,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06462f55b9569d741afd219b6175cac6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetTag: NPC2
+  targetTag: Player2
   cardSceneName: CardScene
-  transitionDelay: 9
+  transitionDelay: 4
   disableDialogueBeforeLoad: 1
 --- !u!1 &1332667863
 GameObject:

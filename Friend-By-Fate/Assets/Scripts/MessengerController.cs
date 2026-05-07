@@ -76,6 +76,12 @@ public class MessengerController : MonoBehaviour
 
         // Запускаем отправку сообщений
         StartCoroutine(SendMessages());
+
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        if (SaveManager.Instance != null)
+        {
+            SaveManager.Instance.SaveLastScene(currentSceneIndex);
+        }
     }
 
     private IEnumerator SendMessages()
