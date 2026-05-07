@@ -1962,7 +1962,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetTag: Player2
   cardSceneName: MessengerScene
-  transitionDelay: 4
+  transitionDelay: 5
   disableDialogueBeforeLoad: 1
 --- !u!1 &1332667863
 GameObject:

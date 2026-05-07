@@ -360,7 +360,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentStance: 30
-  maxStance: 600
+  maxStance: 400
   stanceGain: 15
   stanceLoss: 20
   passiveRegenRate: 0.5
@@ -574,7 +574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b3fc0530f6ce8c409de474f8a45f101, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioMixer: {fileID: 0}
+  audioMixer: {fileID: 24100000, guid: e5e369478d35d484790470207c215724, type: 2}
   musicVolumeParameter: MusicVolume
   voiceVolumeParameter: VoiceVolume
   qteSuccess: {fileID: 8300000, guid: 374a4a7e9b6655e4a84dce6e364148d2, type: 3}
@@ -619,7 +619,7 @@ MonoBehaviour:
   extraAmbience2: {fileID: 8300000, guid: 5533797866594f24da0a5cfc0f1a44a7, type: 3}
   loopExtraAmbience2: 1
   extraAmbience3: {fileID: 0}
-  loopExtraAmbience3: 1
+  loopExtraAmbience3: 0
 --- !u!1 &946923488
 GameObject:
   m_ObjectHideFlags: 0

@@ -27,7 +27,7 @@ public class DialogueToQTETrigger : MonoBehaviour
 
     private IEnumerator TransitionToNextScene()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
 
         // Отключаем диалоговую систему
         if (_dialogueStory != null)
