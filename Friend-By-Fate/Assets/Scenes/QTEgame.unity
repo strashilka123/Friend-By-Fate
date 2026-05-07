@@ -616,8 +616,10 @@ MonoBehaviour:
   loop: 1
   musicClip: {fileID: 8300000, guid: 98f6aeb3dd2d664498c88c778074a47c, type: 3}
   musicOutputGroup: {fileID: 24300002, guid: e5e369478d35d484790470207c215724, type: 2}
-  extraAmbience: {fileID: 8300000, guid: 67eeefa17fb1de24c95ded6a4d8c619a, type: 3}
-  loopExtraAmbience: 1
+  extraAmbience2: {fileID: 8300000, guid: 5533797866594f24da0a5cfc0f1a44a7, type: 3}
+  loopExtraAmbience2: 1
+  extraAmbience3: {fileID: 0}
+  loopExtraAmbience3: 1
 --- !u!1 &946923488
 GameObject:
   m_ObjectHideFlags: 0

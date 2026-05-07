@@ -32,7 +32,8 @@ public class AudioManager : MonoBehaviour
 
     private AudioSource sfxSource;
     private AudioSource ambienceSource;
-    private AudioSource extraAmbienceSource;
+    private AudioSource extraAmbienceSource2;
+    private AudioSource extraAmbienceSource3;
 
     private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
     private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -57,10 +58,15 @@ public class AudioManager : MonoBehaviour
         ambienceSource.playOnAwake = false;
         ambienceSource.loop = true;
 
-        extraAmbienceSource = gameObject.AddComponent<AudioSource>();
-        extraAmbienceSource.playOnAwake = false;
-        extraAmbienceSource.loop = true;
-        extraAmbienceSource.volume = ambienceVolume;
+        extraAmbienceSource2 = gameObject.AddComponent<AudioSource>();
+        extraAmbienceSource2.playOnAwake = false;
+        extraAmbienceSource2.loop = true;
+        extraAmbienceSource2.volume = ambienceVolume;
+
+        extraAmbienceSource3 = gameObject.AddComponent<AudioSource>();
+        extraAmbienceSource3.playOnAwake = false;
+        extraAmbienceSource3.loop = true;
+        extraAmbienceSource3.volume = ambienceVolume;
 
         float savedMusicVolume = PlayerPrefs.GetFloat(MusicVolumeKey, ambienceVolume);
         SetMusicVolume(savedMusicVolume, false);
@@ -102,21 +108,19 @@ public class AudioManager : MonoBehaviour
         AudioSource[] sources = FindObjectsByType<AudioSource>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         foreach (AudioSource source in sources)
         {
-            if (source == null || source == sfxSource || source == ambienceSource || source == extraAmbienceSource)
+            if (source == null || source == sfxSource || source == ambienceSource
+                || source == extraAmbienceSource2 || source == extraAmbienceSource3)
             {
                 continue;
             }
 
-            if (source.gameObject.scene != scene)
-            {
-                continue;
-            }
+            if (source.gameObject.scene != scene) continue;
 
             if (source.clip != null && source.playOnAwake && source.loop)
             {
                 source.Stop();
                 source.enabled = false;
-                Debug.Log($"[AudioManager] Disabled scene autoplay music source '{source.gameObject.name}' in '{scene.name}'.");
+                Debug.Log($"[AudioManager] Disabled autoplay source '{source.gameObject.name}' in '{scene.name}'.");
             }
         }
     }
@@ -128,11 +132,9 @@ public class AudioManager : MonoBehaviour
         {
             Debug.Log($"[AudioManager] Scene music config found in '{scene.name}'.");
 
-            // Основная музыка
             PlayBackgroundMusic(sceneMusic.MusicClip, sceneMusic.MusicOutputGroup, sceneMusic.Loop);
-
-            // Дополнительный амбиент
-            PlayExtraAmbience(sceneMusic.ExtraAmbience, sceneMusic.LoopExtraAmbience);
+            PlayExtraAmbience2(sceneMusic.ExtraAmbience2, sceneMusic.LoopExtraAmbience2);
+            PlayExtraAmbience3(sceneMusic.ExtraAmbience3, sceneMusic.LoopExtraAmbience3);
 
             return;
         }
@@ -149,62 +151,72 @@ public class AudioManager : MonoBehaviour
         SceneMusicConfig[] configs = FindObjectsByType<SceneMusicConfig>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         foreach (SceneMusicConfig config in configs)
         {
-            if (config.gameObject.scene == scene)
-            {
-                return config;
-            }
+            if (config.gameObject.scene == scene) return config;
         }
-
         return null;
     }
 
     public void PlayBackgroundMusic(AudioClip clip, AudioMixerGroup outputGroup, bool loop = true)
     {
-        if (clip == null)
-        {
-            return;
-        }
+        if (clip == null) return;
 
         ambienceSource.loop = loop;
-        if (outputGroup != null)
-        {
-            ambienceSource.outputAudioMixerGroup = outputGroup;
-        }
+        if (outputGroup != null) ambienceSource.outputAudioMixerGroup = outputGroup;
 
-        if (ambienceSource.clip == clip && ambienceSource.isPlaying)
-        {
-            return;
-        }
+        if (ambienceSource.clip == clip && ambienceSource.isPlaying) return;
 
         ambienceSource.clip = clip;
         ambienceSource.Play();
         Debug.Log($"[AudioManager] Background music started: {clip.name}");
     }
 
-    public void PlayExtraAmbience(AudioClip clip, bool loop = true)
+    public void PlayExtraAmbience2(AudioClip clip, bool loop = true)
     {
         if (clip == null)
         {
-            if (extraAmbienceSource.isPlaying)
-                extraAmbienceSource.Stop();
+            if (extraAmbienceSource2.isPlaying) extraAmbienceSource2.Stop();
             return;
         }
 
-        if (extraAmbienceSource.clip == clip && extraAmbienceSource.isPlaying)
-            return;
+        if (extraAmbienceSource2.clip == clip && extraAmbienceSource2.isPlaying) return;
 
-        extraAmbienceSource.loop = loop;
-        extraAmbienceSource.clip = clip;
-        extraAmbienceSource.Play();
-        Debug.Log($"[AudioManager] Extra ambience started: {clip.name}");
+        extraAmbienceSource2.loop = loop;
+        extraAmbienceSource2.clip = clip;
+        extraAmbienceSource2.Play();
+        Debug.Log($"[AudioManager] Extra ambience 2 started: {clip.name}");
     }
 
-    public void StopExtraAmbience()
+    public void PlayExtraAmbience3(AudioClip clip, bool loop = true)
     {
-        if (extraAmbienceSource.isPlaying)
+        if (clip == null)
         {
-            extraAmbienceSource.Stop();
-            Debug.Log("[AudioManager] Extra ambience stopped");
+            if (extraAmbienceSource3.isPlaying) extraAmbienceSource3.Stop();
+            return;
+        }
+
+        if (extraAmbienceSource3.clip == clip && extraAmbienceSource3.isPlaying) return;
+
+        extraAmbienceSource3.loop = loop;
+        extraAmbienceSource3.clip = clip;
+        extraAmbienceSource3.Play();
+        Debug.Log($"[AudioManager] Extra ambience 3 started: {clip.name}");
+    }
+
+    public void StopExtraAmbience2()
+    {
+        if (extraAmbienceSource2.isPlaying)
+        {
+            extraAmbienceSource2.Stop();
+            Debug.Log("[AudioManager] Extra ambience 2 stopped");
+        }
+    }
+
+    public void StopExtraAmbience3()
+    {
+        if (extraAmbienceSource3.isPlaying)
+        {
+            extraAmbienceSource3.Stop();
+            Debug.Log("[AudioManager] Extra ambience 3 stopped");
         }
     }
 
@@ -216,7 +228,8 @@ public class AudioManager : MonoBehaviour
     public void StopAmbience()
     {
         if (ambienceSource.isPlaying) ambienceSource.Stop();
-        if (extraAmbienceSource.isPlaying) extraAmbienceSource.Stop();
+        if (extraAmbienceSource2.isPlaying) extraAmbienceSource2.Stop();
+        if (extraAmbienceSource3.isPlaying) extraAmbienceSource3.Stop();
     }
 
     public void SetSFXVolume(float volume)
@@ -230,8 +243,8 @@ public class AudioManager : MonoBehaviour
         ambienceVolume = Mathf.Clamp01(normalizedVolume);
         ambienceSource.volume = ambienceVolume;
 
-        if (extraAmbienceSource != null)
-            extraAmbienceSource.volume = ambienceVolume;
+        if (extraAmbienceSource2 != null) extraAmbienceSource2.volume = ambienceVolume;
+        if (extraAmbienceSource3 != null) extraAmbienceSource3.volume = ambienceVolume;
 
         if (audioMixer != null)
         {
