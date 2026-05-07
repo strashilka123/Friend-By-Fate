@@ -340,10 +340,10 @@ MonoBehaviour:
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
-    m_HBaseRangeMin: -640
-    m_HBaseRangeMax: 640
-    m_VBaseRangeMin: -360
-    m_VBaseRangeMax: 360
+    m_HBaseRangeMin: -768
+    m_HBaseRangeMax: 768
+    m_VBaseRangeMin: -432
+    m_VBaseRangeMax: 432
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -361,23 +361,23 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 1706.6667
-      height: 923
-    m_Scale: {x: 1, y: 1}
-    m_Translation: {x: 853.3334, y: 461.5}
+      width: 343.59998
+      height: 502.59998
+    m_Scale: {x: 0.2236979, y: 0.2236979}
+    m_Translation: {x: 171.79999, y: 251.29999}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -853.3334
-      y: -461.5
-      width: 1706.6667
-      height: 923
+      x: -768
+      y: -1123.39
+      width: 1536
+      height: 2246.78
     m_MinimalGUI: 1
-  m_defaultScale: 1
-  m_LastWindowPixelSize: {x: 2560, y: 1416}
+  m_defaultScale: 0.2236979
+  m_LastWindowPixelSize: {x: 343.59998, y: 523.6}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 00000001000000000000
@@ -1230,7 +1230,7 @@ MonoBehaviour:
   m_LastFolders:
   - Assets/Items/MainMenu
   m_LastFoldersGridSize: 92
-  m_LastProjectPath: D:\MyProject\FbF\Friend-By-Fate\Friend-By-Fate
+  m_LastProjectPath: C:\Users\ogala\OneDrive\Desktop\FBF\Friend-By-Fate\Friend-By-Fate
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
@@ -1320,7 +1320,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 0}
+    m_ScrollPosition: {x: 0, y: 87.19995}
     m_GridSize: 92
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 143.33331
