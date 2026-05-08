@@ -28,7 +28,7 @@ public class AudioManager : MonoBehaviour
     [Header("Громкость")]
     [Range(0f, 1f)] public float sfxVolume = 0.7f;
     [Range(0f, 1f)] public float ambienceVolume = 0.3f;
-    [Range(0f, 1f)] public float voiceVolume = 0.8f;
+    [Range(0f, 1f)] public float voiceVolume = 1f;
 
     private AudioSource sfxSource;
     private AudioSource ambienceSource;

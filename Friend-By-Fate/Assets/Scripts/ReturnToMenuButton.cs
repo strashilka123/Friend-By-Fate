@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 using System.Collections;
+using UnityEngine.Scripting;
+
 
 public class ReturnMenuButtonSpawner : MonoBehaviour
 {
@@ -82,6 +84,7 @@ public class ReturnMenuButtonSpawner : MonoBehaviour
         btnRect.pivot = new Vector2(0.5f, 0f);
         btnRect.anchoredPosition = new Vector2(0, 50); // Чуть выше самого низа
         btnRect.sizeDelta = _buttonSize;
+        btnRect.SetAsLastSibling();
 
         // 3. Добавляем компоненты
         _spawnedButton = btnObj.AddComponent<Button>();
@@ -141,19 +144,22 @@ public class ReturnMenuButtonSpawner : MonoBehaviour
         // PointerDown
         EventTrigger.Entry pointerDownEntry = new EventTrigger.Entry();
         pointerDownEntry.eventID = EventTriggerType.PointerDown;
-        pointerDownEntry.callback.AddListener((data) => OnPointerDown());
+        //pointerDownEntry.callback.AddListener((data) => OnPointerDown());
+        pointerDownEntry.callback.AddListener(OnPointerDownEvent);
         trigger.triggers.Add(pointerDownEntry);
 
         // PointerUp
         EventTrigger.Entry pointerUpEntry = new EventTrigger.Entry();
         pointerUpEntry.eventID = EventTriggerType.PointerUp;
-        pointerUpEntry.callback.AddListener((data) => OnPointerUp());
+        //pointerUpEntry.callback.AddListener((data) => OnPointerUp());
+        pointerUpEntry.callback.AddListener(OnPointerUpEvent);
         trigger.triggers.Add(pointerUpEntry);
 
         // PointerExit (если увели мышку с кнопки во время удержания)
         EventTrigger.Entry pointerExitEntry = new EventTrigger.Entry();
         pointerExitEntry.eventID = EventTriggerType.PointerExit;
-        pointerExitEntry.callback.AddListener((data) => OnPointerExit());
+        //pointerExitEntry.callback.AddListener((data) => OnPointerExit());
+        pointerExitEntry.callback.AddListener(OnPointerExitEvent);
         trigger.triggers.Add(pointerExitEntry);
     }
 
@@ -178,7 +184,23 @@ public class ReturnMenuButtonSpawner : MonoBehaviour
         }
     }
 
+    private void OnPointerDownEvent(BaseEventData data)
+    {
+        OnPointerDown();
+    }
+
+    private void OnPointerUpEvent(BaseEventData data)
+    {
+        OnPointerUp();
+    }
+
+    private void OnPointerExitEvent(BaseEventData data)
+    {
+        OnPointerExit();
+    }
+
     // Обработчики событий
+    [Preserve]
     private void OnPointerDown()
     {
         if (!_buttonActive) return;
@@ -189,11 +211,13 @@ public class ReturnMenuButtonSpawner : MonoBehaviour
             _buttonImage.color = _pressedColor;
     }
 
+    [Preserve]
     private void OnPointerUp()
     {
         ResetHoldState();
     }
 
+    [Preserve]
     private void OnPointerExit()
     {
         ResetHoldState();
