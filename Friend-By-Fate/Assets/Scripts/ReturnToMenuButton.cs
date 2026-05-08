@@ -34,7 +34,6 @@ public class ReturnToMenuButton : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Очищаем старую кнопку, если она осталась с прошлой сцены
         if (spawnedCanvasObj != null) Destroy(spawnedCanvasObj);
 
         StopAllCoroutines();
@@ -155,7 +154,11 @@ public class ReturnToMenuButton : MonoBehaviour
             if (currentHoldTime >= holdDuration)
             {
                 isHolding = false;
-                Debug.Log("[MenuButton] Возвращаемся в меню...");
+                if (SaveManager.Instance != null)
+                {
+                    SaveManager.Instance.DeleteSave();
+                }
+
                 SceneTransition.LoadScene(0);
             }
         }

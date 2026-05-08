@@ -53,9 +53,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BadEnd.unity
     guid: aae62c18a74a7ee49ac1dd24f676f389
-  - enabled: 0
-    path: Assets/Scenes/SketchBook.unity
-    guid: 4def809948a32da419ec89ff7de38805
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

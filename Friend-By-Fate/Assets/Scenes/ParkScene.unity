@@ -2311,6 +2311,7 @@ MonoBehaviour:
   _joystick: {fileID: 834857736}
   _playerObject: {fileID: 1130336267}
   _hintText: {fileID: 1726876825}
+  _endDelay: 3
 --- !u!82 &1771279029
 AudioSource:
   m_ObjectHideFlags: 0
