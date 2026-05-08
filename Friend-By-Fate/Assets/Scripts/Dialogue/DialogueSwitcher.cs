@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 namespace Dialogue
 {
@@ -23,8 +22,6 @@ namespace Dialogue
         [SerializeField] private float _endDelay = 3f;
 
         private DialogueStory _dialogueStory;
-        private const string DIALOGUE_COMPLETED_KEY = "DialogueCompleted";
-        private static bool _isFirstLoad = true;
 
         private void Start()
         {
@@ -33,25 +30,7 @@ namespace Dialogue
             {
                 _dialogueStory.ChangedStory += Disable;
             }
-
-            if (_isFirstLoad)
-            {
-                PlayerPrefs.DeleteKey(DIALOGUE_COMPLETED_KEY);
-                PlayerPrefs.Save();
-                _isFirstLoad = false;
-                Debug.Log("Первый запуск, диалог будет показан");
-            }
-
-            bool dialogueCompleted = PlayerPrefs.GetInt(DIALOGUE_COMPLETED_KEY, 0) == 1;
-
-            if (dialogueCompleted)
-            {
-                SkipDialogue();
-            }
-            else
-            {
-                StartDialogue();
-            }
+            StartDialogue();
         }
 
         private void StartDialogue()
@@ -72,9 +51,12 @@ namespace Dialogue
                 _hintText.SetActive(false);
         }
 
-        private void SkipDialogue()
+        private async void Disable(DialogueStory.Story story)
         {
-            Debug.Log("Диалог уже был, пропускаем");
+            if (_disableTags.All(disableTag => story.Tag != disableTag))
+                return;
+
+            await Task.Delay((int)(_endDelay * 1000));
 
             if (_backgroundImage != null && _newBackground != null)
             {
@@ -85,40 +67,6 @@ namespace Dialogue
                 _dialogueWindow.SetActive(false);
             else if (_dialogueStory != null)
                 _dialogueStory.gameObject.SetActive(false);
-
-            if (_playerController != null)
-                _playerController.IsPaused = false;
-
-            if (_joystick != null)
-                _joystick.gameObject.SetActive(true);
-
-            if (_playerObject != null)
-                _playerObject.SetActive(true);
-
-            if (_hintText != null)
-                _hintText.SetActive(true);
-        }
-
-        private async void Disable(DialogueStory.Story story)
-        {
-            if (_disableTags.All(disableTag => story.Tag != disableTag))
-                return;
-
-            // Ждем указанное время (по умолчанию 3 секунды), чтобы игрок прочитал последнюю фразу
-            await Task.Delay((int)(_endDelay * 1000));
-
-            if (_backgroundImage != null && _newBackground != null)
-            {
-                _backgroundImage.sprite = _newBackground;
-            }
-
-            if (_dialogueWindow != null)
-                _dialogueWindow.SetActive(false);
-            else
-                _dialogueStory.gameObject.SetActive(false);
-
-            PlayerPrefs.SetInt(DIALOGUE_COMPLETED_KEY, 1);
-            PlayerPrefs.Save();
 
             if (_playerController != null)
                 _playerController.IsPaused = false;

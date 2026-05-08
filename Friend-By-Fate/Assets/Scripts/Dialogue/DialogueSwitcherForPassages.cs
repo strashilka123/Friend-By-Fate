@@ -29,8 +29,7 @@ namespace Dialogue
 
         private IEnumerator DisableAndLoadCoroutine()
         {
-            // Ждем 2.5 секунды
-            yield return new WaitForSeconds(2.5f);
+            yield return new WaitForSeconds(3f);
 
             if (_dialogueStory != null)
             {

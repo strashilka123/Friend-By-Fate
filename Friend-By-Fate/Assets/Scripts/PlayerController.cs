@@ -20,14 +20,12 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        // Кэшируем ссылки на компоненты
         if (MortAnim == null)
             MortAnim = GetComponent<Animator>();
         
         if (Rigidbody == null)
             Rigidbody = GetComponent<Rigidbody2D>();
         
-        // Проверка на наличие обязательных компонентов
         if (joystick == null)
             Debug.LogWarning("Joystick не назначен в PlayerController!");
         
@@ -40,7 +38,6 @@ public class PlayerController : MonoBehaviour
         if (IsPaused)
             return;
 
-        // Проверка на NullReferenceException
         if (joystick == null || Rigidbody == null || MortAnim == null || PlayerBody == null)
             return;
 
@@ -50,10 +47,8 @@ public class PlayerController : MonoBehaviour
         Vector2 movement = new Vector2(HorizontalVectoring * PlayerSpeed, VerticalVectoring * PlayerSpeed);
         Rigidbody.linearVelocity = new Vector2(movement.x, movement.y);
 
-        // Проверка на движение
         bool isMoving = Mathf.Abs(HorizontalVectoring) > 0.1f || Mathf.Abs(VerticalVectoring) > 0.1f;
 
-        // Устанавливаем параметр IsRunning в Animator
         MortAnim.SetBool("IsRunning", isMoving);
 
         if (isMoving)
