@@ -421,7 +421,7 @@ GameObject:
   m_Component:
   - component: {fileID: 637100401}
   - component: {fileID: 637100400}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: VideoManag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -474,6 +474,59 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 67.94812}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &944561005
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 944561007}
+  - component: {fileID: 944561006}
+  m_Layer: 10
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &944561006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944561005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64c3948df4652e648b789e672659ba98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnDelay: 60
+  buttonText: "\u0412\u041E\u0417\u0412\u0420\u0410\u0422 \u0412 \u0413\u041B\u0410\u0412\u041D\u041E\u0415
+    \u041C\u0415\u041D\u042E"
+  buttonColor: {r: 0.1509434, g: 0.1509434, b: 0.1509434, a: 0.7058824}
+  fillColor: {r: 0, g: 0, b: 0, a: 0.9607843}
+  textColor: {r: 1, g: 1, b: 1, a: 0.98039216}
+  buttonSize: {x: 300, y: 80}
+  bottomMargin: 30
+  holdDuration: 3
+--- !u!4 &944561007
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944561005}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -838,61 +891,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1956317208}
   m_CullTransparentMesh: 1
---- !u!1 &2055420129
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2055420130}
-  - component: {fileID: 2055420131}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2055420130
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2055420129}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.4356521, y: -0.11926271, z: 11.922135}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2055420131
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2055420129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64c3948df4652e648b789e672659ba98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spawnDelay: 60
-  _holdDuration: 3
-  _buttonColor: {r: 0, g: 0, b: 0, a: 0.7}
-  _pressedColor: {r: 0.2, g: 0.2, b: 0.2, a: 0.9}
-  _fillColor: {r: 1, g: 1, b: 1, a: 0.5}
-  _buttonSize: {x: 300, y: 80}
-  _fontSize: 24
-  _buttonText: "\u0423\u0414\u0415\u0420\u0416\u0418\u0412\u0410\u0419\u0422\u0415
-    \u0414\u041B\u042F \u041F\u0420\u041E\u041F\u0423\u0421\u041A\u0410"
-  _mainMenuSceneName: Menu
-  _mainMenuSceneIndex: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -902,5 +900,5 @@ SceneRoots:
   - {fileID: 504160691}
   - {fileID: 1754783995}
   - {fileID: 1101240820}
-  - {fileID: 2055420130}
+  - {fileID: 944561007}
   - {fileID: 8082225}

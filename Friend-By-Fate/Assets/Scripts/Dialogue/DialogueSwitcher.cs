@@ -19,6 +19,9 @@ namespace Dialogue
 
         [SerializeField] private GameObject _hintText;
 
+        // Время задержки перед завершением диалога (в секундах)
+        [SerializeField] private float _endDelay = 3f;
+
         private DialogueStory _dialogueStory;
         private const string DIALOGUE_COMPLETED_KEY = "DialogueCompleted";
         private static bool _isFirstLoad = true;
@@ -31,17 +34,14 @@ namespace Dialogue
                 _dialogueStory.ChangedStory += Disable;
             }
 
-            // Проверяем, первый ли это запуск сцены
             if (_isFirstLoad)
             {
-                // Первый запуск - очищаем сохранение
                 PlayerPrefs.DeleteKey(DIALOGUE_COMPLETED_KEY);
                 PlayerPrefs.Save();
                 _isFirstLoad = false;
                 Debug.Log("Первый запуск, диалог будет показан");
             }
 
-            // Проверяем, был ли диалог уже показан
             bool dialogueCompleted = PlayerPrefs.GetInt(DIALOGUE_COMPLETED_KEY, 0) == 1;
 
             if (dialogueCompleted)
@@ -104,7 +104,8 @@ namespace Dialogue
             if (_disableTags.All(disableTag => story.Tag != disableTag))
                 return;
 
-            await Task.Delay(1000);
+            // Ждем указанное время (по умолчанию 3 секунды), чтобы игрок прочитал последнюю фразу
+            await Task.Delay((int)(_endDelay * 1000));
 
             if (_backgroundImage != null && _newBackground != null)
             {

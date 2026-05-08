@@ -14,7 +14,7 @@ namespace Dialogue
         [Header("Настройки эффекта")]
         [Tooltip("Скорость вывода символов (секунды на символ)")]
         [Range(0.01f, 0.5f)]
-        public float characterDelay = 0.03f;
+        public float characterDelay = 0.045f;
 
         private TMP_Text _textComponent;
         private Coroutine _typewriterCoroutine;

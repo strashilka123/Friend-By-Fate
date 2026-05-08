@@ -3,6 +3,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Threading.Tasks;
+using System.Threading;
 
 public class MessengerController : MonoBehaviour
 {
@@ -39,7 +41,7 @@ public class MessengerController : MonoBehaviour
     public AudioSource notificationSound;
 
     [Header("Next Scene")]
-    public string nextSceneName = "";
+    public string nextSceneName = "KitchenTruth";
 
     [Header("Colors")]
     public Color textColor = new Color(0.2f, 0.6f, 0.9f);      // голубой цвет текста
@@ -103,7 +105,7 @@ public class MessengerController : MonoBehaviour
 
         if (!string.IsNullOrEmpty(nextSceneName))
         {
-            yield return new WaitForSeconds(4f);
+            yield return new WaitForSeconds(3f);
             SceneTransition.LoadScene(nextSceneName);
         }
     }
@@ -146,7 +148,8 @@ public class MessengerController : MonoBehaviour
 
     private void OnBlockButtonPressed()
     {
-        if (isBlocked) return;
+        if (isBlocked)
+            return;
 
         isBlocked = true;
         Debug.Log("Пользователь заблокирован!");
@@ -177,6 +180,12 @@ public class MessengerController : MonoBehaviour
 
         // Показываем сообщение о блокировке
         ShowBlockedMessage();
+
+        if (isBlocked)
+        {
+            SceneTransition.LoadScene(nextSceneName);
+        }
+            
     }
 
     private void ShowBlockedMessage()

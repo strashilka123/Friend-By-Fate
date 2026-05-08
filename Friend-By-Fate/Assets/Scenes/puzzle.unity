@@ -623,9 +623,9 @@ MonoBehaviour:
   piecePrefab: {fileID: 70361914565374097, guid: 035f6f9adcedd9b419e3b00436c96a4e, type: 3}
   scatterArea:
     serializedVersion: 2
-    x: -10
+    x: -7.5
     y: -4
-    width: 5
+    width: 18
     height: 8
   boardColor: {r: 0.2, g: 0.2, b: 0.2, a: 0.5}
   pieceWidthUnits: 0
