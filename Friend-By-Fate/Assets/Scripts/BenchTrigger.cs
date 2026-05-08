@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class BenchTrigger : MonoBehaviour
 {
-    [SerializeField] private string miniGameSceneName = "MiniGameScene"; 
+    [SerializeField] private string miniGameSceneName = "MiniGameScene";
     private bool isGameStarted = false;
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -13,8 +13,6 @@ public class BenchTrigger : MonoBehaviour
             StartMiniGame();
         }
     }
-
-
 
     private void StartMiniGame()
     {
